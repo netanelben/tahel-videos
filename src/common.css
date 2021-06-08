@@ -47,6 +47,10 @@ table {
 	border-spacing: 0;
 }
 
+body {
+    background: #DEC9943D;
+}
+
 .rc-slider {
     max-width: 250px;
 }

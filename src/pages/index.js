@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import Slider from 'rc-slider';
 import ToggleBtn from '../components/ToggleBtn'
+import VideoPlayer from '../components/VideoPlayer'
 import { YEARS_MARKS } from '../config'
 
 import 'rc-slider/assets/index.css';
 
 const Wrapper = styled.div`
- background: #DEC9943D;
   height: 100%;
   display: flex;
   justify-content: space-around;
@@ -62,28 +62,30 @@ const Filters = styled.div`
 `;
 
 const Filter = styled.div`
-    background-color: peachpuff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 330px;
   height: 100px;
-  padding: 0 20px;
+  padding: 0 30px;
   flex: 1;
   text-align: right;
-  border: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #000;
+
+  &:last-of-type {
+      border-left: 0;
+  }
 
   label {
       margin-left: 30px;
   }
 `;
 
-const VideoPlayer = styled.div`
-    background-color: white;
-    width: 300px;
-    flex: 0 0 300px;
-    height: 213px;
-`;
+const marks = {
+    0: <img src="./assets/heart.png" width="14"/>,
+    10: <img src="./assets/heart-filled.png" width="14"/>
+};
 
 export default function MainPage() {
     const items = Array.apply(null, Array(13.5 * 8)).map(function (x, i) { return i; })
@@ -97,7 +99,9 @@ export default function MainPage() {
 
                 <GridLayout>
                     {items.map(x => (
-                        <VideoObject key={x}>x</VideoObject>
+                        <VideoObject key={x}>
+                            
+                        </VideoObject>
                     ))}
                 </GridLayout>
 
@@ -142,7 +146,7 @@ export default function MainPage() {
                     </Filter>
 
                     <Filter>
-                        <Slider min={0} max={10} defaultValue={0} />
+                        <Slider min={0} max={10} defaultValue={0} marks={marks}/>
                         <label>קרבה</label>
                     </Filter>
 
