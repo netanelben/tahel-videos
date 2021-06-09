@@ -14,8 +14,9 @@ const Wrapper = styled.div`
 `;
 
 const GridLayout = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-flow: row wrap;
+    place-content: flex-start;
 `;
 
 const VideoObject = styled.div`
@@ -48,14 +49,14 @@ const DescPar = styled.p`
 `;
 
 const BottomPanel = styled.div`
-  display: flex;
-  justify-content: space-between;
+    width: calc(100% - 300px);
+    display: inline-block;
 `;
 
 const Filters = styled.div`
     flex: 1;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     flex-wrap: wrap;
     flex-direction: row-reverse;
     padding: 10px 20px;
@@ -65,13 +66,14 @@ const Filter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 330px;
+  width: 100%;
+  max-width: 25%;
   height: 100px;
   padding: 0 30px;
   flex: 1;
   text-align: right;
-  border-bottom: 1px solid #000;
   border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
 
   &:last-of-type {
       border-left: 0;
@@ -88,9 +90,13 @@ const marks = {
 };
 
 export default function MainPage() {
-    const items = Array.apply(null, Array(13.5 * 8)).map(function (x, i) { return i; })
+    const items = Array.apply(null, Array(20 * 2)).map(function (x, i) { return i; })
     
+    const [year, setYear] = useState(null);
     const [lang, setLang] = useState(null);
+    const [relation, setRelation] = useState(null);
+    const [food, setFood] = useState(null);
+    const [event, setEvent] = useState(null);
 
     return (
         <>
@@ -104,7 +110,7 @@ export default function MainPage() {
                         </VideoObject>
                     ))}
                 </GridLayout>
-
+                        
                 <SidePanel>
                     <Logo/>
                     <DescPar>
@@ -129,38 +135,70 @@ export default function MainPage() {
             </Wrapper>
             
             <BottomPanel>
-                    
                 <Filters>
 
                     <Filter>
-                        <Slider marks={YEARS_MARKS} step={null} />
+                        <Slider marks={YEARS_MARKS} step={null} onChange={setYear}/>
                         <label>שנה</label>
                     </Filter>
 
                     <Filter>
-                        <ToggleBtn name="English" onClick={setLang} lang={lang}/>
-                        <ToggleBtn name="Proski" onClick={setLang} lang={lang}/>
-                        <ToggleBtn name="עברית" onClick={setLang} lang={lang}/>
+                        <ToggleBtn name="English" onClick={setLang} current={lang}/>
+                        <ToggleBtn name="Proski" onClick={setLang} current={lang}/>
+                        <ToggleBtn name="עברית" onClick={setLang} current={lang}/>
                         
                         <label>שפה</label>
                     </Filter>
 
                     <Filter>
-                        <Slider min={0} max={10} defaultValue={0} marks={marks}/>
+                        <Slider min={0} max={10} defaultValue={0} marks={marks} onChange={setRelation}/>
                         <label>קרבה</label>
                     </Filter>
 
                     <Filter>
-                        <ToggleBtn name="English"/>
+                        <ToggleBtn name="food1" onClick={setFood} current={food}/>
+                        <ToggleBtn name="food2" onClick={setFood} current={food}/>
+                        <ToggleBtn name="food3" onClick={setFood} current={food}/>
                         <label>אוכל ושתייה</label>
                     </Filter>
 
                 </Filters>
 
-                <VideoPlayer/>
+                <Filters>
+                    <Filter>
+                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
+                        <label>אירוע</label>
+                    </Filter>
+
+                    <Filter>
+                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
+                        <label>נושא שיחה</label>
+                    </Filter>
+
+                    <Filter>
+                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
+                        <label>רגש</label>
+                    </Filter>
+
+                    <Filter>
+                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
+                        <label>אוביקטים</label>
+                    </Filter>
+
+
+                </Filters>
 
             </BottomPanel>
 
+            <VideoPlayer/>
         </>
     )
 }

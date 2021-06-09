@@ -6,6 +6,7 @@ const Wrapper = styled.div`
     background-color: white;
     width: 100%;
     max-width: 300px;
+    float: right;
 `;
 
 

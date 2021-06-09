@@ -16,9 +16,9 @@ const Toggle = styled.div`
     
 `;
 
-export default function ToggleBtn({ name, lang, onClick }) {
+export default function ToggleBtn({ name, current, onClick }) {
     return (
-        <Wrapper className={lang === name ? 'active' : ''}>
+        <Wrapper className={current === name ? 'active' : ''}>
             <Toggle 
                 onClick={ () => onClick(name) }>{name}</Toggle>
         </Wrapper>

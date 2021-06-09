@@ -9067,6 +9067,13 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-packed-grid@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-packed-grid/-/react-packed-grid-2.0.0.tgz#db7657f0d23b5364d4a38936080dadba9db22425"
+  integrity sha512-vawCTDO8CNvTgdFHcXHwJ4TNQu8CTjvIYByLClliY9mTE77AFD0otraHKv3pw2MNjGTZm+oX+XVc3dmRDgJRvg==
+  dependencies:
+    rect-scaler "^1.0.0"
+
 react-refresh@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
@@ -9227,6 +9234,11 @@ readdirp@~3.5.0:
   integrity sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
   dependencies:
     picomatch "^2.2.1"
+
+rect-scaler@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rect-scaler/-/rect-scaler-1.0.0.tgz#90a51c1f16efa4deff80be0d968b1a05eb18a163"
+  integrity sha512-8gg6ztlhe0zbV6ChrpGUpmoFeTpBI0GH0uRIN0HwOIr/R5Z+1CVm3nZlPUxlbgbd9gh9CsUm6pZ27IIYGNTMyg==
 
 recursive-readdir@2.2.2:
   version "2.2.2"
