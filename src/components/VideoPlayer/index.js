@@ -1,8 +1,7 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import _ from 'lodash'
-import ReactPlayer from 'react-player'
-
+import Video from 'react-video-renderer';
 
 const Wrapper = styled.div`
     background-color: white;
@@ -20,6 +19,15 @@ const Wrapper = styled.div`
         width: 85%;
         transition: .400s ease-in-out all;
     }
+
+    .icon-play {
+        width: 35px;
+    }
+`;
+
+const VideoWrapper = styled.div`
+    width: 100%;
+    height: 100%;
 `;
 
 const Placeholder = styled.div`
@@ -31,49 +39,71 @@ const Placeholder = styled.div`
 `;
 
 const Controls = styled.div`
-    background-color: red;
     width: 100%;
     height: 70px;
     position: absolute;
     left: 0;
     bottom: 20px;
     z-index: 1;
-    display: flex;
-    
-    align-items: center;
 `;
 
 const ControlsWrapper = styled.div`
-  max-width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 70%;
     margin: auto;
+`;
+
+const ProgBar = styled.input`
+    width: 100%;
+    height: 3px;
+    color: #000;
+    border-color: #000;
+    background-color: #000;
+`;
+
+const Timing = styled.div`
+  margin-left: 30px;
+  font-weight: bold;
 `;
 
 export default function VideoPlayer({ currentVideo = null }) {
     const videoPath = `./videos/${_.get(currentVideo, 'videoFileName')}`
     const classNames = currentVideo === null ? '' : 'wide'
-    const playerRef = useRef()
 
-    const play = () => {
-        if (playerRef.current.player.isPlaying)
-            playerRef.current.getInternalPlayer().pause()
-        else 
-            playerRef.current.getInternalPlayer().play()
+    const navigate = (t, actions) => {
+        actions.navigate(t.target.value)
     }
-
-    const getTime = () => playerRef.current.getCurrentTime()
 
     return (
         <Wrapper className={classNames}>
 
-            {currentVideo ? <ReactPlayer width="100%" height="100%"
-                url={videoPath} ref={playerRef}/> : <Placeholder/>}
+            {currentVideo
+                ? <Video src={videoPath}>
+                    {(video, state, actions) => (
+                        <div>
+                            <VideoWrapper>{video}</VideoWrapper>
 
-            {currentVideo &&
-                <Controls>
-                    <ControlsWrapper>
-                        <div onClick={play}>play</div>
-                    </ControlsWrapper>
-                </Controls>}
+                            <Controls>
+                                <ControlsWrapper>
+                                    <button onClick={actions.play}>Play</button>
+                                    <button onClick={actions.pause}>Pause</button>
+                                    {/* <progress value={state.volume} max={1} onChange={actions.setVolume} /> */}
+
+                                    <ProgBar type="range" step="0.0001"
+                                        min="0" value={state.currentTime} max={state.duration}
+                                        onChange={(t) => navigate(t, actions)}/>
+
+                                    <Timing>{state.currentTime} / {state.duration}</Timing>
+                                </ControlsWrapper>
+                            </Controls>
+                        </div>
+                    )}
+                </Video>
+                : <Placeholder/>}
+
         </Wrapper>
     )
 }
