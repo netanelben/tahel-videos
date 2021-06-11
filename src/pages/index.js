@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import _ from 'lodash';
 import styled from 'styled-components';
 import Slider from 'rc-slider';
+import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
-import { APP_SIDEPANEL_TEXT, YEARS_MARKS, videosStubData } from '../config'
+import { APP_SIDEPANEL_TEXT, START_YEAR, END_YEAR, videosStubData } from '../config'
 
 import 'rc-slider/assets/index.css';
 
@@ -18,6 +19,25 @@ const GridLayout = styled.div`
     display: flex;
     flex-flow: row wrap;
     place-content: flex-start;
+
+    &.tiny {
+        height: 200px;
+        width: 15%;
+        transition: .400s ease-in-out all;
+        overflow: hidden;
+        border: 1px solid #000;
+        cursor: pointer;
+        background: #F7F2E6;
+
+        .videos-wrapper {
+            background-color: #FFFFFF;
+            width: 20px;
+            height: 20px;
+            flex: 1 0 20px;
+            margin: 1px;
+            flex-grow: 0;
+        }
+    }
 `;
 
 const VideoPlaceholder = styled.div`
@@ -41,16 +61,19 @@ const SidePanel = styled.div`
   flex: 1 0 300px;
   padding: 20px;
   box-sizing: border-box;
+
+  &.hidden {
+      visibility: hidden;
+  }
 `;
 
 const Logo = styled.div`
-    width: 120px;
+    width: 100%;
     height: 300px;
-    margin: 20px;
     background-image: url('./assets/logo.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
 `;
 
 const DescPar = styled.p`
@@ -81,11 +104,12 @@ const Filter = styled.div`
   align-items: center;
   width: 1px;
   height: 100px;
-  padding: 0 30px;
+  padding: 0 20px;
   flex: 1;
   text-align: right;
   border-left: 1px solid #000;
     border-bottom: 1px solid #000;
+    position: relative;
 
   &:last-of-type {
       border-left: 0;
@@ -119,16 +143,38 @@ const marks = {
 export default function MainPage() {
     const items = Array.apply(null, Array(12 * 7)).map(function (x, i) { return i; })
     
-    const [year, setYear] = useState(null);
+    const [year, setYear] = useState(START_YEAR);
     const [lang, setLang] = useState(null);
     const [relation, setRelation] = useState(0);
     const [food, setFood] = useState(null);
-    const [event, setEvent] = useState(null);
+    const [event, manageEvents] = useState([]);
+    
+    const [emotions, setEmotions] = useState([]);
     
     const [currentVideo, setCurrentVideo] = useState(null);
 
+    const setEvent = ({ target }) => {
+        const { name } = target;
+        console.log(name);
+    }
+
+    const handleFilter = (emotion) => {
+
+        if (_.includes(emotions, emotion)) {
+            setEmotions([
+                ...emotions.filter(v => v !== emotion)
+            ])
+        } else {
+            setEmotions([
+                ...emotions,
+                emotion
+            ])
+        }
+
+    }
+
     const filteredVideos = _.map(videosStubData, (v) => {
-        if (v.relation === relation) {
+    if (v.relation === relation || v.year === year) {
             return ({
                 ...v,
                 isVisible: true
@@ -138,12 +184,15 @@ export default function MainPage() {
         }
     })
 
+    const gridClassNames = currentVideo === null ? '' : 'tiny'
+    const sidepanelClassNames = currentVideo === null ? '' : 'hidden'
+
     return (
         <>
             
             <Wrapper>
 
-                <GridLayout>
+                <GridLayout className={gridClassNames} onClick={ currentVideo ? () => setCurrentVideo(null) : null }>
                     {items.map((x) => {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
@@ -151,7 +200,7 @@ export default function MainPage() {
                             const videoPath = `./videos/${videoFileName}`
                             
                             return (
-                                <VideoObject key={x} onClick={() => setCurrentVideo(filteredVideos[x])}>
+                                <VideoObject className="videos-wrapper" key={x} onClick={() => setCurrentVideo(filteredVideos[x])}>
                                     <video controls={false} width="100%" height="100%"
                                         onMouseEnter={({ target }) => target.play()}
                                         onMouseLeave={({ target }) => target.pause()}
@@ -163,12 +212,12 @@ export default function MainPage() {
                         }
 
                         return (
-                            <VideoPlaceholder key={x}/>
+                            <VideoPlaceholder className="videos-wrapper" key={x}/>
                         )
                     })}
                 </GridLayout>
                         
-                <SidePanel>
+                <SidePanel className={sidepanelClassNames}>
                     <Logo/>
 
                     {_.isEmpty(currentVideo) ? <DescPar>
@@ -190,7 +239,11 @@ export default function MainPage() {
                 <Filters>
 
                     <Filter>
-                        <Slider marks={YEARS_MARKS} step={null} onChange={setYear}/>
+                        <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
+                        <div className="year-slider-labels">
+                            <span>{START_YEAR}</span>
+                            <span>{END_YEAR}</span>
+                        </div>
                         <label>שנה</label>
                     </Filter>
 
@@ -232,9 +285,11 @@ export default function MainPage() {
                     </Filter>
 
                     <Filter>
-                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
+                        <ToggleBtn name="calm" onClick={handleFilter} current={emotions} icon="calm"/>
+                        <ToggleBtn name="happy" onClick={handleFilter} current={emotions} icon="happy"/>
+                        <ToggleBtn name="shy" onClick={handleFilter} current={emotions} icon="shy"/>
+                        <ToggleBtn name="anger" onClick={handleFilter} current={emotions} icon="anger"/>
+                        <ToggleBtn name="laugh" onClick={handleFilter} current={emotions} icon="laugh"/>
                         <label>רגש</label>
                     </Filter>
 

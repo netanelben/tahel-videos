@@ -54,3 +54,59 @@ body {
 .rc-slider {
     max-width: 250px;
 }
+
+.rc-slider-dot,
+.rc-slider-track {
+    visibility: hidden;
+}
+
+.rc-slider-mark {
+    top: 30px;
+}
+
+.rc-slider-step {
+    background-color: #000;
+    height: 2px;
+}
+
+.rs-slider-handle,
+.rc-slider-handle {
+    background-color: #0500FF;
+    border: 0;
+    border-radius: 0;
+    width: 3px;
+    height: 20px;
+    margin-top: -8px;
+}
+
+.rs-slider,
+.rs-slider-bar {
+    width: 100%;
+}
+
+.rs-slider-bar {
+    height: 2px;
+    background-color: #000;
+}
+
+.rs-slider-handle {
+    position: relative;
+}
+
+.rs-tooltip-inner {
+    left: -15px;
+    position: relative;
+    top: -19px;
+    color: #0500FF;
+}
+
+.year-slider-labels {
+    width: 100%;
+    max-width: 245px;
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+}

@@ -16,13 +16,8 @@ export const APP_SIDEPANEL_TEXT = `
     .תילארשיה הרבחה לע הנוש
 `
 
-export const YEARS_MARKS = {
-    0: 1980,
-    20: 1990,
-    40: 2000,
-    80: 2010,
-    100: 2020
-}
+export const START_YEAR = 1980;
+export const END_YEAR = 2010;
 
 export const videosStubData = [
     {
@@ -32,7 +27,8 @@ export const videosStubData = [
         emotion: ['happy-0.03', 'anger-0.42'],
         objects: ['lights-0.12', 'art-0.05'],
         relation: 1,
-        videoFileName: 'vid1.mp4'
+        videoFileName: 'vid1.mp4',
+        year: 1980
     },
     {
         videoName: 'video 2222',
@@ -50,7 +46,8 @@ export const videosStubData = [
         emotion: ['happy-0.03', 'anger-0.42'],
         objects: ['lights-0.12', 'art-0.15'],
         relation: 5,
-        videoFileName: 'vid3.mp4'
+        videoFileName: 'vid3.mp4',
+        year: 2000
     },
     {
         videoName: 'video 4444',

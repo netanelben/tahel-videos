@@ -1,0 +1,7 @@
+<svg width="33" height="21" viewBox="0 0 33 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle r="1" transform="matrix(1 0 0 -1 23 1)" fill="#0500FF"/>
+<circle cx="29" cy="10" r="3.4" stroke="#0500FF" stroke-width="1.2"/>
+<circle cx="4" cy="10" r="3.4" stroke="#0500FF" stroke-width="1.2"/>
+<circle r="1" transform="matrix(1 0 0 -1 9 1)" fill="#0500FF"/>
+<line x1="10" y1="20.4" x2="22" y2="20.4" stroke="#0500FF" stroke-width="1.2"/>
+</svg>
