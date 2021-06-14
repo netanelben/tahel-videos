@@ -12,22 +12,32 @@ import 'rc-slider/assets/index.css';
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+
+  &.bg-white {
+      background-color: #fff;
+  }
+
+  &.bg-beige {
+    background: #DEC9943D;
+  }
 `;
 
 const GridLayout = styled.div`
     display: flex;
     flex-flow: row wrap;
     place-content: flex-start;
+    position: relative;
+    z-index: 2;
 
     &.tiny {
-        height: 200px;
+        height: fit-content;
         width: 15%;
         transition: .400s ease-in-out all;
-        overflow: hidden;
-        border: 1px solid #000;
         cursor: pointer;
         background: #F7F2E6;
+        overflow: hidden;
+        justify-content: center;
 
         .videos-wrapper {
             background-color: #FFFFFF;
@@ -61,10 +71,6 @@ const SidePanel = styled.div`
   flex: 1 0 300px;
   padding: 20px;
   box-sizing: border-box;
-
-  &.hidden {
-      visibility: hidden;
-  }
 `;
 
 const Logo = styled.div`
@@ -74,6 +80,12 @@ const Logo = styled.div`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+
+    &.float-right {
+        float: right;
+        width: 200px;
+        height: 130px;
+    }
 `;
 
 const DescPar = styled.p`
@@ -85,6 +97,7 @@ const DescPar = styled.p`
 `;
 
 const BottomPanel = styled.div`
+    background: #DEC9943D;
     width: calc(100% - 300px);
     display: inline-block;
 `;
@@ -133,6 +146,24 @@ const VideoDesc = styled.div`
     line-height: 28px;
     text-align: right;
     direction: rtl;
+`;
+
+const VideoHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    direction: rtl;
+
+    .title {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .desc {
+        max-width: 300px;
+        font-size: 18px;
+        line-height: 28px;
+    }
 `;
 
 const marks = {
@@ -184,13 +215,13 @@ export default function MainPage() {
         }
     })
 
+    const wrapperClassname = currentVideo !== null ? 'bg-white' : 'bg-beige'
     const gridClassNames = currentVideo === null ? '' : 'tiny'
-    const sidepanelClassNames = currentVideo === null ? '' : 'hidden'
 
     return (
         <>
             
-            <Wrapper>
+            <Wrapper className={wrapperClassname}>
 
                 <GridLayout className={gridClassNames} onClick={ currentVideo ? () => setCurrentVideo(null) : null }>
                     {items.map((x) => {
@@ -216,12 +247,23 @@ export default function MainPage() {
                         )
                     })}
                 </GridLayout>
+
+                {currentVideo && <VideoHeader>
+                    
+                    <Logo className="float-right"/>
+
+                    <div className="flex-col">
+                        <span className="title">{currentVideo.videoName}</span>
+                        <span className="desc">{currentVideo.videoDesc}</span>
+                    </div>
+
+                    </VideoHeader>}
                         
-                <SidePanel className={sidepanelClassNames}>
+                {!currentVideo && <SidePanel>
                     <Logo/>
 
                     {_.isEmpty(currentVideo) ? <DescPar>
-                        {APP_SIDEPANEL_TEXT}
+                        {/* {APP_SIDEPANEL_TEXT} */}
                     </DescPar> : <>
                         <VideoTitle>
                             {currentVideo.videoName}
@@ -230,14 +272,13 @@ export default function MainPage() {
                             {currentVideo.videoDesc}
                         </VideoDesc>
                     </>}
-
-                </SidePanel>
+                </SidePanel>}
 
             </Wrapper>
             
-            <BottomPanel>
+            {!currentVideo && <BottomPanel>
+                
                 <Filters>
-
                     <Filter>
                         <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
                         <div className="year-slider-labels">
@@ -299,11 +340,9 @@ export default function MainPage() {
                         <ToggleBtn name="event3" onClick={setEvent} current={event}/>
                         <label>אוביקטים</label>
                     </Filter>
-
-
                 </Filters>
 
-            </BottomPanel>
+            </BottomPanel>}
 
             <VideoPlayer currentVideo={currentVideo}/>
         </>

@@ -3,6 +3,13 @@
    License: none (public domain)
 */
 
+@font-face { font-family: Narkiss; src: url("./fonts/Narkiss-Regular.otf") format("opentype");}
+@font-face { font-family: Narkiss; font-weight: bold; src: url("./fonts/Narkiss-Bold.otf") format("opentype");}
+
+html,body {
+    font-family: 'Narkiss';
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -45,10 +52,6 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
-
-body {
-    background: #DEC9943D;
 }
 
 .rc-slider {
@@ -114,4 +117,24 @@ body {
 video {
     width: 100%;
     height: 100%;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.plus-sign {
+    display: none;
+    width: 17px;
+    height: 17px;
+    background-image: url('./plus-sign.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: absolute;
+    top:0;
+    left:0;
+    margin: -8px -8px;
+    z-index: 1123;
 }
