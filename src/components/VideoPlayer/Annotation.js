@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -30,12 +31,21 @@ const Anot = styled.div`
 const convertTimestamp = (v, total) => (v * 100) / total;
 
 export default function Annotation({ videoData, duration }) {
-    const { emotions } = videoData;
+    const { emotions, objects, subjects } = videoData;
+    const emotionList = emotions.split(',')
+    const objectList = objects.split(',')
+    const subjectList = subjects.split(',')
+
+    const annotations = _.merge(
+        emotionList,
+        objectList,
+        subjectList
+    );
 
     return (
         <Wrapper>
 
-            {emotions.map(emot => {
+            {annotations.map(emot => {
                 const icon = emot.split('-')[0]
                 const offset = convertTimestamp(emot.split('-')[1], duration)
 

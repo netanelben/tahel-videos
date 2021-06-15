@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Narkiss Text';
+    src: local('Narkiss Text Bold'), local('NarkissText-Bold'),
+        url('NarkissText-Bold.woff2') format('woff2'),
+        url('NarkissText-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Narkiss Text';
+    src: local('Narkiss Text Regular'), local('NarkissText-Regular'),
+        url('NarkissText-Regular.woff2') format('woff2'),
+        url('NarkissText-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

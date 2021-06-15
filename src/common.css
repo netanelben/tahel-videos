@@ -2,14 +2,6 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
-@font-face { font-family: Narkiss; src: url("./fonts/Narkiss-Regular.otf") format("opentype");}
-@font-face { font-family: Narkiss; font-weight: bold; src: url("./fonts/Narkiss-Bold.otf") format("opentype");}
-
-html,body {
-    font-family: 'Narkiss';
-}
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -54,8 +46,11 @@ table {
 	border-spacing: 0;
 }
 
+.year-slider-labels,
+.rs-slider,
 .rc-slider {
-    max-width: 250px;
+    max-width: 210px;
+    margin: 0 auto;
 }
 
 .rc-slider-dot,
@@ -65,6 +60,8 @@ table {
 
 .rc-slider-mark {
     top: 30px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .rc-slider-step {
@@ -77,9 +74,10 @@ table {
     background-color: #0500FF;
     border: 0;
     border-radius: 0;
-    width: 3px;
+    width: 6px;
     height: 20px;
     margin-top: -8px;
+    cursor: pointer;
 }
 
 .rs-slider,
@@ -99,15 +97,14 @@ table {
 .rs-tooltip-inner {
     left: -15px;
     position: relative;
-    top: -19px;
+    top: -24px;
     color: #0500FF;
 }
 
 .year-slider-labels {
     width: 100%;
-    max-width: 245px;
     position: absolute;
-    left: 15px;
+    left: 45px;
     bottom: 15px;
     z-index: 1;
     display: flex;
@@ -149,16 +146,20 @@ video {
     width: 36px;
     height: 36px;
     background-repeat: no-repeat;
-    background-size: 26px;
+    background-size: contain;
     background-position: center;
 }
 
 .icn.on {
-    background-size: 30px 33px;
+    /* background-size: contain; */
 }
 
 button {
     outline: none;
     border-width: 0;
     cursor: pointer;
+}
+
+html, body {
+    font-family: 'Narkiss Text' !important;
 }

@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     }
 `;
 
-export default function ToggleBtn({ name, current, onClick, icon = null }) {
+export default function ToggleBtn({ name, current, onClick = null, icon = null }) {
     const icnClassnames = classnames(
         `icn icn-home-${icon}`, {
             'on': _.includes(current, name)
@@ -21,7 +21,7 @@ export default function ToggleBtn({ name, current, onClick, icon = null }) {
     );
 
     return (
-        <Wrapper onClick={ () => onClick(name) }>
+        <Wrapper onClick={ onClick ? () => onClick(name) : null }>
 
             {icon ?
                 <div className={icnClassnames}/> :
