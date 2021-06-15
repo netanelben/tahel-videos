@@ -1,0 +1,21 @@
+.icn-home-hebrew {
+    background-image: url('./hebrew on.png');
+
+    &.on {
+        background-image: url('./hebrew on.png');
+    }
+}
+.icn-home-english {
+    background-image: url('./english on.png');
+
+    &.on {
+        background-image: url('./english on.png');
+    }
+}
+.icn-home-ruski {
+    background-image: url('./ruski on.png');
+
+    &.on {
+        background-image: url('./ruski on.png');
+    }
+}

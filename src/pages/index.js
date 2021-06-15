@@ -108,19 +108,18 @@ const Filters = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     flex-direction: row-reverse;
-    padding: 0 20px;
 `;
 
 const Filter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 1px;
-  height: 100px;
-  padding: 0 20px;
-  flex: 1;
-  text-align: right;
-  border-left: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1px;
+    height: 100px;
+    padding: 0 12px;
+    flex: 1;
+    text-align: right;
+    border-left: 1px solid #000;
     border-bottom: 1px solid #000;
     position: relative;
 
@@ -129,7 +128,7 @@ const Filter = styled.div`
   }
 
   label {
-      margin-left: 30px;
+        padding: 0 12px;
   }
 `;
 
@@ -173,21 +172,18 @@ const marks = {
 
 export default function MainPage() {
     const items = Array.apply(null, Array(12 * 7)).map(function (x, i) { return i; })
-    
+
     const [year, setYear] = useState(START_YEAR);
     const [lang, setLang] = useState(null);
     const [relation, setRelation] = useState(0);
     const [food, setFood] = useState(null);
-    const [event, manageEvents] = useState([]);
-    
+    const [event, setEvent] = useState([]);
+    const [subject, setSubject] = useState([]);
     const [emotions, setEmotions] = useState([]);
-    
-    const [currentVideo, setCurrentVideo] = useState(null);
+    const [object, setObject] = useState([]);
 
-    const setEvent = ({ target }) => {
-        const { name } = target;
-        console.log(name);
-    }
+    const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
+    const [currentVideo, setCurrentVideo] = useState(null);
 
     const handleFilter = (emotion) => {
 
@@ -205,7 +201,7 @@ export default function MainPage() {
     }
 
     const filteredVideos = _.map(videosStubData, (v) => {
-    if (v.relation === relation || v.year === year) {
+        if (v.relation === relation || v.year === year) {
             return ({
                 ...v,
                 isVisible: true
@@ -218,9 +214,19 @@ export default function MainPage() {
     const wrapperClassname = currentVideo !== null ? 'bg-white' : 'bg-beige'
     const gridClassNames = currentVideo === null ? '' : 'tiny'
 
+    const handleNextVideo = () => {
+        if (currentVideoIdx < filteredVideos.length - 1) {
+            setCurrentVideo(filteredVideos[currentVideoIdx + 1])
+            setCurrentVideoIdx(currentVideoIdx + 1)
+        } else {
+            setCurrentVideo(filteredVideos[0])
+            setCurrentVideoIdx(0)
+        }
+    }
+
     return (
         <>
-            
+
             <Wrapper className={wrapperClassname}>
 
                 <GridLayout className={gridClassNames} onClick={ currentVideo ? () => setCurrentVideo(null) : null }>
@@ -229,7 +235,7 @@ export default function MainPage() {
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
                             const { videoFileName } = filteredVideos[x]
                             const videoPath = `./videos/${videoFileName}`
-                            
+
                             return (
                                 <VideoObject className="videos-wrapper" key={x} onClick={() => setCurrentVideo(filteredVideos[x])}>
                                     <video controls={false} width="100%" height="100%"
@@ -249,7 +255,7 @@ export default function MainPage() {
                 </GridLayout>
 
                 {currentVideo && <VideoHeader>
-                    
+
                     <Logo className="float-right"/>
 
                     <div className="flex-col">
@@ -258,7 +264,7 @@ export default function MainPage() {
                     </div>
 
                     </VideoHeader>}
-                        
+
                 {!currentVideo && <SidePanel>
                     <Logo/>
 
@@ -275,76 +281,81 @@ export default function MainPage() {
                 </SidePanel>}
 
             </Wrapper>
-            
-            {!currentVideo && <BottomPanel>
-                
-                <Filters>
-                    <Filter>
-                        <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
-                        <div className="year-slider-labels">
-                            <span>{START_YEAR}</span>
-                            <span>{END_YEAR}</span>
-                        </div>
-                        <label>שנה</label>
-                    </Filter>
 
-                    <Filter>
-                        <ToggleBtn name="English" onClick={setLang} current={lang}/>
-                        <ToggleBtn name="Proski" onClick={setLang} current={lang}/>
-                        <ToggleBtn name="עברית" onClick={setLang} current={lang}/>
-                        
-                        <label>שפה</label>
-                    </Filter>
+            <div className="flex">
+                {!currentVideo && <BottomPanel>
 
-                    <Filter>
-                        <Slider min={0} max={10} defaultValue={0} marks={marks} onChange={setRelation}/>
-                        <label>קרבה</label>
-                    </Filter>
+                    <Filters>
+                        <Filter>
+                            <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
+                            <div className="year-slider-labels">
+                                <span>{START_YEAR}</span>
+                                <span>{END_YEAR}</span>
+                            </div>
+                            <label>שנה</label>
+                        </Filter>
 
-                    <Filter>
-                        <ToggleBtn name="food1" onClick={setFood} current={food}/>
-                        <ToggleBtn name="food2" onClick={setFood} current={food}/>
-                        <ToggleBtn name="food3" onClick={setFood} current={food}/>
-                        <label>אוכל ושתייה</label>
-                    </Filter>
+                        <Filter>
+                            <ToggleBtn name="English" onClick={setLang} current={lang} icon="english"/>
+                            <ToggleBtn name="Proski" onClick={setLang} current={lang} icon="ruski"/>
+                            <ToggleBtn name="עברית" onClick={setLang} current={lang} icon="hebrew"/>
 
-                </Filters>
+                            <label>שפה</label>
+                        </Filter>
 
-                <Filters>
-                    <Filter>
-                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
-                        <label>אירוע</label>
-                    </Filter>
+                        <Filter>
+                            <Slider min={0} max={10} defaultValue={0} marks={marks} onChange={setRelation}/>
+                            <label>קרבה</label>
+                        </Filter>
 
-                    <Filter>
-                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
-                        <label>נושא שיחה</label>
-                    </Filter>
+                        <Filter>
+                            <ToggleBtn name="alcohol" onClick={setFood} current={food} icon="alcohol"/>
+                            <ToggleBtn name="food-other" onClick={setFood} current={food} icon="food-other"/>
+                            <ToggleBtn name="ashkenzi" onClick={setFood} current={food} icon="ashkenzi"/>
+                            <ToggleBtn name="mizrahi" onClick={setFood} current={food} icon="mizrahi"/>
+                            <label>אוכל ושתייה</label>
+                        </Filter>
 
-                    <Filter>
-                        <ToggleBtn name="calm" onClick={handleFilter} current={emotions} icon="calm"/>
-                        <ToggleBtn name="happy" onClick={handleFilter} current={emotions} icon="happy"/>
-                        <ToggleBtn name="shy" onClick={handleFilter} current={emotions} icon="shy"/>
-                        <ToggleBtn name="anger" onClick={handleFilter} current={emotions} icon="anger"/>
-                        <ToggleBtn name="laugh" onClick={handleFilter} current={emotions} icon="laugh"/>
-                        <label>רגש</label>
-                    </Filter>
+                    </Filters>
 
-                    <Filter>
-                        <ToggleBtn name="event1" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event2" onClick={setEvent} current={event}/>
-                        <ToggleBtn name="event3" onClick={setEvent} current={event}/>
-                        <label>אוביקטים</label>
-                    </Filter>
-                </Filters>
+                    <Filters>
+                        <Filter>
+                            <ToggleBtn name="other" onClick={setEvent} current={event} icon="other"/>
+                            <ToggleBtn name="friday" onClick={setEvent} current={event} icon="friday"/>
+                            <ToggleBtn name="bbq" onClick={setEvent} current={event} icon="bbq"/>
+                            <ToggleBtn name="holiday" onClick={setEvent} current={event} icon="holiday"/>
+                            <ToggleBtn name="bday" onClick={setEvent} current={event} icon="bday"/>
+                            <label>אירוע</label>
+                        </Filter>
 
-            </BottomPanel>}
+                        <Filter>
+                            <ToggleBtn name="politiks" onClick={setSubject} current={subject} icon="politiks"/>
+                            <ToggleBtn name="text" onClick={setSubject} current={subject} icon="text"/>
+                            <ToggleBtn name="photography" onClick={setSubject} current={subject} icon="photography"/>
+                            <ToggleBtn name="food" onClick={setSubject} current={subject} icon="food"/>
+                            <ToggleBtn name="memory" onClick={setSubject} current={subject} icon="memory"/>
+                            <label>נושא שיחה</label>
+                        </Filter>
 
-            <VideoPlayer currentVideo={currentVideo}/>
+                        <Filter>
+                            <ToggleBtn name="calm" onClick={handleFilter} current={emotions} icon="calm"/>
+                            <ToggleBtn name="happy" onClick={handleFilter} current={emotions} icon="happy"/>
+                            <ToggleBtn name="embarasment" onClick={handleFilter} current={emotions} icon="embarasment"/>
+                            <ToggleBtn name="anger" onClick={handleFilter} current={emotions} icon="anger"/>
+                            <ToggleBtn name="laugh" onClick={handleFilter} current={emotions} icon="laugh"/>
+                            <label>רגש</label>
+                        </Filter>
+
+                        <Filter>
+                            <ToggleBtn name="communication" onClick={setObject} current={object} icon="communication"/>
+                            <label>אוביקטים</label>
+                        </Filter>
+                    </Filters>
+
+                </BottomPanel>}
+
+                <VideoPlayer currentVideo={currentVideo} nextVideo={handleNextVideo}/>
+            </div>
         </>
     )
 }

@@ -9,18 +9,17 @@ import Annotation from './Annotation'
 const Wrapper = styled.div`
     background-color: white;
     width: 100%;
-    height: 150px;
     width: 300px;
     margin-left: auto;
     display: flex;
     justify-content: space-between;
     direction: rtl;
-    
+
     &.wide {
         height: 100%;
         width: 100%;
         transition: .400s ease-in-out all;
-        
+
         &>div {
             flex: 1 0 85%;
         }
@@ -112,6 +111,18 @@ const ProgBarWrapper = styled.div`
     width: 100%;
 `;
 
+const NextVideoButton = styled.button`
+    background: url('./assets/arrow-right.png') no-repeat center / contain;
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+`;
+
 const formatDuration = (s) => {
     var m = Math.floor(s / 60);
     m = (m >= 10) ? m : "0" + m;
@@ -120,7 +131,7 @@ const formatDuration = (s) => {
     return m + ":" + s;
 }
 
-export default function VideoPlayer({ currentVideo = null }) {
+export default function VideoPlayer({ currentVideo = null, nextVideo }) {
     const videoPath = `./videos/${_.get(currentVideo, 'videoFileName')}`
     const classNames = currentVideo === null ? '' : 'wide'
 
@@ -170,8 +181,12 @@ export default function VideoPlayer({ currentVideo = null }) {
 
                                 </ControlsWrapper>
                             </Controls>
+
+                            <NextVideoButton onClick={nextVideo}/>
+
                         </InnerWrapper>
                     )}
+
                 </Video>
                 : <Placeholder/>}
 
