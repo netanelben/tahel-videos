@@ -141,19 +141,6 @@ video {
     z-index: 1123;
 }
 
-.icn {
-    display: block;
-    width: 36px;
-    height: 36px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-}
-
-.icn.on {
-    /* background-size: contain; */
-}
-
 button {
     outline: none;
     border-width: 0;

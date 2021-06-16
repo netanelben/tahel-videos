@@ -5,10 +5,7 @@ import Video from 'react-video-renderer';
 import {ReactComponent as IcnPlay} from './play.svg'
 import {ReactComponent as IcnPause} from './pause.svg'
 import Annotation from './Annotation'
-import Slider from 'rc-slider';
-import { Slider as YearSlider } from 'rsuite';
-import { Filter, relationSliderMarks } from '../../pages/index'
-import ToggleBtn from '../../components/ToggleBtn'
+import { formatDuration } from '../../utils'
 
 const Wrapper = styled.div`
     background-color: white;
@@ -25,9 +22,11 @@ const Wrapper = styled.div`
 
         >div:first-of-type {
             flex: 1 0 calc(100% - 314px);
+            max-width: calc(100% - 314px);
         }
         >div:last-child {
             flex: 1 0 314px;
+            max-width: 314px;
         }
 
         .plus-sign {
@@ -43,6 +42,10 @@ const Wrapper = styled.div`
 const VideoWrapper = styled.div`
     width: 100%;
     position: relative;
+
+    video {
+
+    }
 `;
 
 const Placeholder = styled.div`
@@ -107,8 +110,9 @@ const InnerWrapper = styled.div`
 `;
 
 const SidePanel = styled.div`
-    background-color: #F7F2E6;
+    background-color: #fff;
     display: inline-block;
+    padding: 16px 12px;
 `;
 
 const ProgBarWrapper = styled.div`
@@ -128,37 +132,30 @@ const NextVideoButton = styled.button`
     z-index: 1;
 `;
 
-const VideoQuote = styled.p`
-    background-color: #fff;
-    font-size: 20px;
-    line-height: 120%;
-    padding: 28px 22px;
+const VideoText = styled.p`
+    font-size: 18px;
+    line-height: 28px;
+    padding: 28px;
     min-height: 100px;
     height: fit-content;
     display: block;
+    font-weight: ${props => props.bold && 'bold'};
+`;
+
+const SmallTitle = styled.div`
+    font-weight: bold;
 `;
 
 const Filters = styled.div`
-    direction: ltr;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
 
-    > div {
-        height: 87px;
-        padding: 0 10px;
-    }
+    span {
 
-    .icn {
-        width: 15px;
-        height: 15px;
     }
 `;
-
-const formatDuration = (s) => {
-    var m = Math.floor(s / 60);
-    m = (m >= 10) ? m : "0" + m;
-    s = Math.floor(s % 60);
-    s = (s >= 10) ? s : "0" + s;
-    return m + ":" + s;
-}
 
 export default function VideoPlayer({ currentVideo = null, nextVideo, filters }) {
     const videoPath = `./videos/${_.get(currentVideo, 'videoFileName')}.mp4`
@@ -223,78 +220,31 @@ export default function VideoPlayer({ currentVideo = null, nextVideo, filters })
 
                 {currentVideo &&
                     <SidePanel>
-                        <VideoQuote>
-                            "{currentVideo.videoQuote}"
-                        </VideoQuote>
+                        <VideoText bold>
+                            {currentVideo.videoDesc}
+                        </VideoText>
+
+                        <VideoText>
+                            <SmallTitle>יחסי הורים וילדים</SmallTitle>
+                            {currentVideo.childrenAndParents}
+                        </VideoText>
+
+                        <VideoText>
+                            <SmallTitle>יחסי גברים נשים</SmallTitle>
+                            {currentVideo.menAndWomen}
+                        </VideoText>
+
+                        <VideoText>
+                            <SmallTitle>נתוני יוטיוב</SmallTitle>
+                            {currentVideo.videoInformation}
+                        </VideoText>
 
                         <Filters>
-
-                            <Filter>
-                                <YearSlider defaultValue={year} disabled/>
-                                {/* <div className="year-slider-labels">
-                                    <span>{START_YEAR}</span>
-                                    <span>{END_YEAR}</span>
-                                </div> */}
-                                <label>שנה</label>
-                            </Filter>
-
-                            <Filter>
-                                <ToggleBtn name="other" current={event} icon="event-other"/>
-                                <ToggleBtn name="friday" current={event} icon="friday"/>
-                                <ToggleBtn name="bbq" current={event} icon="bbq"/>
-                                <ToggleBtn name="holiday" current={event} icon="holiday"/>
-                                <ToggleBtn name="bday" current={event} icon="bday"/>
-                                <label>אירוע</label>
-                            </Filter>
-
-                            <Filter>
-                                <ToggleBtn name="English" current={langs} icon="english"/>
-                                <ToggleBtn name="Proski" current={langs} icon="ruski"/>
-                                <ToggleBtn name="עברית" current={langs} icon="hebrew"/>
-                                <label>שפה</label>
-                            </Filter>
-
-                            <Filter>
-                                <ToggleBtn name="politiks" current={subjects} icon="politiks"/>
-                                <ToggleBtn name="text" current={subjects} icon="text"/>
-                                <ToggleBtn name="photography" current={subjects} icon="photography"/>
-                                <ToggleBtn name="food" current={subjects} icon="food"/>
-                                <ToggleBtn name="memory" current={subjects} icon="memory"/>
-                                <label>נושא שיחה</label>
-                            </Filter>
-
-                            <Filter>
-                                <Slider min={0} max={10} defaultValue={relation} marks={relationSliderMarks} disabled/>
-                                <label>קרבה</label>
-                            </Filter>
-
-                            <Filter>
-                                <ToggleBtn name="calm" current={emotions} icon="calm"/>
-                                <ToggleBtn name="happy" current={emotions} icon="happy"/>
-                                <ToggleBtn name="embarasment" current={emotions} icon="embarasment"/>
-                                <ToggleBtn name="anger" current={emotions} icon="anger"/>
-                                <ToggleBtn name="laugh" current={emotions} icon="laugh"/>
-                                <label>רגש</label>
-                            </Filter>
-
-                            <Filter>
-                                <ToggleBtn name="alcohol" current={foods} icon="alcohol"/>
-                                <ToggleBtn name="food-other" current={foods} icon="food-other"/>
-                                <ToggleBtn name="ashkenzi" current={foods} icon="ashkenzi"/>
-                                <ToggleBtn name="mizrahi" current={foods} icon="mizrahi"/>
-                                <label>אוכל</label>
-                            </Filter>
-
-                            <Filter>
-                                <ToggleBtn name="communication" current={objects} icon="communication"/>
-                                <ToggleBtn name="art" current={objects} icon="art"/>
-                                <ToggleBtn name="chairs" current={objects} icon="chairs"/>
-                                <ToggleBtn name="light" current={objects} icon="light"/>
-                                <ToggleBtn name="tools" current={objects} icon="tools"/>
-                                <label>אוביקטים</label>
-                            </Filter>
-
+                            <span>{filters.year}</span>
+                            <span>{filters.event}</span>
+                            <span>{filters.lang}</span>
                         </Filters>
+
                     </SidePanel>}
 
         </Wrapper>

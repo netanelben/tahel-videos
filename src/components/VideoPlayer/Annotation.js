@@ -45,12 +45,12 @@ export default function Annotation({ videoData, duration }) {
     return (
         <Wrapper>
 
-            {annotations.map(emot => {
+            {annotations.map((emot, key) => {
                 const icon = emot.split('-')[0]
                 const offset = convertTimestamp(emot.split('-')[1], duration)
 
                 return (
-                    <Anot left={offset}>
+                    <Anot left={offset} key={key}>
                         <div className={`anot-icon icn-${icon}`}/>
                     </Anot>
                 )

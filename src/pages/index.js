@@ -5,7 +5,9 @@ import Slider from 'rc-slider';
 import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
-import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData } from '../config'
+import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData, APP_SIDEPANEL_TEXT } from '../config'
+import { filterVideos } from '../utils'
+import titleBorder from './titleBorder.svg'
 
 import 'rc-slider/assets/index.css';
 
@@ -40,18 +42,20 @@ const GridLayout = styled.div`
         justify-content: center;
 
         .videos-wrapper {
-            background-color: #FFFFFF;
             width: 20px;
             height: 20px;
             flex: 1 0 20px;
             margin: 1px;
             flex-grow: 0;
+
+            video {
+                visibility: hidden;
+            }
         }
     }
 `;
 
 const VideoPlaceholder = styled.div`
-    background-color: #ccc;
     width: 101px;
     height: 101px;
     flex: 0 0 101px;
@@ -59,12 +63,18 @@ const VideoPlaceholder = styled.div`
 `;
 
 const VideoObject = styled.div`
-    background-color: #ccc;
+    background-color: ${props => props.isSelected ? '#f7f2e6' : '#fff'};
+    outline: ${props => props.isSelected && '1px solid #000'};
     width: 101px;
     height: 101px;
     flex: 0 0 101px;
     margin: 4px;
     cursor: pointer;
+
+    video {
+        object-fit: cover;
+        display: ${props => props.isSelected && 'none'};
+    }
 `;
 
 const SidePanel = styled.div`
@@ -116,7 +126,7 @@ export const Filter = styled.div`
     align-items: center;
     height: 100px;
     flex: 1;
-    padding: 0 12px;
+    padding: 0 18px 0 2px;
     text-align: right;
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
@@ -128,7 +138,9 @@ export const Filter = styled.div`
     }
 
     label {
-        padding: 0 12px;
+        margin-left: 6px;
+        font-weight: 700;
+        font-size: 20px;
     }
 `;
 
@@ -154,8 +166,15 @@ const VideoHeader = styled.div`
     direction: rtl;
 
     .title {
-        font-size: 20px;
+        font-weight: bold;
+        font-size: 26px;
+        line-height: 28px;
         margin: 10px 0;
+        line-height: 90px;
+        background-image: url(${titleBorder});
+        background-repeat: no-repeat;
+        background-position: 1px 55px;
+        background-size: contain;
     }
 
     .desc {
@@ -173,8 +192,8 @@ export const relationSliderMarks = {
 export default function MainPage() {
     const items = Array.apply(null, Array(VIDEOS_AMOUNT)).map(function (x, i) { return i; })
 
-    const [year, setYear] = useState(START_YEAR);
-    const [relation, setRelation] = useState(0);
+    const [year, setYear] = useState(null);
+    const [relation, setRelation] = useState(null);
     const [event, setEvent] = useState(null);
 
     const [langs, setLang] = useState([]);
@@ -183,8 +202,11 @@ export default function MainPage() {
     const [emotions, setEmotions] = useState([]);
     const [objects, setObject] = useState([]);
 
-    const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
+    const [currentVideoIdx, setCurrentVideoIdx] = useState(null);
     const [currentVideo, setCurrentVideo] = useState(null);
+
+    const shouldFilter = year !== null || relation !== null || event !== null || !_.isEmpty(langs || foods || subjects || emotions || objects);
+    const filters = {year, event, langs, subjects, relation, emotions, foods, objects}
 
     const handleEmotionFilter = (emotion) => {
         if (_.includes(emotions, emotion)) {
@@ -251,32 +273,10 @@ export default function MainPage() {
         }
     }
 
-    const filteredVideos = _.map(videosStubData, (v) => {
-        if (
-
-               v.relation === relation
-            || v.year === year
-            || v.event === event
-            || _.includes(v.lang, langs)
-            || _.includes(v.subjects, subjects)
-            || _.includes(v.emotions, emotions)
-            || _.includes(v.objects, objects)
-            || _.includes(v.foodAndDrink, foods)
-
-        ) {
-            return ({
-                ...v,
-                isVisible: true
-            })
-        } else {
-            return v;
-        }
-    })
+    const filteredVideos = shouldFilter ? filterVideos(videosStubData, filters) : filterVideos(videosStubData, filters, true)
 
     const wrapperClassname = currentVideo !== null ? 'bg-white' : 'bg-beige'
     const gridClassNames = currentVideo === null ? '' : 'tiny'
-
-    const filters = {year, event, langs, subjects, relation, emotions, foods, objects}
 
     const handleNextVideo = () => {
         if (currentVideoIdx < filteredVideos.length - 1) {
@@ -288,11 +288,18 @@ export default function MainPage() {
         }
     }
 
+    const tinyGridClick = () => {
+        if (currentVideo) {
+            setCurrentVideo(null)
+            setCurrentVideoIdx(null)
+        }
+    }
+
     return (
         <>
             <Wrapper className={wrapperClassname}>
 
-                <GridLayout className={gridClassNames} onClick={ currentVideo ? () => setCurrentVideo(null) : null }>
+                <GridLayout className={gridClassNames} onClick={ tinyGridClick }>
                     {items.map((x) => {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
@@ -300,10 +307,13 @@ export default function MainPage() {
                             const videoPath = `./videos/${videoFileName}.mp4`
 
                             return (
-                                <VideoObject className="videos-wrapper" key={x} onClick={() => setCurrentVideo(filteredVideos[x])}>
+                                <VideoObject className="videos-wrapper" key={x}
+                                    isSelected={currentVideoIdx === x}
+                                    onClick={() => { setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
                                     <video controls={false} width="100%" height="100%"
-                                        onMouseEnter={({ target }) => target.play()}
-                                        onMouseLeave={({ target }) => target.pause()}
+                                        // onMouseEnter={({ target }) => target.play()}
+                                        // onMouseLeave={({ target }) => target.pause()}
+                                        autoPlay={filteredVideos[x].isAutoPlay}
                                         >
                                         <source src={videoPath} type="video/mp4"/>
                                     </video>
@@ -320,11 +330,7 @@ export default function MainPage() {
                 {currentVideo && <VideoHeader>
 
                     <Logo className="float-right"/>
-
-                    <div className="flex-col">
-                        <span className="title">{currentVideo.videoName}</span>
-                        <span className="desc">{currentVideo.videoDesc}</span>
-                    </div>
+                    <div className="title">{currentVideo.videoName}</div>
 
                     </VideoHeader>}
 
@@ -332,7 +338,7 @@ export default function MainPage() {
                     <Logo/>
 
                     {_.isEmpty(currentVideo) ? <DescPar>
-                        {/* {APP_SIDEPANEL_TEXT} */}
+                        {APP_SIDEPANEL_TEXT}
                     </DescPar> : <>
                         <VideoTitle>
                             {currentVideo.videoName}
@@ -359,10 +365,11 @@ export default function MainPage() {
                         </Filter>
 
                         <Filter>
-                            <ToggleBtn name="------" onClick={handleLangFilter} current={langs}/>
-                            <ToggleBtn name="English" onClick={handleLangFilter} current={langs} icon="english"/>
-                            <ToggleBtn name="Proski" onClick={handleLangFilter} current={langs} icon="ruski"/>
-                            <ToggleBtn name="עברית" onClick={handleLangFilter} current={langs} icon="hebrew"/>
+
+                            <ToggleBtn name="Español" onClick={handleLangFilter} current={langs} icon="espanol" handle="espanol"/>
+                            <ToggleBtn name="Proski" onClick={handleLangFilter} current={langs} icon="ruski" />
+                            <ToggleBtn name="English" onClick={handleLangFilter} current={langs} icon="english" />
+                            <ToggleBtn name="עברית" onClick={handleLangFilter} current={langs} icon="hebrew" handle="hebrew"/>
 
                             <label>שפה</label>
                         </Filter>
@@ -374,8 +381,9 @@ export default function MainPage() {
 
                         <Filter>
                             <ToggleBtn name="alcohol" onClick={handleFoodFilter} current={foods} icon="alcohol"/>
-                            <ToggleBtn name="food-other" onClick={handleFoodFilter} current={foods} icon="food-other"/>
-                            <ToggleBtn name="ashkenzi" onClick={handleFoodFilter} current={foods} icon="ashkenzi"/>
+                            <ToggleBtn name="dessert" onClick={handleFoodFilter} current={foods} icon="dessert"/>
+                            <ToggleBtn name="bread" onClick={handleFoodFilter} current={foods} icon="bread"/>
+                            <ToggleBtn name="ashkenazi" onClick={handleFoodFilter} current={foods} icon="ashkenazi"/>
                             <ToggleBtn name="mizrahi" onClick={handleFoodFilter} current={foods} icon="mizrahi"/>
                             <label>אוכל ושתייה</label>
                         </Filter>
