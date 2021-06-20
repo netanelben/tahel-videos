@@ -16,21 +16,22 @@ const Anot = styled.div`
     background-color: #fff;
     position: absolute;
     left: ${props => props.left && `${props.left}%`};
+    cursor: pointer;
 
     .anot-icon {
         display: block;
-        width: 45px;
-        height: 45px;
-        margin: -55px -21px;
-        background-repeat: no-repeat;
+        width: 60px;
+        height: 60px;
+        margin: -70px -28px;
         background-size: contain;
+        background-repeat: no-repeat;
         background-position: center;
     }
 `;
 
 const convertTimestamp = (time, duration) => (time * 100) / duration;
 
-export default function Annotation({ videoData, duration }) {
+export default function Annotation({ videoData, duration, navigate }) {
     const { emotions, objects, subjects, foodAndDrink } = videoData;
     const emotionList = emotions.split(',')
     const objectList = objects.split(',')
@@ -49,10 +50,11 @@ export default function Annotation({ videoData, duration }) {
 
             {annotations.map((emot, key) => {
                 const icon = emot.split('-')[0].trim()
-                const offset = convertTimestamp(emot.split('-')[1], duration)
+                const second = emot.split('-')[1]
+                const offset = convertTimestamp(second, duration)
 
                 return (
-                    <Anot left={offset} key={key}>
+                    <Anot left={offset} key={key} onClick={() => navigate(second)}>
                         <div className={`anot-icon icn-timeline-${icon}`}/>
                     </Anot>
                 )

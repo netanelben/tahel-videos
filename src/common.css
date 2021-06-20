@@ -29,6 +29,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+    overflow: hidden;
 }
 ol, ul {
 	list-style: none;
@@ -69,8 +70,15 @@ table {
     height: 2px;
 }
 
+.rs-slider:hover .rs-slider-handle,
+.rc-slider:hover .rc-slider-handle {
+    opacity: 1;
+    transition: .2s ease all;
+}
+
 .rs-slider-handle,
 .rc-slider-handle {
+    opacity: 0;
     background-color: #0500FF;
     border: 0;
     border-radius: 0;

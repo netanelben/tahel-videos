@@ -6,6 +6,7 @@ import {ReactComponent as IcnPlay} from './play.svg'
 import {ReactComponent as IcnPause} from './pause.svg'
 import Annotation from './Annotation'
 import { formatDuration } from '../../utils'
+import { LANG_TEXT, EVENT_TEXT } from '../../config'
 
 const Wrapper = styled.div`
     background-color: white;
@@ -14,11 +15,11 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     direction: rtl;
+    transition: .300s ease all;
 
     &.wide {
         max-height: 100vh;
         width: 100%;
-        transition: .300s ease-in-out all;
 
         >div:first-of-type {
             flex: 1 0 80%;
@@ -135,11 +136,9 @@ const PrevVideoButton = styled.button`
     position: absolute;
     top: 50%;
     transform: translateY(-50%) rotate(180deg);
-    left: 0;
+    left: 40px;
     bottom: 0;
     z-index: 1;
-    border-radius: 50%;
-    background-color: #fff;
 `;
 const NextVideoButton = styled.button`
     background: url('./assets/arrow-right.png') no-repeat center / 90%;
@@ -148,19 +147,15 @@ const NextVideoButton = styled.button`
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 0;
+    right: 40px;
     bottom: 0;
     z-index: 1;
-    border-radius: 50%;
-    background-color: #fff;
 `;
 
-const VideoText = styled.p`
+const VideoText = styled.div`
     font-size: 18px;
     line-height: 28px;
-    padding: 28px;
-    min-height: 100px;
-    height: fit-content;
+    padding: 20px 30px 20px 50px;
     display: block;
     font-weight: ${props => props.bold && 'bold'};
 `;
@@ -182,13 +177,30 @@ const SmallTitle = styled.div`
 
 const Filters = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: 0 28px;
+    padding: 28px;
 
     span {
-
+        font-size: 18px;
+        line-height: 28px;
     }
+
+    .icn {
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+    }
+`;
+
+const MuteButton = styled.div`
+    background: url('./assets/mute.svg') no-repeat center / contain;
+    width: 45px;
+    height: 40px;
+    margin-right: 30px;
+    cursor: pointer;
+    position: relative;
+    top: -2px;
 `;
 
 export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, nextVideo, filters, previewVideo }) {
@@ -207,15 +219,17 @@ export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, 
         }
     }
 
+    const infoList = currentVideo && currentVideo.videoInformation.split(',')
+
     return (
-        <Wrapper className={classNames}>
+        <Wrapper className={classNames} id="video-main-wrapper">
 
             {currentVideo
                 ? <Video src={videoPath}>
                     {(video, state, actions) => (
                         <InnerWrapper>
                             <VideoWrapper>
-                                <div className="plus-sign"/>
+                                {/* <div className="plus-sign"/> */}
                                 {video}
                             </VideoWrapper>
 
@@ -227,14 +241,14 @@ export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, 
                                             : <IcnPlay/>}
                                     </PlayPauseBtn>
 
-                                    {/* <progress value={state.volume} max={1} onChange={actions.setVolume} /> */}
+                                    <MuteButton onClick={state.isMuted ? actions.unmute : actions.mute} />
 
                                     <ProgBarWrapper>
                                         <ProgBar type="range" step="0.0001"
                                             min="0" value={state.currentTime} max={state.duration}
                                             onChange={(t) => navigate(t, actions)}/>
 
-                                        <Annotation duration={state.duration} videoData={currentVideo}/>
+                                        <Annotation duration={state.duration} videoData={currentVideo} navigate={actions.navigate}/>
                                     </ProgBarWrapper>
 
                                     <Timing>{formatDuration(state.currentTime)}</Timing>
@@ -287,13 +301,33 @@ export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, 
                                 <img src="./assets/v.png"/>
                                 נתוני יוטיוב
                             </SmallTitle>
-                            {currentVideo.videoInformation}
+                            <ul>
+                                <li>
+                                    תיאור -&nbsp;
+                                    {infoList[0].split('-')[1]}
+                                </li>
+                                <li>
+                                    צפיות -&nbsp;
+                                    {infoList[1].split('-')[1]}
+                                </li>
+                                <li>
+                                    שם משתמש -&nbsp;
+                                    {infoList[2].split('-')[1]}
+                                </li>
+                                <li>
+                                    עוקבים -&nbsp;
+                                    {infoList[3].split('-')[1]}
+                                </li>
+                            </ul>
                         </VideoText>
 
                         <Filters>
-                            <span>{filters.year}</span>
-                            <span>{filters.event}</span>
-                            <span>{filters.lang}</span>
+                            <span>{currentVideo.year}</span>
+                            <span>
+                                {EVENT_TEXT[currentVideo.event]}
+                                <div className={`icn icn-home-${currentVideo.event}`}/>
+                            </span>
+                            <span>{LANG_TEXT[currentVideo.lang.split(',')[0]]}</span>
                         </Filters>
 
                     </SidePanel>}

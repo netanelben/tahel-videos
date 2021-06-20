@@ -13,6 +13,7 @@ import 'rc-slider/assets/index.css';
 
 const Wrapper = styled.div`
   height: 100%;
+  min-height: 100%;
   display: flex;
   justify-content: space-between;
 
@@ -30,23 +31,32 @@ const GridLayout = styled.div`
     display: flex;
     flex-flow: row wrap;
     place-content: flex-start;
+
+    /* display: grid;
+    grid-gap: 4px;
+    grid-template-columns: repeat(12, 0fr);
+    grid-template-rows: repeat(auto-fit, auto-fit);
+    width: 100%; */
+
     position: relative;
     z-index: 2;
+    overflow: hidden;
 
     &.tiny {
         width: 20%;
+        height: 100%;
+        min-height: 100%;
         transition: .400s ease-in-out all;
-        cursor: pointer;
         background: #F7F2E6;
-        overflow: hidden;
-        justify-content: center;
+        /* justify-content: center; */
+        cursor: pointer;
 
         .videos-wrapper {
             width: 20px;
             height: 20px;
             flex: 1 0 20px;
-            margin: 1px;
             flex-grow: 0;
+            margin: 1px;
 
             video {
                 visibility: hidden;
@@ -58,6 +68,8 @@ const GridLayout = styled.div`
         }
 
         &:hover {
+            outline: 1px solid #fff;
+
             .plus-sign {
                 display: none;
             }
@@ -69,20 +81,27 @@ const GridLayout = styled.div`
 `;
 
 const VideoPlaceholder = styled.div`
-    width: 101px;
-    height: 101px;
-    flex: 0 0 101px;
-    margin: 4px;
+    width: 7.14285714286%;
+    height: 14.2857142857%;
+    flex: 0 0 7.14285714286%;
+    /* margin: 4px; */
 `;
 
 const VideoObject = styled.div`
     background-color: ${props => props.isSelected ? '#f7f2e6' : '#fff'};
     outline: ${props => props.isSelected && '1px solid #000'};
-    width: 101px;
-    height: 101px;
-    flex: 0 0 101px;
-    margin: 4px;
+    width: 7.14285714286%;
+    height: 14.2857142857%;
+    flex: 0 0 7.14285714286%;
+    /* margin: 4px; */
     cursor: pointer;
+
+    &>div {
+        height: 100%;
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
 
     video {
         object-fit: cover;
@@ -98,7 +117,7 @@ const SidePanel = styled.div`
 
 const Logo = styled.div`
     width: 100%;
-    height: 300px;
+    height: 150px;
     background-image: url('./assets/logo.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -139,7 +158,7 @@ export const Filter = styled.div`
     align-items: center;
     height: 100px;
     flex: 1;
-    padding: 0 18px 0 2px;
+    padding: 0 18px 0 3px;
     text-align: right;
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
@@ -183,12 +202,13 @@ const VideoHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     direction: rtl;
+    padding: 0 20px;
 
     .title {
         font-weight: bold;
         font-size: 50px;
         line-height: 100%;
-        margin: 0 20px 0 0;
+        margin: 0 70px 0 0;
 
         &:after {
             content: '';
@@ -320,9 +340,15 @@ export default function MainPage() {
     }
 
     const tinyGridClick = () => {
+
         if (currentVideo) {
-            setCurrentVideo(null)
-            setCurrentVideoIdx(null)
+            const vidMainWrap = document.querySelector('#video-main-wrapper')
+            vidMainWrap && vidMainWrap.classList.remove('wide')
+
+            setTimeout(() => {
+                setCurrentVideo(null)
+                setCurrentVideoIdx(null)
+            }, 100)
         }
     }
 
@@ -344,7 +370,7 @@ export default function MainPage() {
 
     return (
         <>
-            <Wrapper className={wrapperClassname}>
+            <Wrapper className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
 
                 <GridLayout className={gridClassNames} onClick={ tinyGridClick }>
                     {items.map((x) => {
@@ -357,13 +383,15 @@ export default function MainPage() {
                                 <VideoObject className="videos-wrapper" key={x}
                                     isSelected={currentVideoIdx === x}
                                     onClick={() => { setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
-                                    <video controls={false} width="100%" height="100%"
-                                        onMouseEnter={()=>handleMouseEnter(x)}
-                                        onMouseLeave={()=>handleMouseLeave(x)}
-                                        autoPlay={filteredVideos[x].isAutoPlay}
-                                        >
-                                        <source src={videoPath} type="video/mp4"/>
-                                    </video>
+                                    <div>
+                                        <video controls={false} width="100%" height="100%"
+                                            onMouseEnter={()=>handleMouseEnter(x)}
+                                            onMouseLeave={()=>handleMouseLeave(x)}
+                                            autoPlay={filteredVideos[x].isAutoPlay}
+                                            >
+                                            <source src={videoPath} type="video/mp4"/>
+                                        </video>
+                                    </div>
                                 </VideoObject>
                             )
                         }
@@ -378,31 +406,31 @@ export default function MainPage() {
 
                 </GridLayout>
 
-                {currentVideo && <VideoHeader>
-
-                    <Logo className="float-right"/>
-                    <div className="title">{currentVideo.videoName}</div>
-
-                    </VideoHeader>}
+                {currentVideo &&
+                    <VideoHeader>
+                        <Logo className="float-right"/>
+                        <div className="title">{currentVideo.videoName}</div>
+                    </VideoHeader>
+                }
 
                 {!currentVideo && <SidePanel>
                     <Logo/>
 
-                    {_.isEmpty(currentVideo) ? <DescPar>
-                        {APP_SIDEPANEL_TEXT}
-                    </DescPar> : <>
-                        <VideoTitle>
-                            {currentVideo.videoName}
-                        </VideoTitle>
-                        <VideoDesc>
-                            {currentVideo.videoDesc}
-                        </VideoDesc>
+                    {_.isEmpty(currentVideo)
+                        ? <DescPar dangerouslySetInnerHTML={{ __html: APP_SIDEPANEL_TEXT }}/>
+                        : <>
+                            <VideoTitle>
+                                {currentVideo.videoName}
+                            </VideoTitle>
+                            <VideoDesc>
+                                {currentVideo.videoDesc}
+                            </VideoDesc>
                     </>}
                 </SidePanel>}
 
             </Wrapper>
 
-            <div className="flex" style={currentVideo && { height: '80vh' }}>
+            <div className="flex" style={currentVideo ? { height: '80vh' } : { height: '20vh' }}>
                 {!currentVideo && <BottomPanel>
 
                     <Filters>
