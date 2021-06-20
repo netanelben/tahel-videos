@@ -74,10 +74,14 @@ table {
     background-color: #0500FF;
     border: 0;
     border-radius: 0;
-    width: 6px;
-    height: 20px;
-    margin-top: -8px;
+    width: 4px;
+    height: 21px;
+    margin-top: -11px;
     cursor: pointer;
+}
+
+.rc-slider-handle {
+    margin-top: -10px;
 }
 
 .rs-slider,
@@ -126,6 +130,20 @@ video {
     flex-direction: column;
 }
 
+.arrow-sign {
+    display: none;
+    width: 17px;
+    height: 17px;
+    background-image: url('./arrow-tiny.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: absolute;
+    bottom:0;
+    right:0;
+    margin: 2px;
+    z-index: 1123;
+}
 .plus-sign {
     display: none;
     width: 17px;
@@ -137,7 +155,7 @@ video {
     position: absolute;
     top:0;
     left:0;
-    margin: -8px -8px;
+    margin: -8px;
     z-index: 1123;
 }
 

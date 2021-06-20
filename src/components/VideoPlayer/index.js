@@ -16,17 +16,17 @@ const Wrapper = styled.div`
     direction: rtl;
 
     &.wide {
-        height: 100%;
+        max-height: 100vh;
         width: 100%;
-        transition: .400s ease-in-out all;
+        transition: .300s ease-in-out all;
 
         >div:first-of-type {
-            flex: 1 0 calc(100% - 314px);
-            max-width: calc(100% - 314px);
+            flex: 1 0 80%;
+            max-width: 80%;
         }
         >div:last-child {
-            flex: 1 0 314px;
-            max-width: 314px;
+            flex: 1 0 20%;
+            max-width: 20%;
         }
 
         .plus-sign {
@@ -41,19 +41,23 @@ const Wrapper = styled.div`
 
 const VideoWrapper = styled.div`
     width: 100%;
+    height: 100%; // Fix the origin to be bottom-right
     position: relative;
-
-    video {
-
-    }
 `;
 
-const Placeholder = styled.div`
+const SmallVideoPreview = styled.div`
     width: 100%;
     height: 100%;
     background-color: white;
-    border: 2px dashed #000;
     box-sizing: border-box;
+    position: relative;
+
+    .plus-sign {
+        display: block;
+        width: 22px;
+        height: 22px;
+        margin: -10px;
+    }
 `;
 
 const Controls = styled.div`
@@ -112,7 +116,11 @@ const InnerWrapper = styled.div`
 const SidePanel = styled.div`
     background-color: #fff;
     display: inline-block;
+    box-sizing: border-box;
     padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
 const ProgBarWrapper = styled.div`
@@ -120,16 +128,31 @@ const ProgBarWrapper = styled.div`
     width: 100%;
 `;
 
+const PrevVideoButton = styled.button`
+    background: url('./assets/arrow-right.png') no-repeat center / 90%;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #fff;
+`;
 const NextVideoButton = styled.button`
-    background: url('./assets/arrow-right.png') no-repeat center / contain;
-    width: 100px;
-    height: 50px;
+    background: url('./assets/arrow-right.png') no-repeat center / 90%;
+    width: 60px;
+    height: 60px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 0;
     bottom: 0;
     z-index: 1;
+    border-radius: 50%;
+    background-color: #fff;
 `;
 
 const VideoText = styled.p`
@@ -144,6 +167,17 @@ const VideoText = styled.p`
 
 const SmallTitle = styled.div`
     font-weight: bold;
+    position: relative;
+
+    img {
+        width:10px;
+        height:10px;
+        transform: scale(10);
+        position: absolute;
+        right: -18px;
+        top: 12px;
+        z-index: 1;
+    }
 `;
 
 const Filters = styled.div`
@@ -157,7 +191,7 @@ const Filters = styled.div`
     }
 `;
 
-export default function VideoPlayer({ currentVideo = null, nextVideo, filters }) {
+export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, nextVideo, filters, previewVideo }) {
     const videoPath = `./videos/${_.get(currentVideo, 'videoFileName')}.mp4`
     const classNames = currentVideo === null ? '' : 'wide'
 
@@ -172,8 +206,6 @@ export default function VideoPlayer({ currentVideo = null, nextVideo, filters })
             actions.play()
         }
     }
-
-    const {year, event, langs, subjects, relation, emotions, foods, objects} = filters
 
     return (
         <Wrapper className={classNames}>
@@ -210,13 +242,23 @@ export default function VideoPlayer({ currentVideo = null, nextVideo, filters })
                                 </ControlsWrapper>
                             </Controls>
 
+                            <PrevVideoButton onClick={handlePreviousVideo}/>
                             <NextVideoButton onClick={nextVideo}/>
 
                         </InnerWrapper>
                     )}
 
                 </Video>
-                : <Placeholder/>}
+                :
+                <SmallVideoPreview>
+                    <div className="plus-sign"/>
+                    <Video src={`./videos/${previewVideo && previewVideo.videoFileName}.mp4`}>
+                        {(video) => (
+                            <div id="preview-video">{video}</div>
+                        )}
+                    </Video>
+                </SmallVideoPreview>
+                }
 
                 {currentVideo &&
                     <SidePanel>
@@ -225,17 +267,26 @@ export default function VideoPlayer({ currentVideo = null, nextVideo, filters })
                         </VideoText>
 
                         <VideoText>
-                            <SmallTitle>יחסי הורים וילדים</SmallTitle>
+                            <SmallTitle>
+                                <img src="./assets/dot 1.png"/>
+                                יחסי הורים וילדים
+                            </SmallTitle>
                             {currentVideo.childrenAndParents}
                         </VideoText>
 
                         <VideoText>
-                            <SmallTitle>יחסי גברים נשים</SmallTitle>
+                            <SmallTitle>
+                                <img src="./assets/dot 2.png"/>
+                                יחסי גברים נשים
+                            </SmallTitle>
                             {currentVideo.menAndWomen}
                         </VideoText>
 
                         <VideoText>
-                            <SmallTitle>נתוני יוטיוב</SmallTitle>
+                            <SmallTitle>
+                                <img src="./assets/v.png"/>
+                                נתוני יוטיוב
+                            </SmallTitle>
                             {currentVideo.videoInformation}
                         </VideoText>
 

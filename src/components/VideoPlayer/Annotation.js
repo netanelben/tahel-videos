@@ -12,46 +12,48 @@ const Wrapper = styled.div`
 const Anot = styled.div`
     display: block;
     height: 30px;
-    width: 5px;
-    background-color: red;
+    width: 3px;
+    background-color: #fff;
     position: absolute;
     left: ${props => props.left && `${props.left}%`};
 
     .anot-icon {
-        width: 30px;
-        height: 30px;
         display: block;
-        margin: -40px -12px;
+        width: 45px;
+        height: 45px;
+        margin: -55px -21px;
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
     }
 `;
 
-const convertTimestamp = (v, total) => (v * 100) / total;
+const convertTimestamp = (time, duration) => (time * 100) / duration;
 
 export default function Annotation({ videoData, duration }) {
-    const { emotions, objects, subjects } = videoData;
+    const { emotions, objects, subjects, foodAndDrink } = videoData;
     const emotionList = emotions.split(',')
     const objectList = objects.split(',')
     const subjectList = subjects.split(',')
+    const foodAndDrinkList = foodAndDrink.split(',')
 
-    const annotations = _.merge(
-        emotionList,
-        objectList,
-        subjectList
-    );
+    const annotations = _.compact([
+        ...emotionList,
+        ...objectList,
+        ...subjectList,
+        ...foodAndDrinkList
+    ])
 
     return (
         <Wrapper>
 
             {annotations.map((emot, key) => {
-                const icon = emot.split('-')[0]
+                const icon = emot.split('-')[0].trim()
                 const offset = convertTimestamp(emot.split('-')[1], duration)
 
                 return (
                     <Anot left={offset} key={key}>
-                        <div className={`anot-icon icn-${icon}`}/>
+                        <div className={`anot-icon icn-timeline-${icon}`}/>
                     </Anot>
                 )
             })}
@@ -60,11 +62,13 @@ export default function Annotation({ videoData, duration }) {
     )
 }
 
-// Percent | Time
+// Percent | Time (Seconds)
 // -----------------------
-// 100     -> 5.32 (Total)
-// X       -> 2.66  (Desire time)
+// 100     -> 45  (Total)
+// X       -> 25  (Desire time)
 
 // Example:
-// X = (2.66 * 100) / 5.32
-// X = 50;
+// X = (25 * 100) / 45
+// X = 55.55;
+
+// mizrahi-25    <-  25 seconds !

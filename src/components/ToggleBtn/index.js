@@ -16,9 +16,10 @@ const Wrapper = styled.div`
         display: block;
         width: 100%;
         height: 100%;
-        background-size: 100%;
-        background-position: 0 35px;
+        background-size: 105%;
+        background-position: 0 40px;
         background-repeat: no-repeat;
+        transition: all .3s ease;
     }
 
     .icn.on {

@@ -1,28 +1,28 @@
 .icn-home-hebrew {
     background-image: url('./hebrew.png');
 
-    &.on {
+    &.on, &:hover {
         background-image: url('./hebrew-on.png');
     }
 }
 .icn-home-english {
     background-image: url('./english.png');
 
-    &.on {
+    &.on, &:hover {
         background-image: url('./english-on.png');
     }
 }
 .icn-home-ruski {
     background-image: url('./ruski.png');
 
-    &.on {
+    &.on, &:hover {
         background-image: url('./ruski-on.png');
     }
 }
 .icn-home-espanol {
     background-image: url('./espanol.png');
 
-    &.on {
+    &.on, &:hover {
         background-image: url('./espanol-on.png');
     }
 }
