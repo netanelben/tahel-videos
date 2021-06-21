@@ -1,4 +1,4 @@
-const videosStubData = [
+const videos = [
     {
         "videoName": "ארוחת שישי אצל אורלי וזאביק",
         "videoDesc": "בני המשפחה מדברים על הכנת אוכל והתפקידים של כל אחד. בינתיים אחת הנשים מאכילה את התינוק במרק.",
@@ -921,7 +921,8 @@ const videosStubData = [
         "emotions": "happy-8, laugh-20",
         "objects": "communication-1, chairs-6",
         "videoFileName": "אחרי ארוחת חג",
-        "videoInformation": "desc-אין, views-17, profile-sarusi shabi, subscribers-0"
+        "videoInformation": "desc-אין, views-17, profile-sarusi shabi, subscribers-0",
+        "isCrop": "false"
     },
     {
         "videoName": "על האש אצל דדי ואירית חול המועד פסח",
@@ -1341,5 +1342,9 @@ const videosStubData = [
         "videoInformation": "desc-על האש, views-24, profile-דובי מאזוז, subscribers-11"
     }
 ]
+
+// REMOVE when PROD
+const videosStubData = [videos[0], videos[1], videos[3]]
+// const videosStubData = videos
 
 export default videosStubData

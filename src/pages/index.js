@@ -88,6 +88,16 @@ const GridLayout = styled.div`
 
         .videos-wrapper {
             background-color: #f7f2e6;
+
+            &:hover {
+                &>div {
+                    border: 1px solid #000;
+                }
+
+                video {
+                    visibility: hidden;
+                }
+            }
         }
     }
 `;
@@ -108,7 +118,7 @@ const VideoObject = styled.div`
     &>div {
         height: 100%;
         width: 100%;
-        padding: 3px;
+        padding: 4px;
         box-sizing: border-box;
         border: ${props => props.isSelected && '1px solid #000'};
     }
@@ -147,11 +157,11 @@ const DescPar = styled.p`
     line-height: 28px;
     padding: 20px 30px;
     direction: rtl;
-    max-width: 200px;
     position: absolute;
     bottom: 0;
     right: 0;
     z-index: 1;
+    max-width: ${props => props.title ? '100%' : '200px'};
 `;
 
 const BottomPanel = styled.div`
@@ -191,33 +201,13 @@ export const Filter = styled.div`
         font-weight: 700;
         font-size: 18px;
     }
-
-    &:not(.langs) {
-        .icn {
-            background-size: 115%;
-        }
-    }
-
-    &.langs {
-        .icn  {
-            background-position-y: 38px;
-        }
-    }
 `;
 
 const VideoTitle = styled.div`
     font-weight: bold;
-    font-size: 22px;
-    line-height: 36px;
-    text-align: right;
-    margin-bottom: 10px;
-`;
-
-const VideoDesc = styled.div`
-    font-size: 18px;
-    line-height: 28px;
-    text-align: right;
-    direction: rtl;
+    font-size: 24px;
+    line-height: 30px;
+    margin: 0 0 -4px -4px;
 `;
 
 const VideoHeader = styled.div`
@@ -231,7 +221,7 @@ const VideoHeader = styled.div`
 
     .title {
         font-weight: bold;
-        font-size: 50px;
+        font-size: 44px;
         line-height: 100%;
         margin: 0 70px 0 0;
 
@@ -244,6 +234,8 @@ const VideoHeader = styled.div`
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
+            position: relative;
+            top: 5px;
         }
     }
 
@@ -264,7 +256,7 @@ export default function MainPage() {
 
     const [year, setYear] = useState(null);
     const [relation, setRelation] = useState(null);
-    const [event, setEvent] = useState(null);
+    const [events, setEvent] = useState(null);
 
     const [langs, setLang] = useState([]);
     const [foods, setFood] = useState([]);
@@ -276,11 +268,21 @@ export default function MainPage() {
     const [currentVideo, setCurrentVideo] = useState(null);
     const [previewVideo, setPreviewVideo] = useState(null);
 
+    const [shouldShowDesc, setShouldShowDesc] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
 
-    const shouldFilter = year !== null || relation !== null || event !== null || !_.isEmpty(langs || foods || subjects || emotions || objects);
-    const filters = {year, event, langs, subjects, relation, emotions, foods, objects}
+    const shouldFilter = year !== null || relation !== null || events !== null || !_.isEmpty(langs)
+        || !_.isEmpty(foods) || !_.isEmpty(subjects) || !_.isEmpty(emotions) || !_.isEmpty(objects);
 
+    const filters = {year, events, langs, subjects, relation, emotions, foods, objects}
+
+    const handleEventFilter = (event) => {
+        if (_.includes(events, event)) {
+            setEvent(null)
+        } else {
+            setEvent(event)
+        }
+    }
     const handleEmotionFilter = (emotion) => {
         if (_.includes(emotions, emotion)) {
             setEmotions([
@@ -380,6 +382,7 @@ export default function MainPage() {
     }
 
     const handleMouseEnter = (videoIdx) => {
+        setShouldShowDesc(false)
         setPreviewVideo(filteredVideos[videoIdx])
 
         try {
@@ -388,7 +391,7 @@ export default function MainPage() {
                 vidCont && vidCont.children && vidCont.children[0].play()
             }, 500)
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     }
     const handleMouseLeave = () => {
@@ -409,14 +412,12 @@ export default function MainPage() {
                             return (
                                 <VideoObject className="videos-wrapper" key={x}
                                     isSelected={currentVideoIdx === x}
+                                    onMouseEnter={()=>handleMouseEnter(x)}
+                                    onMouseLeave={()=>handleMouseLeave(x)}
                                     onClick={() => { if(currentVideo)return; setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
                                     <div>
                                         {!currentVideo &&
-                                        <video controls={false} width="100%" height="100%"
-                                            onMouseEnter={()=>handleMouseEnter(x)}
-                                            onMouseLeave={()=>handleMouseLeave(x)}
-                                            autoPlay={filteredVideos[x].isAutoPlay}
-                                            >
+                                        <video controls={false} width="100%" height="100%" autoPlay={filteredVideos[x].isAutoPlay}>
                                             <source src={videoPath} type="video/mp4"/>
                                         </video>}
                                     </div>
@@ -443,16 +444,14 @@ export default function MainPage() {
                 {!currentVideo && <SidePanel>
                     <Logo/>
 
-                    {_.isEmpty(currentVideo)
+                    {_.isEmpty(currentVideo) && shouldShowDesc
                         ? <DescPar dangerouslySetInnerHTML={{ __html: APP_SIDEPANEL_TEXT }}/>
-                        : <>
+                        : <DescPar title>
                             <VideoTitle>
-                                {currentVideo.videoName}
+                                {_.get(previewVideo, 'videoName')}
                             </VideoTitle>
-                            <VideoDesc>
-                                {currentVideo.videoDesc}
-                            </VideoDesc>
-                    </>}
+                        </DescPar>
+                    }
                 </SidePanel>}
 
             </Wrapper>
@@ -462,10 +461,12 @@ export default function MainPage() {
 
                     <Filters>
                         <Filter>
-                            <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
-                            <div className="year-slider-labels">
-                                <span>{START_YEAR}</span>
-                                <span>{END_YEAR}</span>
+                            <div style={{ position: 'relative', width: '100%' }}>
+                                <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
+                                <div className="year-slider-labels">
+                                    <span>{START_YEAR}</span>
+                                    <span>{END_YEAR}</span>
+                                </div>
                             </div>
                             <label>שנה</label>
                         </Filter>
@@ -473,8 +474,8 @@ export default function MainPage() {
                         <Filter className="langs">
 
                             <ToggleBtn name="Español" onClick={handleLangFilter} current={langs} icon="espanol" handle="espanol"/>
-                            <ToggleBtn name="Proski" onClick={handleLangFilter} current={langs} icon="ruski" />
-                            <ToggleBtn name="English" onClick={handleLangFilter} current={langs} icon="english" />
+                            <ToggleBtn name="Proski" onClick={handleLangFilter} current={langs} icon="ruski" handle="ruski"/>
+                            <ToggleBtn name="English" onClick={handleLangFilter} current={langs} icon="english" handle="english"/>
                             <ToggleBtn name="עברית" onClick={handleLangFilter} current={langs} icon="hebrew" handle="hebrew"/>
 
                             <label>שפה</label>
@@ -498,11 +499,11 @@ export default function MainPage() {
 
                     <Filters bottom>
                         <Filter noBorder>
-                            <ToggleBtn name="other" onClick={setEvent} current={event} icon="event-other"/>
-                            <ToggleBtn name="friday" onClick={setEvent} current={event} icon="friday"/>
-                            <ToggleBtn name="holiday" onClick={setEvent} current={event} icon="holiday"/>
-                            <ToggleBtn name="bbq" onClick={setEvent} current={event} icon="bbq"/>
-                            <ToggleBtn name="bday" onClick={setEvent} current={event} icon="bday"/>
+                            <ToggleBtn name="other" onClick={handleEventFilter} current={events} icon="event-other"/>
+                            <ToggleBtn name="friday" onClick={handleEventFilter} current={events} icon="friday"/>
+                            <ToggleBtn name="holiday" onClick={handleEventFilter} current={events} icon="holiday"/>
+                            <ToggleBtn name="bbq" onClick={handleEventFilter} current={events} icon="bbq"/>
+                            <ToggleBtn name="bday" onClick={handleEventFilter} current={events} icon="bday"/>
                             <label>אירוע</label>
                         </Filter>
 
@@ -518,7 +519,7 @@ export default function MainPage() {
                         <Filter noBorder>
                             <ToggleBtn name="calm" onClick={handleEmotionFilter} current={emotions} icon="calm"/>
                             <ToggleBtn name="laugh" onClick={handleEmotionFilter} current={emotions} icon="laugh"/>
-                            <ToggleBtn name="embarasment" onClick={handleEmotionFilter} current={emotions} icon="embarasment"/>
+                            <ToggleBtn name="embarrassment" onClick={handleEmotionFilter} current={emotions} icon="embarrassment"/>
                             <ToggleBtn name="anger" onClick={handleEmotionFilter} current={emotions} icon="anger"/>
                             <ToggleBtn name="happy" onClick={handleEmotionFilter} current={emotions} icon="happy"/>
                             <label>רגש</label>
@@ -538,7 +539,7 @@ export default function MainPage() {
 
                 <VideoPlayer currentVideo={currentVideo}
                     previewVideo={previewVideo}
-                    handlePreviousVideo={handlePreviousVideo}
+                    previousVideo={handlePreviousVideo}
                     nextVideo={handleNextVideo} filters={filters}
                     darkMode={darkMode} setDarkMode={setDarkMode}/>
             </div>

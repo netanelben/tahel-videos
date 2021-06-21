@@ -1,5 +1,8 @@
 import _ from 'lodash';
 
+const testFilter = (itemsA, itemsB) =>
+    _.intersectionWith(itemsA, itemsB, (a, b) => b.trim().indexOf(a.trim()) !== -1).length > 0
+
 export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) => {
     if (all) {
         return ({
@@ -9,21 +12,18 @@ export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) 
     }
 
     const {year, event, langs, subjects, relation, emotions, foods, objects} = filters
-    const videoLangList = v.lang.split(',')
 
     if (
            v.year == year ||
-           _.includes(langs, videoLangList[0]) ||
-           _.includes(langs, videoLangList[1]) ||
-           _.includes(langs, videoLangList[2]) ||
-           _.includes(langs, videoLangList[3]) ||
+           testFilter(langs, v.lang.split(',')) ||
 
            v.relation == relation ||
            v.event == event ||
-           _.includes(subjects, v.subjects) ||
-           _.includes(emotions, v.emotions) ||
-           _.includes(objects, v.objects) ||
-           _.includes(foods, v.foodAndDrink)
+
+           testFilter(subjects, v.subjects.split(',')) ||
+           testFilter(emotions, v.emotions.split(',')) ||
+           testFilter(objects, v.objects.split(',')) ||
+           testFilter(foods, v.foodAndDrink.split(','))
 
     ) {
         return ({

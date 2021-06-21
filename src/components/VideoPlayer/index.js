@@ -46,6 +46,10 @@ const VideoWrapper = styled.div`
     position: relative;
 
     outline: ${props => props.isHover && '1px solid #000'};
+
+    video {
+        object-fit: ${props => props.isCrop && 'cover'};
+    }
 `;
 
 const SmallVideoPreview = styled.div`
@@ -237,7 +241,7 @@ const DarkModeButton = styled.div`
 `;
 
 export default function VideoPlayer({
-    currentVideo = null, handlePreviousVideo, nextVideo, previewVideo,
+    currentVideo = null, previousVideo, nextVideo, previewVideo,
     darkMode, setDarkMode
 }) {
     const videoPath = hostingPath(_.get(currentVideo, 'videoFileName'))
@@ -267,7 +271,7 @@ export default function VideoPlayer({
                 ? <Video src={videoPath} autoPlay>
                     {(video, state, actions) => (
                         <InnerWrapper>
-                            <VideoWrapper isHover={isHover}>
+                            <VideoWrapper isHover={isHover} isCrop={currentVideo.isCrop ? false : true}>
                                 {video}
                             </VideoWrapper>
 
@@ -296,7 +300,7 @@ export default function VideoPlayer({
                                 </ControlsWrapper>
                             </Controls>
 
-                            <PrevVideoButton onClick={handlePreviousVideo}
+                            <PrevVideoButton onClick={previousVideo}
                                 onMouseEnter={()=>setIsHover(true)}
                                 onMouseLeave={()=>setIsHover(false)}/>
                             <NextVideoButton onClick={nextVideo}

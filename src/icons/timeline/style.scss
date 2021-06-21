@@ -1,189 +1,163 @@
 // Emotions
 .icn-timeline-embarrassment {
-    background-image: url('./emotions/embarrassment.png');
+    background-image: url('./emotions/embarrassment.svg');
 
     &.on, &:hover {
-        background-image: url('./emotions/embarrassment-on.png');
+        background-image: url('./emotions/embarrassment-on.svg');
     }
 }
 .icn-timeline-anger {
-    background-image: url('./emotions/anger.png');
+    background-image: url('./emotions/anger.svg');
 
     &.on, &:hover {
-        background-image: url('./emotions/anger-on.png');
+        background-image: url('./emotions/anger-on.svg');
     }
 }
 
 .icn-timeline-happy {
-    background-image: url('./emotions/happy.png');
+    background-image: url('./emotions/happy.svg');
 
     &.on, &:hover {
-        background-image: url('./emotions/happy-on.png');
+        background-image: url('./emotions/happy-on.svg');
     }
 }
 
 .icn-timeline-calm {
-    background-image: url('./emotions/calm.png');
+    background-image: url('./emotions/calm.svg');
 
     &.on, &:hover {
-        background-image: url('./emotions/calm-on.png');
+        background-image: url('./emotions/calm-on.svg');
     }
 }
 
 .icn-timeline-laugh {
-    background-image: url('./emotions/laugh.png');
+    background-image: url('./emotions/laugh.svg');
 
     &.on, &:hover {
-        background-image: url('./emotions/laugh-on.png');
+        background-image: url('./emotions/laugh-on.svg');
     }
-}
-
-// Events
-.icn-timeline-bbq {
-    background-image: url('./event/bbq.png');
-
-}
-
-.icn-timeline-bday {
-    background-image: url('./event/bday.png');
-
-}
-
-.icn-timeline-friday {
-    background-image: url('./event/friday.png');
-
-}
-
-.icn-timeline-holiday {
-    background-image: url('./event/holiday.png');
-
-}
-
-.icn-timeline-other {
-    background-image: url('./event/other.png');
-
 }
 
 // Food and drinks
 .icn-timeline-alcohol {
-    background-image: url('./foodanddrinks/alcohol.png');
+    background-image: url('./foodanddrinks/alcohol.svg');
 
     &.on, &:hover {
-        background-image: url('./foodanddrinks/alcohol-on.png');
+        background-image: url('./foodanddrinks/alcohol-on.svg');
     }
 }
 
 .icn-timeline-ashkenazi {
-    background-image: url('./foodanddrinks/ashkenazi.png');
+    background-image: url('./foodanddrinks/ashkenazi.svg');
 
     &.on, &:hover {
-        background-image: url('./foodanddrinks/ashkenazi-on.png');
+        background-image: url('./foodanddrinks/ashkenazi-on.svg');
     }
 }
 
 .icn-timeline-mizrahi {
-    background-image: url('./foodanddrinks/mizrahi.png');
+    background-image: url('./foodanddrinks/mizrahi.svg');
 
     &.on, &:hover {
-        background-image: url('./foodanddrinks/mizrahi-on.png');
+        background-image: url('./foodanddrinks/mizrahi-on.svg');
     }
 }
 
 .icn-timeline-bread {
-    background-image: url('./foodanddrinks/bread.png');
+    background-image: url('./foodanddrinks/bread.svg');
 
     &.on, &:hover {
-        background-image: url('./foodanddrinks/bread-on.png');
+        background-image: url('./foodanddrinks/bread-on.svg');
     }
 }
 .icn-timeline-dessert {
-    background-image: url('./foodanddrinks/dessert.png');
+    background-image: url('./foodanddrinks/dessert.svg');
 
     &.on, &:hover {
-        background-image: url('./foodanddrinks/dessert-on.png');
+        background-image: url('./foodanddrinks/dessert-on.svg');
     }
 }
 
 
 // Objects
 .icn-timeline-art {
-    background-image: url('./objects/art.png');
+    background-image: url('./objects/art.svg');
 
     &.on, &:hover {
-        background-image: url('./objects/art-on.png');
+        background-image: url('./objects/art-on.svg');
     }
 }
 
 
 .icn-timeline-chairs {
-    background-image: url('./objects/chairs.png');
+    background-image: url('./objects/chairs.svg');
 
     &.on, &:hover {
-        background-image: url('./objects/chairs-on.png');
+        background-image: url('./objects/chairs-on.svg');
     }
 }
 
 .icn-timeline-communication {
-    background-image: url('./objects/communication.png');
+    background-image: url('./objects/communication.svg');
 
     &.on, &:hover {
-        background-image: url('./objects/communication-on.png');
+        background-image: url('./objects/communication-on.svg');
     }
 }
 
 .icn-timeline-lights {
-    background-image: url('./objects/light.png');
+    background-image: url('./objects/light.svg');
 
     &.on, &:hover {
-        background-image: url('./objects/light-on.png');
+        background-image: url('./objects/light-on.svg');
     }
 }
 
 .icn-timeline-tools {
-    background-image: url('./objects/tools.png');
+    background-image: url('./objects/tools.svg');
 
     &.on, &:hover {
-        background-image: url('./objects/tools-on.png');
+        background-image: url('./objects/tools-on.svg');
     }
 }
 
 // Subjects
 .icn-timeline-food {
-    background-image: url('./subject/food.png');
+    background-image: url('./subject/food.svg');
 
     &.on, &:hover {
-        background-image: url('./subject/food-on.png');
+        background-image: url('./subject/food-on.svg');
     }
 }
 
 .icn-timeline-memory {
-    background-image: url('./subject/memory.png');
+    background-image: url('./subject/memory.svg');
 
     &.on, &:hover {
-        background-image: url('./subject/memory-on.png');
+        background-image: url('./subject/memory-on.svg');
     }
 }
 
 .icn-timeline-photography {
-    background-image: url('./subject/photography.png');
+    background-image: url('./subject/photography.svg');
 
     &.on, &:hover {
-        background-image: url('./subject/photography-on.png');
+        background-image: url('./subject/photography-on.svg');
     }
 }
 
 .icn-timeline-politiks {
-    background-image: url('./subject/politiks.png');
+    background-image: url('./subject/politiks.svg');
 
     &.on, &:hover {
-        background-image: url('./subject/politiks-on.png');
+        background-image: url('./subject/politiks-on.svg');
     }
 }
 
 .icn-timeline-text {
-    background-image: url('./subject/text.png');
+    background-image: url('./subject/text.svg');
 
     &.on, &:hover {
-        background-image: url('./subject/text-on.png');
+        background-image: url('./subject/text-on.svg');
     }
 }

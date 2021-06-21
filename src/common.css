@@ -47,7 +47,6 @@ table {
 	border-spacing: 0;
 }
 
-.year-slider-labels,
 .rs-slider,
 .rc-slider {
     max-width: 210px;
@@ -113,14 +112,23 @@ table {
     color: #0500FF;
 }
 
+.rc-slider-handle:active,
+.rc-slider-handle:focus {
+    box-shadow: none;
+    outline: 0;
+}
+
 .year-slider-labels {
     width: 100%;
     position: absolute;
-    left: 45px;
-    bottom: 15px;
+    left: 0;
+    bottom: -15px;
     z-index: 1;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
 video {
