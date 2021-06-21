@@ -6,7 +6,7 @@ import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
 import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData, APP_SIDEPANEL_TEXT } from '../config'
-import { filterVideos } from '../utils'
+import { filterVideos, hostingPath } from '../utils'
 import titleBorder from './titleBorder.svg'
 
 import 'rc-slider/assets/index.css';
@@ -28,6 +28,7 @@ const Wrapper = styled.div`
 `;
 
 const GridLayout = styled.div`
+    background: #DEC9943D;
     display: flex;
     flex-flow: row wrap;
     place-content: flex-start;
@@ -64,22 +65,30 @@ const GridLayout = styled.div`
         .arrow-sign {
             display: block;
             background-image: url('./assets/plus-sign.svg');
-            right: -12px;
-            bottom: -12px;
+            width: 33px;
+            height: 33px;
+            right: -19px;
+            bottom: -19px;
         }
 
         &:hover {
             .arrow-sign {
                 display: block;
                 background-image: url('./assets/arrow-tiny.svg');
-                right: 0;
-                bottom: 0;
+                width: 28px;
+                height: 28px;
+                right: -2px;
+                bottom: -2px;
             }
         }
     }
 
     &:not(.tiny) {
         overflow: hidden;
+
+        .videos-wrapper {
+            background-color: #f7f2e6;
+        }
     }
 `;
 
@@ -395,7 +404,7 @@ export default function MainPage() {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
                             const { videoFileName } = filteredVideos[x]
-                            const videoPath = `./videos/${videoFileName}.mp4`
+                            const videoPath = hostingPath(videoFileName)
 
                             return (
                                 <VideoObject className="videos-wrapper" key={x}

@@ -9,10 +9,14 @@ export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) 
     }
 
     const {year, event, langs, subjects, relation, emotions, foods, objects} = filters
+    const videoLangList = v.lang.split(',')
 
     if (
            v.year == year ||
-           _.includes(langs, v.lang) ||
+           _.includes(langs, videoLangList[0]) ||
+           _.includes(langs, videoLangList[1]) ||
+           _.includes(langs, videoLangList[2]) ||
+           _.includes(langs, videoLangList[3]) ||
 
            v.relation == relation ||
            v.event == event ||
@@ -38,3 +42,6 @@ export const formatDuration = (s) => {
     s = (s >= 10) ? s : "0" + s;
     return m + ":" + s;
 }
+
+export const hostingPath = (videoFileName) =>
+    `https://storage.googleapis.com/vidzthl.appspot.com/${videoFileName}.mp4`;

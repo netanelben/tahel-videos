@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import _ from 'lodash'
 import Video from 'react-video-renderer';
 import {ReactComponent as IcnPlay} from './play.svg'
 import {ReactComponent as IcnPause} from './pause.svg'
 import Annotation from './Annotation'
-import { formatDuration } from '../../utils'
+import { formatDuration, hostingPath } from '../../utils'
 import { LANG_TEXT, EVENT_TEXT } from '../../config'
 
 const Wrapper = styled.div`
@@ -44,6 +44,8 @@ const VideoWrapper = styled.div`
     width: 100%;
     height: 100%; // Fix the origin to be bottom-right
     position: relative;
+
+    outline: ${props => props.isHover && '1px solid #000'};
 `;
 
 const SmallVideoPreview = styled.div`
@@ -141,6 +143,10 @@ const PrevVideoButton = styled.button`
     left: 40px;
     bottom: 0;
     z-index: 1;
+
+    &:hover {
+        background-image: url('./assets/arrow-on.png');
+    }
 `;
 const NextVideoButton = styled.button`
     background: url('./assets/arrow-right.png') no-repeat center / 90%;
@@ -152,6 +158,10 @@ const NextVideoButton = styled.button`
     right: 40px;
     bottom: 0;
     z-index: 1;
+
+    &:hover {
+        background-image: url('./assets/arrow-on.png');
+    }
 `;
 
 const VideoText = styled.div`
@@ -230,8 +240,11 @@ export default function VideoPlayer({
     currentVideo = null, handlePreviousVideo, nextVideo, previewVideo,
     darkMode, setDarkMode
 }) {
-    const videoPath = `./videos/${_.get(currentVideo, 'videoFileName')}.mp4`
+    const videoPath = hostingPath(_.get(currentVideo, 'videoFileName'))
+
     const classNames = currentVideo === null ? '' : 'wide'
+
+    const [isHover, setIsHover] = useState(false)
 
     const navigate = (t, actions) => {
         actions.navigate(t.target.value)
@@ -254,7 +267,7 @@ export default function VideoPlayer({
                 ? <Video src={videoPath} autoPlay>
                     {(video, state, actions) => (
                         <InnerWrapper>
-                            <VideoWrapper>
+                            <VideoWrapper isHover={isHover}>
                                 {video}
                             </VideoWrapper>
 
@@ -283,8 +296,12 @@ export default function VideoPlayer({
                                 </ControlsWrapper>
                             </Controls>
 
-                            <PrevVideoButton onClick={handlePreviousVideo}/>
-                            <NextVideoButton onClick={nextVideo}/>
+                            <PrevVideoButton onClick={handlePreviousVideo}
+                                onMouseEnter={()=>setIsHover(true)}
+                                onMouseLeave={()=>setIsHover(false)}/>
+                            <NextVideoButton onClick={nextVideo}
+                                onMouseEnter={()=>setIsHover(true)}
+                                onMouseLeave={()=>setIsHover(false)}/>
 
                         </InnerWrapper>
                     )}
@@ -293,7 +310,7 @@ export default function VideoPlayer({
                 :
                 <SmallVideoPreview>
                     <div className="plus-sign"/>
-                    <Video src={`./videos/${previewVideo && previewVideo.videoFileName}.mp4`}>
+                    <Video src={previewVideo && hostingPath(previewVideo.videoFileName)}>
                         {(video) => (
                             <div id="preview-video">{video}</div>
                         )}
