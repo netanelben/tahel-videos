@@ -55,15 +55,16 @@ const VideoWrapper = styled.div`
 const SmallVideoPreview = styled.div`
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: #fff;
     box-sizing: border-box;
     position: relative;
 
     .plus-sign {
         display: block;
-        width: 22px;
-        height: 22px;
-        margin: -10px;
+        background: url('./assets/plus-sign.svg') no-repeat center / contain;
+        width: 33px;
+        height: 33px;
+        margin: -16px;
     }
 `;
 
@@ -314,11 +315,12 @@ export default function VideoPlayer({
                 :
                 <SmallVideoPreview>
                     <div className="plus-sign"/>
-                    <Video src={previewVideo && hostingPath(previewVideo.videoFileName)}>
-                        {(video) => (
-                            <div id="preview-video">{video}</div>
-                        )}
-                    </Video>
+                    {previewVideo &&
+                        <Video src={hostingPath(previewVideo.videoFileName)}>
+                            {(video) => (
+                                <div id="preview-video">{video}</div>
+                            )}
+                        </Video>}
                 </SmallVideoPreview>
                 }
 

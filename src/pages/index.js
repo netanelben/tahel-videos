@@ -130,10 +130,15 @@ const VideoObject = styled.div`
 `;
 
 const SidePanel = styled.div`
-  flex: 1 0 370px;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
+    flex: 1 0 370px;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: ${props => props.isBgAlt && '#fff'};
+
+    &.bg-white {
+        background-color: #fff;
+    }
 `;
 
 const Logo = styled.div`
@@ -395,14 +400,18 @@ export default function MainPage() {
         }
     }
     const handleMouseLeave = () => {
-        setPreviewVideo(null)
+        setTimeout(() => {
+            const vidCont = document.querySelector('#preview-video')
+            vidCont && vidCont.children && vidCont.children[0].pause()
+            setPreviewVideo(null)
+        }, 500)
     }
 
     return (
         <>
             <Wrapper className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
 
-                <GridLayout className={gridClassNames} onClick={ tinyGridClick } darkMode={darkMode}>
+                <GridLayout className={gridClassNames} onClick={tinyGridClick} darkMode={darkMode}>
                     {items.map((x) => {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
@@ -441,7 +450,7 @@ export default function MainPage() {
                     </VideoHeader>
                 }
 
-                {!currentVideo && <SidePanel>
+                {!currentVideo && <SidePanel isBgAlt={!shouldShowDesc}>
                     <Logo/>
 
                     {_.isEmpty(currentVideo) && shouldShowDesc
