@@ -140,9 +140,9 @@ video {
 
 .arrow-sign {
     display: none;
-    width: 17px;
-    height: 17px;
-    background-image: url('./arrow-tiny.svg');
+    width: 20px;
+    height: 20px;
+    /* background-image: url('./arrow-tiny.svg'); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -154,16 +154,16 @@ video {
 }
 .plus-sign {
     display: none;
-    width: 17px;
-    height: 17px;
-    background-image: url('./plus-sign.svg');
+    width: 22px;
+    height: 22px;
+    /* background-image: url('./plus-sign.svg'); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     position: absolute;
     top:0;
     left:0;
-    margin: -8px;
+    margin: -10px;
     z-index: 1123;
 }
 

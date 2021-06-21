@@ -31,16 +31,11 @@ const GridLayout = styled.div`
     display: flex;
     flex-flow: row wrap;
     place-content: flex-start;
-
-    /* display: grid;
-    grid-gap: 4px;
-    grid-template-columns: repeat(12, 0fr);
-    grid-template-rows: repeat(auto-fit, auto-fit);
-    width: 100%; */
-
+    width: 100%;
     position: relative;
     z-index: 2;
-    overflow: hidden;
+
+    opacity: ${props => props.darkMode && '0.1'};
 
     &.tiny {
         width: 20%;
@@ -48,52 +43,57 @@ const GridLayout = styled.div`
         min-height: 100%;
         transition: .400s ease-in-out all;
         background: #F7F2E6;
-        /* justify-content: center; */
         cursor: pointer;
 
-        .videos-wrapper {
-            width: 20px;
-            height: 20px;
-            flex: 1 0 20px;
-            flex-grow: 0;
-            margin: 1px;
+        &:hover {
+            outline: 1px solid #000;
+            transition: .3s ease all;
+        }
 
-            video {
-                visibility: hidden;
+        .videos-wrapper {
+            width: 8.33333333333%;
+            flex: 0 0 8.33333333333%;
+            height: 14.2857142857%;
+            flex-grow: 0;
+
+            &>div {
+                border: 1px solid #F7F2E6;
             }
         }
 
-        .plus-sign {
+        .arrow-sign {
             display: block;
+            background-image: url('./assets/plus-sign.svg');
+            right: -12px;
+            bottom: -12px;
         }
 
         &:hover {
-            outline: 1px solid #fff;
-
-            .plus-sign {
-                display: none;
-            }
             .arrow-sign {
                 display: block;
+                background-image: url('./assets/arrow-tiny.svg');
+                right: 0;
+                bottom: 0;
             }
         }
+    }
+
+    &:not(.tiny) {
+        overflow: hidden;
     }
 `;
 
 const VideoPlaceholder = styled.div`
-    width: 7.14285714286%;
+    width: 8.33333333333%;
+    flex: 0 0 8.33333333333%;
     height: 14.2857142857%;
-    flex: 0 0 7.14285714286%;
-    /* margin: 4px; */
 `;
 
 const VideoObject = styled.div`
     background-color: ${props => props.isSelected ? '#f7f2e6' : '#fff'};
-    outline: ${props => props.isSelected && '1px solid #000'};
-    width: 7.14285714286%;
+    width: 8.33333333333%;
+    flex: 0 0 8.33333333333%;
     height: 14.2857142857%;
-    flex: 0 0 7.14285714286%;
-    /* margin: 4px; */
     cursor: pointer;
 
     &>div {
@@ -101,6 +101,7 @@ const VideoObject = styled.div`
         width: 100%;
         padding: 3px;
         box-sizing: border-box;
+        border: ${props => props.isSelected && '1px solid #000'};
     }
 
     video {
@@ -110,9 +111,10 @@ const VideoObject = styled.div`
 `;
 
 const SidePanel = styled.div`
-  flex: 1 0 300px;
+  flex: 1 0 370px;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
 `;
 
 const Logo = styled.div`
@@ -134,13 +136,18 @@ const DescPar = styled.p`
     text-align: right;
     font-size: 18px;
     line-height: 28px;
-    padding: 20px;
+    padding: 20px 30px;
     direction: rtl;
+    max-width: 200px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
 `;
 
 const BottomPanel = styled.div`
     background: #DEC9943D;
-    width: calc(100% - 300px);
+    width: calc(100% - 370px);
     display: inline-block;
 `;
 
@@ -150,6 +157,7 @@ const Filters = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     flex-direction: row-reverse;
+    margin-top: ${props => props.bottom && '-10px'};
 `;
 
 export const Filter = styled.div`
@@ -161,9 +169,9 @@ export const Filter = styled.div`
     padding: 0 18px 0 3px;
     text-align: right;
     border-left: 1px solid #000;
-    border-bottom: 1px solid #000;
     position: relative;
     overflow: hidden;
+    border-bottom: ${props => !props.noBorder && '1px solid #000'};
 
     &:last-of-type {
         border-left: 0;
@@ -172,7 +180,13 @@ export const Filter = styled.div`
     label {
         margin-left: 6px;
         font-weight: 700;
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    &:not(.langs) {
+        .icn {
+            background-size: 115%;
+        }
     }
 
     &.langs {
@@ -203,6 +217,8 @@ const VideoHeader = styled.div`
     align-items: center;
     direction: rtl;
     padding: 0 20px;
+
+    opacity: ${props => props.darkMode && '0.1'};
 
     .title {
         font-weight: bold;
@@ -250,6 +266,8 @@ export default function MainPage() {
     const [currentVideoIdx, setCurrentVideoIdx] = useState(null);
     const [currentVideo, setCurrentVideo] = useState(null);
     const [previewVideo, setPreviewVideo] = useState(null);
+
+    const [darkMode, setDarkMode] = useState(false);
 
     const shouldFilter = year !== null || relation !== null || event !== null || !_.isEmpty(langs || foods || subjects || emotions || objects);
     const filters = {year, event, langs, subjects, relation, emotions, foods, objects}
@@ -372,7 +390,7 @@ export default function MainPage() {
         <>
             <Wrapper className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
 
-                <GridLayout className={gridClassNames} onClick={ tinyGridClick }>
+                <GridLayout className={gridClassNames} onClick={ tinyGridClick } darkMode={darkMode}>
                     {items.map((x) => {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
@@ -382,32 +400,32 @@ export default function MainPage() {
                             return (
                                 <VideoObject className="videos-wrapper" key={x}
                                     isSelected={currentVideoIdx === x}
-                                    onClick={() => { setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
+                                    onClick={() => { if(currentVideo)return; setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
                                     <div>
+                                        {!currentVideo &&
                                         <video controls={false} width="100%" height="100%"
                                             onMouseEnter={()=>handleMouseEnter(x)}
                                             onMouseLeave={()=>handleMouseLeave(x)}
                                             autoPlay={filteredVideos[x].isAutoPlay}
                                             >
                                             <source src={videoPath} type="video/mp4"/>
-                                        </video>
+                                        </video>}
                                     </div>
                                 </VideoObject>
                             )
                         }
 
                         return (
-                            <VideoPlaceholder className="videos-wrapper" key={x}/>
+                            <VideoPlaceholder className="videos-wrapper" key={x}><div/></VideoPlaceholder>
                         )
                     })}
 
-                    {/* <div className="plus-sign"/> */}
                     <div className="arrow-sign"/>
 
                 </GridLayout>
 
                 {currentVideo &&
-                    <VideoHeader>
+                    <VideoHeader darkMode={darkMode}>
                         <Logo className="float-right"/>
                         <div className="title">{currentVideo.videoName}</div>
                     </VideoHeader>
@@ -469,8 +487,8 @@ export default function MainPage() {
 
                     </Filters>
 
-                    <Filters>
-                        <Filter>
+                    <Filters bottom>
+                        <Filter noBorder>
                             <ToggleBtn name="other" onClick={setEvent} current={event} icon="event-other"/>
                             <ToggleBtn name="friday" onClick={setEvent} current={event} icon="friday"/>
                             <ToggleBtn name="holiday" onClick={setEvent} current={event} icon="holiday"/>
@@ -479,7 +497,7 @@ export default function MainPage() {
                             <label>אירוע</label>
                         </Filter>
 
-                        <Filter>
+                        <Filter noBorder>
                             <ToggleBtn name="photography" onClick={handleSubjectFilter} current={subjects} icon="photography"/>
                             <ToggleBtn name="politiks" onClick={handleSubjectFilter} current={subjects} icon="politiks"/>
                             <ToggleBtn name="text" onClick={handleSubjectFilter} current={subjects} icon="text"/>
@@ -488,7 +506,7 @@ export default function MainPage() {
                             <label>נושא שיחה</label>
                         </Filter>
 
-                        <Filter>
+                        <Filter noBorder>
                             <ToggleBtn name="calm" onClick={handleEmotionFilter} current={emotions} icon="calm"/>
                             <ToggleBtn name="laugh" onClick={handleEmotionFilter} current={emotions} icon="laugh"/>
                             <ToggleBtn name="embarasment" onClick={handleEmotionFilter} current={emotions} icon="embarasment"/>
@@ -497,7 +515,7 @@ export default function MainPage() {
                             <label>רגש</label>
                         </Filter>
 
-                        <Filter>
+                        <Filter noBorder>
                             <ToggleBtn name="communication" onClick={handleObjectFilter} current={objects} icon="communication"/>
                             <ToggleBtn name="light" onClick={handleObjectFilter} current={objects} icon="light"/>
                             <ToggleBtn name="art" onClick={handleObjectFilter} current={objects} icon="art"/>
@@ -512,7 +530,8 @@ export default function MainPage() {
                 <VideoPlayer currentVideo={currentVideo}
                     previewVideo={previewVideo}
                     handlePreviousVideo={handlePreviousVideo}
-                    nextVideo={handleNextVideo} filters={filters}/>
+                    nextVideo={handleNextVideo} filters={filters}
+                    darkMode={darkMode} setDarkMode={setDarkMode}/>
             </div>
         </>
     )

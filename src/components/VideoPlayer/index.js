@@ -10,7 +10,7 @@ import { LANG_TEXT, EVENT_TEXT } from '../../config'
 
 const Wrapper = styled.div`
     background-color: white;
-    width: 300px;
+    width: 370px;
     margin-left: auto;
     display: flex;
     justify-content: space-between;
@@ -76,7 +76,7 @@ const ControlsWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 70%;
+    max-width: 85%;
     margin: auto;
 `;
 
@@ -122,6 +122,8 @@ const SidePanel = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    opacity: ${props => props.darkMode && '0.1'};
 `;
 
 const ProgBarWrapper = styled.div`
@@ -203,7 +205,31 @@ const MuteButton = styled.div`
     top: -2px;
 `;
 
-export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, nextVideo, filters, previewVideo }) {
+const DarkModeButton = styled.div`
+    width: 33px;
+    height: 27px;
+    margin-right: 30px;
+    position: relative;
+    top: -2px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    &:hover {
+        background-image: url('./assets/dark mode-hover.png');
+    }
+
+    background-image: ${props => props.darkMode
+        ? "url('./assets/dark mode-on.png')"
+        : "url('./assets/dark mode-off.png')"
+    };
+`;
+
+export default function VideoPlayer({
+    currentVideo = null, handlePreviousVideo, nextVideo, previewVideo,
+    darkMode, setDarkMode
+}) {
     const videoPath = `./videos/${_.get(currentVideo, 'videoFileName')}.mp4`
     const classNames = currentVideo === null ? '' : 'wide'
 
@@ -225,16 +251,17 @@ export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, 
         <Wrapper className={classNames} id="video-main-wrapper">
 
             {currentVideo
-                ? <Video src={videoPath}>
+                ? <Video src={videoPath} autoPlay>
                     {(video, state, actions) => (
                         <InnerWrapper>
                             <VideoWrapper>
-                                {/* <div className="plus-sign"/> */}
                                 {video}
                             </VideoWrapper>
 
                             <Controls>
                                 <ControlsWrapper>
+                                    <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}/>
+
                                     <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)}>
                                         {state.status === 'playing'
                                             ? <IcnPause/>
@@ -275,7 +302,7 @@ export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, 
                 }
 
                 {currentVideo &&
-                    <SidePanel>
+                    <SidePanel darkMode={darkMode}>
                         <VideoText bold>
                             {currentVideo.videoDesc}
                         </VideoText>
@@ -325,7 +352,7 @@ export default function VideoPlayer({ currentVideo = null, handlePreviousVideo, 
                             <span>{currentVideo.year}</span>
                             <span>
                                 {EVENT_TEXT[currentVideo.event]}
-                                <div className={`icn icn-home-${currentVideo.event}`}/>
+                                <div className={`icn icn-home-${currentVideo.event} no-hover`}/>
                             </span>
                             <span>{LANG_TEXT[currentVideo.lang.split(',')[0]]}</span>
                         </Filters>

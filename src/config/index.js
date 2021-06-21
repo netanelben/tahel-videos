@@ -2,7 +2,6 @@ import videosStubData from './videos'
 export {videosStubData};
 
 export const APP_SIDEPANEL_TEXT = `
-    טקסט פתיח:
     ספריה המציגה את החברה
     הישראלית דרך סרטי וידאו
     ביתיים של ארוחות משפחתיות.<br/><br/>
@@ -14,7 +13,7 @@ export const APP_SIDEPANEL_TEXT = `
     בנקודות ההשקה ובשוני.
 `
 
-export const VIDEOS_AMOUNT = 14 * 7
+export const VIDEOS_AMOUNT = 12 * 7
 
 export const START_YEAR = 2000;
 export const END_YEAR = 2021;

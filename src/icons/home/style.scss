@@ -38,44 +38,54 @@
 .icn-home-bbq {
     background-image: url('./event/bbq.png');
 
-    &.on, &:hover {
-        background-image: url('./event/bbq-on.png');
+    &:not(.no-hover) {
+        &.on, &:hover {
+            background-image: url('./event/bbq-on.png');
+        }
     }
 }
 .icn-home-bday {
     background-image: url('./event/bday.png');
 
-    &.on, &:hover {
-        background-image: url('./event/bday-on.png');
+    &:not(.no-hover) {
+        &.on, &:hover {
+            background-image: url('./event/bday-on.png');
+        }
     }
 }
 .icn-home-friday {
     background-image: url('./event/friday.png');
 
-    &.on, &:hover {
-        background-image: url('./event/friday-on.png');
+    &:not(.no-hover) {
+        &.on, &:hover {
+            background-image: url('./event/friday-on.png');
+        }
     }
 }
 .icn-home-holiday {
     background-image: url('./event/holiday.png');
 
-    &.on, &:hover {
-        background-image: url('./event/holiday-on.png');
+    &:not(.no-hover) {
+        &.on, &:hover {
+            background-image: url('./event/holiday-on.png');
+        }
     }
 }
 .icn-home-event-other {
     background-image: url('./event/other.png');
 
-    &.on, &:hover {
-        background-image: url('./event/other-on.png');
+    &:not(.no-hover) {
+        &.on, &:hover {
+            background-image: url('./event/other-on.png');
+        }
     }
 }
 // Food and drinks
 .icn-home-alcohol {
-    background-image: url('./foodanddrinks/alcohol.png');
+    background-image: url('./foodanddrinks/alcohol.svg');
 
     &.on, &:hover {
-        background-image: url('./foodanddrinks/alcohol-on.png');
+        background-image: url('./foodanddrinks/alcohol-on.svg');
     }
 }
 .icn-home-ashkenazi {

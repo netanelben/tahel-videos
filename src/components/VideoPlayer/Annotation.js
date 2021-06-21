@@ -20,9 +20,9 @@ const Anot = styled.div`
 
     .anot-icon {
         display: block;
-        width: 60px;
-        height: 60px;
-        margin: -70px -28px;
+        width: 80px;
+        height: 80px;
+        margin: -85px -37px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
