@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import _ from 'lodash';
 import styled from 'styled-components';
 import Slider from 'rc-slider';
@@ -147,6 +147,20 @@ const SidePanel = styled.div`
     }
 `;
 
+const IntroLogo = styled.div`
+    width: 100%;
+    height: 150px;
+    background-image: url('./assets/logo.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    z-index: 22212312312;
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 20px 30px;
+`;
+
 const Logo = styled.div`
     width: 100%;
     height: 150px;
@@ -266,6 +280,8 @@ export const relationSliderMarks = {
 export default function MainPage() {
     const items = Array.apply(null, Array(VIDEOS_AMOUNT)).map(function (x, i) { return i; })
 
+    const [appStage, setAppStage] = useState(1);
+
     const [year, setYear] = useState(null);
     const [relation, setRelation] = useState(null);
     const [events, setEvent] = useState(null);
@@ -358,7 +374,7 @@ export default function MainPage() {
 
     const filteredVideos = shouldFilter ? filterVideos(videosStubData, filters) : filterVideos(videosStubData, filters, true)
 
-    const wrapperClassname = currentVideo !== null ? 'bg-white' : 'bg-beige'
+    const wrapperClassname = `appstage-${appStage}`
     const gridClassNames = currentVideo === null ? '' : 'tiny'
 
     const handlePreviousVideo = () => {
@@ -411,9 +427,16 @@ export default function MainPage() {
         setPreviewVideo(null)
     }
 
+    const handleIntroClicks = () => {
+        if (appStage === 3) return;
+        setAppStage(appStage + 1)
+    }
+
     return (
         <>
-            <Wrapper className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
+            {appStage < 3 && <IntroLogo/>}
+            <Wrapper onClick={handleIntroClicks}
+                className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
 
                 <GridLayout className={gridClassNames} onClick={tinyGridClick} darkMode={darkMode} id="videos-grid">
                     {items.map((x) => {
@@ -562,3 +585,5 @@ export default function MainPage() {
         </>
     )
 }
+
+window.appStage = 1;

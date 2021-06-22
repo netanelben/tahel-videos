@@ -15,12 +15,19 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     direction: rtl;
-    transition: .300s ease all;
+    transition: .3s ease all;
     transform-origin: bottom right;
+    height: 20%;
+    position: absolute;
+    right:0;
+    bottom: 0;
+    z-index:2;
 
     &.wide {
+        height: 80%;
         max-height: 100vh;
         width: 100%;
+        z-index:1;
 
         >div:first-of-type {
             flex: 1 0 80%;
@@ -133,6 +140,10 @@ const SidePanel = styled.div`
     justify-content: flex-start;
     position: relative;
     opacity: ${props => props.darkMode && '0.1'};
+    /* position: fixed;
+    left: 0;
+    max-width: 20%;
+    z-index:1; */
 
     p {
         max-height: 60px;
