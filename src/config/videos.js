@@ -1344,7 +1344,7 @@ const videos = [
 ]
 
 // REMOVE when PROD
-const videosStubData = [videos[0], videos[1], videos[3]]
-// const videosStubData = videos
+// const videosStubData = [videos[0], videos[1], videos[3]]
+const videosStubData = videos
 
 export default videosStubData

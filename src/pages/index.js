@@ -23,18 +23,19 @@ const Wrapper = styled.div`
   }
 
   &.bg-beige {
-    background: #DEC9943D;
+    background: #F7F2E6;
   }
 `;
 
 const GridLayout = styled.div`
-    background: #DEC9943D;
+    background: #F7F2E6;
     display: flex;
     flex-flow: row wrap;
     place-content: flex-start;
     width: 100%;
     position: relative;
     z-index: 2;
+    padding: 2px;
 
     opacity: ${props => props.darkMode && '0.1'};
 
@@ -67,8 +68,8 @@ const GridLayout = styled.div`
             background-image: url('./assets/plus-sign.svg');
             width: 33px;
             height: 33px;
-            right: -19px;
-            bottom: -19px;
+            right: -15px;
+            bottom: -15px;
         }
 
         &:hover {
@@ -89,9 +90,14 @@ const GridLayout = styled.div`
         .videos-wrapper {
             background-color: #f7f2e6;
 
+            .inner {
+                width: 100%;
+                height: 100%;
+            }
+
             &:hover {
-                &>div {
-                    border: 1px solid #000;
+                .inner {
+                    box-shadow: inset 0px 0px 0px 1px #000;
                 }
 
                 video {
@@ -110,6 +116,7 @@ const VideoPlaceholder = styled.div`
 
 const VideoObject = styled.div`
     background-color: ${props => props.isSelected ? '#f7f2e6' : '#fff'};
+    box-shadow: ${props => props.isSelected && 'inset 0px 0px 0px 2px #000'};
     width: 8.33333333333%;
     flex: 0 0 8.33333333333%;
     height: 14.2857142857%;
@@ -120,7 +127,6 @@ const VideoObject = styled.div`
         width: 100%;
         padding: 4px;
         box-sizing: border-box;
-        border: ${props => props.isSelected && '1px solid #000'};
     }
 
     video {
@@ -148,6 +154,7 @@ const Logo = styled.div`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    cursor: pointer;
 
     &.float-right {
         float: right;
@@ -170,7 +177,7 @@ const DescPar = styled.p`
 `;
 
 const BottomPanel = styled.div`
-    background: #DEC9943D;
+    background: #F7F2E6;
     width: calc(100% - 370px);
     display: inline-block;
 `;
@@ -390,28 +397,25 @@ export default function MainPage() {
         setShouldShowDesc(false)
         setPreviewVideo(filteredVideos[videoIdx])
 
-        try {
-            setTimeout(() => {
-                const vidCont = document.querySelector('#preview-video')
-                vidCont && vidCont.children && vidCont.children[0].play()
-            }, 500)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    const handleMouseLeave = () => {
         setTimeout(() => {
             const vidCont = document.querySelector('#preview-video')
-            vidCont && vidCont.children && vidCont.children[0].pause()
-            setPreviewVideo(null)
+            const vidElm = vidCont && vidCont.children && vidCont.children[0];
+
+            if (vidElm) {
+                vidElm.muted = true
+                vidElm.play()
+            }
         }, 500)
+    }
+    const handleMouseLeave = () => {
+        setPreviewVideo(null)
     }
 
     return (
         <>
             <Wrapper className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
 
-                <GridLayout className={gridClassNames} onClick={tinyGridClick} darkMode={darkMode}>
+                <GridLayout className={gridClassNames} onClick={tinyGridClick} darkMode={darkMode} id="videos-grid">
                     {items.map((x) => {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
@@ -425,10 +429,12 @@ export default function MainPage() {
                                     onMouseLeave={()=>handleMouseLeave(x)}
                                     onClick={() => { if(currentVideo)return; setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
                                     <div>
-                                        {!currentVideo &&
-                                        <video controls={false} width="100%" height="100%" autoPlay={filteredVideos[x].isAutoPlay}>
-                                            <source src={videoPath} type="video/mp4"/>
-                                        </video>}
+                                        <div className="inner">
+                                            {!currentVideo &&
+                                            <video controls={false} width="100%" height="100%" autoPlay={filteredVideos[x].isAutoPlay} muted>
+                                                <source src={videoPath} type="video/mp4"/>
+                                            </video>}
+                                        </div>
                                     </div>
                                 </VideoObject>
                             )
@@ -445,7 +451,7 @@ export default function MainPage() {
 
                 {currentVideo &&
                     <VideoHeader darkMode={darkMode}>
-                        <Logo className="float-right"/>
+                        <Logo className="float-right" onClick={()=>window.location.href = '/'}/>
                         <div className="title">{currentVideo.videoName}</div>
                     </VideoHeader>
                 }
@@ -508,7 +514,7 @@ export default function MainPage() {
 
                     <Filters bottom>
                         <Filter noBorder>
-                            <ToggleBtn name="other" onClick={handleEventFilter} current={events} icon="event-other"/>
+                            <ToggleBtn name="other" onClick={handleEventFilter} current={events} icon="other"/>
                             <ToggleBtn name="friday" onClick={handleEventFilter} current={events} icon="friday"/>
                             <ToggleBtn name="holiday" onClick={handleEventFilter} current={events} icon="holiday"/>
                             <ToggleBtn name="bbq" onClick={handleEventFilter} current={events} icon="bbq"/>
@@ -550,7 +556,8 @@ export default function MainPage() {
                     previewVideo={previewVideo}
                     previousVideo={handlePreviousVideo}
                     nextVideo={handleNextVideo} filters={filters}
-                    darkMode={darkMode} setDarkMode={setDarkMode}/>
+                    darkMode={darkMode} setDarkMode={setDarkMode}
+                    />
             </div>
         </>
     )

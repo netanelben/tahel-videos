@@ -16,6 +16,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     direction: rtl;
     transition: .300s ease all;
+    transform-origin: bottom right;
 
     &.wide {
         max-height: 100vh;
@@ -73,7 +74,7 @@ const Controls = styled.div`
     height: 70px;
     position: absolute;
     left: 0;
-    bottom: 20px;
+    bottom: 8px;
     z-index: 1;
     direction: ltr;
 `;
@@ -94,20 +95,21 @@ const ProgBar = styled.input`
     border-color: #000;
     background-color: #000;
     position: relative;
-    z-index: 9;
+    z-index: 0;
+    opacity: 0.5;
 `;
 
 const Timing = styled.div`
     width: 55px;
     text-align: center;
-  margin-left: 30px;
-  font-weight: bold;
+    margin-left: 20px;
+    font-weight: bold;
 `;
 
 const PlayPauseBtn = styled.div`
     width: 35px;
     height: 35px;
-    margin-right: 30px;
+    margin-right: 15px;
     cursor: pointer;
 
     svg {
@@ -128,9 +130,15 @@ const SidePanel = styled.div`
     padding: 16px 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-
+    justify-content: flex-start;
+    position: relative;
     opacity: ${props => props.darkMode && '0.1'};
+
+    p {
+        max-height: 60px;
+        overflow: hidden;
+        font-size: 17px;
+    }
 `;
 
 const ProgBarWrapper = styled.div`
@@ -172,9 +180,31 @@ const NextVideoButton = styled.button`
 const VideoText = styled.div`
     font-size: 18px;
     line-height: 28px;
-    padding: 20px 30px 20px 50px;
+    padding: 20px 30px 0 30px;
     display: block;
+    max-height: 110px;
+    overflow: hidden;
+    margin-bottom: 40px;
     font-weight: ${props => props.bold && 'bold'};
+`;
+
+const InfoText = styled.div`
+    font-size: 18px;
+    line-height: 28px;
+    padding: 20px 30px 0 30px;
+    display: block;
+`;
+
+const BottomText = styled.div`
+    font-size: 18px;
+    line-height: 28px;
+    padding: 50px 30px 20px 30px;
+    display: block;
+
+    li {
+        font-size: 17px;
+        line-height: 26px;
+    }
 `;
 
 const SmallTitle = styled.div`
@@ -193,20 +223,43 @@ const SmallTitle = styled.div`
 `;
 
 const Filters = styled.div`
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 28px;
+    position: absolute;
+    bottom: 6px;
+    right: 0;
+    width: 100%;
+    z-index: 1;
+
+    >div {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        max-width: 75%;
+        margin: 0 auto;
+    }
 
     span {
-        font-size: 18px;
+        font-size: 16px;
         line-height: 28px;
+        &.event {
+            text-align: center;
+        }
     }
 
     .icn {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
         margin-top: 10px;
+    }
+
+    .year-line {
+        width: 100%;
+        height: 26px;
+        >div {
+            width: 3px;
+            height: 100%;
+            background-color: #000;
+            margin: 15px auto 0;
+        }
     }
 `;
 
@@ -214,7 +267,7 @@ const MuteButton = styled.div`
     background: url('./assets/mute.svg') no-repeat center / contain;
     width: 45px;
     height: 40px;
-    margin-right: 30px;
+    margin-right: 20px;
     cursor: pointer;
     position: relative;
     top: -2px;
@@ -293,7 +346,9 @@ export default function VideoPlayer({
                                             min="0" value={state.currentTime} max={state.duration}
                                             onChange={(t) => navigate(t, actions)}/>
 
-                                        <Annotation duration={state.duration} videoData={currentVideo} navigate={actions.navigate}/>
+                                        <Annotation duration={state.duration}
+                                            shouldInvertIcons={currentVideo.isCrop}
+                                            videoData={currentVideo} navigate={actions.navigate}/>
                                     </ProgBarWrapper>
 
                                     <Timing>{formatDuration(state.currentTime)}</Timing>
@@ -330,23 +385,23 @@ export default function VideoPlayer({
                             {currentVideo.videoDesc}
                         </VideoText>
 
-                        <VideoText>
+                        <InfoText>
                             <SmallTitle>
                                 <img src="./assets/dot 1.png"/>
                                 יחסי הורים וילדים
                             </SmallTitle>
-                            {currentVideo.childrenAndParents}
-                        </VideoText>
+                            <p>{currentVideo.childrenAndParents}</p>
+                        </InfoText>
 
-                        <VideoText>
+                        <InfoText>
                             <SmallTitle>
                                 <img src="./assets/dot 2.png"/>
                                 יחסי גברים נשים
                             </SmallTitle>
-                            {currentVideo.menAndWomen}
-                        </VideoText>
+                            <p>{currentVideo.menAndWomen}</p>
+                        </InfoText>
 
-                        <VideoText>
+                        <BottomText>
                             <SmallTitle>
                                 <img src="./assets/v.png"/>
                                 נתוני יוטיוב
@@ -369,15 +424,20 @@ export default function VideoPlayer({
                                     {infoList[3].split('-')[1]}
                                 </li>
                             </ul>
-                        </VideoText>
+                        </BottomText>
 
                         <Filters>
-                            <span>{currentVideo.year}</span>
+                            <div>
                             <span>
+                                {currentVideo.year}
+                                <div className="year-line"><div/></div>
+                            </span>
+                            <span className="event">
                                 {EVENT_TEXT[currentVideo.event]}
-                                <div className={`icn icn-home-${currentVideo.event} no-hover`}/>
+                                <div className={`icn icn-home-${currentVideo.event} no-hover side-panel-icn`}/>
                             </span>
                             <span>{LANG_TEXT[currentVideo.lang.split(',')[0]]}</span>
+                            </div>
                         </Filters>
 
                     </SidePanel>}

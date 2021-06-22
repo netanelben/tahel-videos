@@ -11,12 +11,14 @@ const Wrapper = styled.div`
 
 const Anot = styled.div`
     display: block;
-    height: 30px;
+    height: 26px;
     width: 3px;
     background-color: #fff;
     position: absolute;
+    top: 1px;
     left: ${props => props.left && `${props.left}%`};
     cursor: pointer;
+    filter: ${props => props.invert && 'invert(1)'};
 
     .anot-icon {
         display: block;
@@ -31,7 +33,7 @@ const Anot = styled.div`
 
 const convertTimestamp = (time, duration) => (time * 100) / duration;
 
-export default function Annotation({ videoData, duration, navigate }) {
+export default function Annotation({ videoData, duration, navigate, shouldInvertIcons }) {
     const { emotions, objects, subjects, foodAndDrink } = videoData;
     const emotionList = emotions ? emotions.split(',') : []
     const objectList = objects ? objects.split(',') : []
@@ -54,7 +56,7 @@ export default function Annotation({ videoData, duration, navigate }) {
                 const offset = convertTimestamp(second, duration)
 
                 return (
-                    <Anot left={offset} key={key} onClick={() => navigate(second)}>
+                    <Anot left={offset} key={key} onClick={() => navigate(second)} invert={shouldInvertIcons}>
                         <div className={`anot-icon icn-timeline-${icon}`}/>
                     </Anot>
                 )
