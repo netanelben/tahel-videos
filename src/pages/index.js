@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import Slider from 'rc-slider';
 import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
@@ -169,7 +169,7 @@ const Logo = styled.div`
     background-position: center;
     background-size: contain;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 25px;
 
     &.float-right {
         float: right;
@@ -254,14 +254,9 @@ const VideoHeader = styled.div`
     align-items: center;
     direction: rtl;
     padding: 0 20px;
-
+    position: relative;
+    width: 70%;
     opacity: ${props => props.darkMode && '0.1'};
-
-    .title {
-        font-weight: bold;
-        font-size: 44px;
-        line-height: 140%;
-    }
 
     .desc {
         max-width: 300px;
@@ -271,9 +266,39 @@ const VideoHeader = styled.div`
 `;
 
 const TitlesWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
     position: absolute;
     right: 370px;
     z-index: 1;
+
+    ${props => props.single ?
+        css`
+            position: absolute;
+            right: 370px;
+            bottom: 86px;
+            z-index: 1;
+        `:css`
+            position: absolute;
+            right: 370px;
+            bottom: 63px;
+            z-index: 1;
+        `
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 44px;
+        line-height: 100%;
+    }
+
+    .sub-title {
+        font-size: 22px;
+        line-height: 100%;
+        margin-top: 12px;
+    }
 `;
 
 export const relationSliderMarks = {
@@ -563,10 +588,17 @@ export default function MainPage({ isIpadView }) {
                 {currentVideo &&
                     <VideoHeader darkMode={darkMode}>
                         <Logo className="float-right" onClick={()=>window.location.href = '/'}/>
+
+                        {currentVideo.videoSubTitle ?
                         <TitlesWrapper>
                             <div className="title">{currentVideo.videoName}</div>
                             <div className="sub-title">{currentVideo.videoSubTitle}</div>
                         </TitlesWrapper>
+                        :
+                        <TitlesWrapper single>
+                            <div className="title">{currentVideo.videoName}</div>
+                        </TitlesWrapper>
+                        }
                     </VideoHeader>
                 }
 

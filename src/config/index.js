@@ -27,7 +27,7 @@ export const LANG_TEXT = {
 
 export const EVENT_TEXT = {
     'bday': 'יום הולדת',
-    'bbq': 'יום הולדת',
+    'bbq': 'על האש',
     'friday': 'שישי',
     'holiday': 'חג',
     'other': 'אחר',

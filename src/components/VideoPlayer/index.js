@@ -230,47 +230,6 @@ const SmallTitle = styled.div`
     }
 `;
 
-const Filters = styled.div`
-    position: absolute;
-    bottom: 6px;
-    right: 0;
-    width: 100%;
-    z-index: 1;
-
-    >div {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        max-width: 75%;
-        margin: 0 auto;
-    }
-
-    span {
-        font-size: 16px;
-        line-height: 28px;
-        &.event {
-            text-align: center;
-        }
-    }
-
-    .icn {
-        width: 70px;
-        height: 70px;
-        margin-top: 10px;
-    }
-
-    .year-line {
-        width: 100%;
-        height: 26px;
-        >div {
-            width: 3px;
-            height: 100%;
-            background-color: #000;
-            margin: 15px auto 0;
-        }
-    }
-`;
-
 const MuteButton = styled.div`
     background: url('./assets/mute.svg') no-repeat center / contain;
     width: 45px;
@@ -300,6 +259,58 @@ const DarkModeButton = styled.div`
         ? "url('./assets/dark mode-on.png')"
         : "url('./assets/dark mode-off.png')"
     };
+`;
+
+const Filters = styled.div`
+    position: absolute;
+    bottom: 41px;
+    right: 0;
+    width: 100%;
+    z-index: 1;
+
+    >div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
+
+    .bottom {
+        position: relative;
+
+        &>div {
+            flex: 1 0 33%;
+        }
+    }
+
+    .titles {
+        font-size: 16px;
+        line-height: 28px;
+        text-align: center;
+        flex: 1 0 33%;
+    }
+
+    .icn {
+        width: 60px;
+        height: 60px;
+        margin-top: 20px;
+        background-position: center;
+    }
+
+    .year-line {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        >div {
+            width: 3px;
+            height: 26px;
+            background-color: #000;
+            margin: 0 auto -6px;
+        }
+    }
 `;
 
 export default function VideoPlayer({
@@ -440,15 +451,15 @@ export default function VideoPlayer({
 
                         <Filters>
                             <div>
-                            <span>
-                                {currentVideo.year}
+                                <div className="titles">{currentVideo.year}</div>
+                                <div className="titles">{EVENT_TEXT[currentVideo.event]}</div>
+                                <div className="titles">{LANG_TEXT[currentVideo.lang.split(',')[0]]}</div>
+                            </div>
+
+                            <div className="bottom">
                                 <div className="year-line"><div/></div>
-                            </span>
-                            <span className="event">
-                                {EVENT_TEXT[currentVideo.event]}
                                 <div className={`icn icn-info-${currentVideo.event} no-hover side-panel-icn`}/>
-                            </span>
-                            <span>{LANG_TEXT[currentVideo.lang.split(',')[0]]}</span>
+                                <div/>
                             </div>
                         </Filters>
 
