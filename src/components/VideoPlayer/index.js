@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     direction: rtl;
-    transition: .3s ease all;
+    transition: 500ms ease all;
     transform-origin: bottom right;
     height: 20%;
     position: absolute;
@@ -112,21 +112,9 @@ const Timing = styled.div`
     font-size: 20px;
     text-align: center;
     margin-left: 20px;
-    font-weight: bold;
     position: relative;
     top: -2px;
-`;
-
-const PlayPauseBtn = styled.div`
-    width: 35px;
-    height: 35px;
-    margin-right: 15px;
-    cursor: pointer;
-
-    svg {
-        width: 90%;
-        height: 90%;
-    }
+    left: 3px;
 `;
 
 const InnerWrapper = styled.div`
@@ -233,19 +221,9 @@ const SmallTitle = styled.div`
     }
 `;
 
-const MuteButton = styled.div`
-    background: url('./assets/mute.svg') no-repeat center / contain;
-    width: 45px;
-    height: 40px;
-    margin-right: 20px;
-    cursor: pointer;
-    position: relative;
-    top: -2px;
-`;
-
 const DarkModeButton = styled.div`
-    width: 33px;
-    height: 27px;
+    width: 26px;
+    height: 26px;
     margin-right: 30px;
     position: relative;
     top: -2px;
@@ -255,13 +233,42 @@ const DarkModeButton = styled.div`
     background-position: center;
 
     &:hover {
-        background-image: url('./assets/dark mode-hover.png');
+        background-image: url('./assets/dark mode-hover.svg');
     }
 
     background-image: ${props => props.darkMode
-        ? "url('./assets/dark mode-on.png')"
-        : "url('./assets/dark mode-off.png')"
+        ? "url('./assets/dark mode-on.svg')"
+        : "url('./assets/dark mode-off.svg')"
     };
+`;
+
+const PlayPauseBtn = styled.div`
+    width: 26px;
+    height: 26px;
+    margin-right: 15px;
+    cursor: pointer;
+
+    svg {
+        width: 84%;
+        height: 84%;
+    }
+`;
+
+const MuteButton = styled.div`
+    background: no-repeat center / contain;
+    background-image: ${props =>
+        props.isMuted ? "url('./assets/mute.svg')" : "url('./assets/mute-on.svg')"};
+    width: 33px;
+    height: 33px;
+    margin-right: 20px;
+    cursor: pointer;
+    position: relative;
+    top: -2px;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 const Filters = styled.div`
@@ -357,15 +364,17 @@ export default function VideoPlayer({
                             <Controls>
                                 <ControlsWrapper>
                                     {!isIpadView &&
-                                        <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}/>}
+                                        <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}
+                                            style={{ position: 'relative', left: '-8px', top: '-1px' }}/>}
 
-                                    <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)}>
+                                    <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)} style={{ position: 'relative', left: '-8px', top: '-1px' }}>
                                         {state.status === 'playing'
                                             ? <IcnPause/>
                                             : <IcnPlay/>}
                                     </PlayPauseBtn>
 
-                                    <MuteButton onClick={state.isMuted ? actions.unmute : actions.mute} />
+                                    <MuteButton isMuted={state.isMuted} onClick={state.isMuted ? actions.unmute : actions.mute}
+                                        style={{ position: 'relative', left: '-5px', top: '-1px' }}/>
 
                                     <ProgBarWrapper>
                                         <ProgBar type="range" step="0.0001"

@@ -203,15 +203,17 @@ const Filters = styled.div`
     flex-wrap: wrap;
     flex-direction: row-reverse;
     margin-top: ${props => props.bottom && '-10px'};
+    position: relative;
+    top: -3px;
 `;
 
-export const Filter = styled.div`
+const Filter = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100px;
     flex: 1;
-    padding: 0 18px 0 3px;
+    padding: 0 19px 0 3px;
     text-align: right;
     border-left: 1px solid #000;
     position: relative;
@@ -232,6 +234,60 @@ export const Filter = styled.div`
         .icn {
             margin-top: 17px;
         }
+    }
+`;
+
+const IconsFilter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    flex: 1;
+    padding: 0 19px 0 3px;
+    text-align: right;
+    border-left: 1px solid #000;
+    position: relative;
+    overflow: hidden;
+    border-bottom: ${props => !props.noBorder && '1px solid #000'};
+
+    label {
+        width: 25%;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .icons-filter-wrapper {
+        padding-left: 10px;
+        width: 75%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        left: -4px;
+
+        &>div {
+            width: 20%;
+            flex: 1 0 20%;
+        }
+    }
+
+    &:last-of-type {
+        border-left: 0;
+    }
+`;
+
+const LangsWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+
+    &>div {
+        width: 25%;
+        flex: 1 0 25%;
     }
 `;
 
@@ -309,7 +365,7 @@ export const relationSliderMarks = {
 export default function MainPage({ isIpadView }) {
     const items = Array.apply(null, Array(VIDEOS_AMOUNT)).map(function (x, i) { return i; })
 
-    const [appStage, setAppStage] = useState(4/*1*/);
+    const [appStage, setAppStage] = useState(1);
 
     const [year, setYear] = useState(null);
     const [altYear, setAltYear] = useState(null);
@@ -624,9 +680,9 @@ export default function MainPage({ isIpadView }) {
             <div className="flex" style={currentVideo ? { height: '80vh' } : { height: '20vh' }}>
                 {!currentVideo && <BottomPanel>
 
-                    <Filters>
+                    <Filters style={{ top: '-8px' }}>
                         <Filter onClick={resetYearSlider}>
-                            <div style={{ position: 'relative', width: '100%' }}>
+                            <div style={{ position: 'relative', width: '100%', top: '4px' }}>
                                 <YearSlider value={altYear || year}
                                     min={START_YEAR} className={year !== null ? 'on' : ''}
                                     step={1} max={END_YEAR} onChange={setYear}
@@ -640,12 +696,12 @@ export default function MainPage({ isIpadView }) {
                         </Filter>
 
                         <Filter className="langs">
-
-                            <ToggleBtn name="Español" onClick={handleLangFilter} current={langs} icon="espanol" handle="espanol"/>
-                            <ToggleBtn name="Proski" onClick={handleLangFilter} current={langs} icon="ruski" handle="ruski"/>
-                            <ToggleBtn name="English" onClick={handleLangFilter} current={langs} icon="english" handle="english"/>
-                            <ToggleBtn name="עברית" onClick={handleLangFilter} current={langs} icon="hebrew" handle="hebrew"/>
-
+                            <LangsWrapper>
+                                <ToggleBtn name="Español" onClick={handleLangFilter} current={langs} icon="espanol" handle="espanol"/>
+                                <ToggleBtn name="Proski" onClick={handleLangFilter} current={langs} icon="ruski" handle="ruski"/>
+                                <ToggleBtn name="English" onClick={handleLangFilter} current={langs} icon="english" handle="english"/>
+                                <ToggleBtn name="עברית" onClick={handleLangFilter} current={langs} icon="hebrew" handle="hebrew"/>
+                            </LangsWrapper>
                             <label>שפה</label>
                         </Filter>
 
@@ -658,53 +714,63 @@ export default function MainPage({ isIpadView }) {
                             <label>קרבה</label>
                         </Filter>
 
-                        <Filter>
+                        <IconsFilter>
+                            <div className="icons-filter-wrapper">
                             <ToggleBtn name="alcohol" onClick={handleFoodFilter} current={foods} icon="alcohol"/>
                             <ToggleBtn name="dessert" onClick={handleFoodFilter} current={foods} icon="dessert"/>
                             <ToggleBtn name="mizrahi" onClick={handleFoodFilter} current={foods} icon="mizrahi"/>
                             <ToggleBtn name="ashkenazi" onClick={handleFoodFilter} current={foods} icon="ashkenazi"/>
                             <ToggleBtn name="bread" onClick={handleFoodFilter} current={foods} icon="bread"/>
+                            </div>
                             <label>אוכל ושתיה</label>
-                        </Filter>
+                        </IconsFilter>
 
                     </Filters>
 
                     <Filters bottom>
-                        <Filter noBorder>
+                        <IconsFilter noBorder>
+                            <div className="icons-filter-wrapper" className="icons-filter-wrapper" style={{ width: '85%' }}>
                             <ToggleBtn name="other" onClick={handleEventFilter} current={events} icon="other"/>
                             <ToggleBtn name="friday" onClick={handleEventFilter} current={events} icon="friday"/>
                             <ToggleBtn name="holiday" onClick={handleEventFilter} current={events} icon="holiday"/>
                             <ToggleBtn name="bbq" onClick={handleEventFilter} current={events} icon="bbq"/>
                             <ToggleBtn name="bday" onClick={handleEventFilter} current={events} icon="bday"/>
-                            <label>אירוע</label>
-                        </Filter>
+                            </div>
+                            <label style={{ width: '15%' }}>אירוע</label>
+                        </IconsFilter>
 
-                        <Filter noBorder>
+                        <IconsFilter noBorder>
+                            <div className="icons-filter-wrapper" className="icons-filter-wrapper" style={{ width: '85%' }}>
                             <ToggleBtn name="photography" onClick={handleSubjectFilter} current={subjects} icon="photography"/>
                             <ToggleBtn name="politiks" onClick={handleSubjectFilter} current={subjects} icon="politiks"/>
                             <ToggleBtn name="text" onClick={handleSubjectFilter} current={subjects} icon="text"/>
                             <ToggleBtn name="food" onClick={handleSubjectFilter} current={subjects} icon="food"/>
                             <ToggleBtn name="memory" onClick={handleSubjectFilter} current={subjects} icon="memory"/>
-                            <label>נושא שיחה</label>
-                        </Filter>
+                            </div>
+                            <label style={{ width: '15%' }}>נושא שיחה</label>
+                        </IconsFilter>
 
-                        <Filter noBorder>
+                        <IconsFilter noBorder>
+                            <div className="icons-filter-wrapper" style={{ width: '85%' }}>
                             <ToggleBtn name="calm" onClick={handleEmotionFilter} current={emotions} icon="calm"/>
                             <ToggleBtn name="laugh" onClick={handleEmotionFilter} current={emotions} icon="laugh"/>
                             <ToggleBtn name="embarrassment" onClick={handleEmotionFilter} current={emotions} icon="embarrassment"/>
                             <ToggleBtn name="anger" onClick={handleEmotionFilter} current={emotions} icon="anger"/>
                             <ToggleBtn name="happy" onClick={handleEmotionFilter} current={emotions} icon="happy"/>
-                            <label>רגש</label>
-                        </Filter>
+                            </div>
+                            <label style={{ width: '15%' }}>רגש</label>
+                        </IconsFilter>
 
-                        <Filter noBorder>
-                            <ToggleBtn name="communication" onClick={handleObjectFilter} current={objects} icon="communication"/>
-                            <ToggleBtn name="light" onClick={handleObjectFilter} current={objects} icon="light"/>
-                            <ToggleBtn name="art" onClick={handleObjectFilter} current={objects} icon="art"/>
-                            <ToggleBtn name="tools" onClick={handleObjectFilter} current={objects} icon="tools"/>
-                            <ToggleBtn name="chairs" onClick={handleObjectFilter} current={objects} icon="chairs"/>
+                        <IconsFilter noBorder>
+                            <div className="icons-filter-wrapper">
+                                <ToggleBtn name="communication" onClick={handleObjectFilter} current={objects} icon="communication"/>
+                                <ToggleBtn name="light" onClick={handleObjectFilter} current={objects} icon="light"/>
+                                <ToggleBtn name="art" onClick={handleObjectFilter} current={objects} icon="art"/>
+                                <ToggleBtn name="tools" onClick={handleObjectFilter} current={objects} icon="tools"/>
+                                <ToggleBtn name="chairs" onClick={handleObjectFilter} current={objects} icon="chairs"/>
+                            </div>
                             <label>אוביקטים</label>
-                        </Filter>
+                        </IconsFilter>
                     </Filters>
 
                 </BottomPanel>}

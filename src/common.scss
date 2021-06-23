@@ -59,14 +59,17 @@ table {
 }
 
 .rc-slider-mark {
-    top: 30px;
     display: flex;
     justify-content: space-between;
+    top: 20px;
+    left: 7px;
+    width: 94%;
+    font-size: 12px;
 }
 
 .rc-slider-step {
     background-color: #000;
-    height: 2px;
+    height: 1px;
 }
 
 .rs-slider.on .rs-slider-handle,
@@ -112,7 +115,7 @@ table {
 }
 
 .rs-slider-bar {
-    height: 2px;
+    height: 1px;
     background-color: #000;
 }
 
@@ -142,7 +145,7 @@ table {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    padding: 0 16px;
+    padding: 0 28px;
     box-sizing: border-box;
 }
 
@@ -211,10 +214,17 @@ video {
     transform: scale(800%) translate(1.3%, -10%);
     z-index: 222;
     pointer-events: none;
+    transition: .3s all ease;
 }
 
 .appstage-2 #videos-grid {
     transform: scale(380%) translate(6%, -13%);
     z-index: 222;
     pointer-events: none;
+    transition: 800ms all ease;
+}
+
+.appstage-3 #videos-grid {
+    transform: scale(1) translate(0);
+    transition: 800ms all ease;
 }
