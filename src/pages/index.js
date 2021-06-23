@@ -140,7 +140,7 @@ const SidePanel = styled.div`
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-    background-color: ${props => props.isBgAlt && '#fff'};
+    background-color: ${props => props.isBgAlt ? '#F7F2E6' : '#fff'};
 
     &.bg-white {
         background-color: #fff;
@@ -169,6 +169,7 @@ const Logo = styled.div`
     background-position: center;
     background-size: contain;
     cursor: pointer;
+    margin-right: 10px;
 
     &.float-right {
         float: right;
@@ -180,14 +181,13 @@ const Logo = styled.div`
 const DescPar = styled.p`
     text-align: right;
     font-size: 18px;
-    line-height: 28px;
-    padding: 20px 30px;
+    line-height: 26px;
     direction: rtl;
     position: absolute;
     bottom: 0;
     right: 0;
     z-index: 1;
-    max-width: ${props => props.title ? '100%' : '200px'};
+    padding: ${props => props.title ? '28px 30px':'40px 40px'};
 `;
 
 const BottomPanel = styled.div`
@@ -227,13 +227,25 @@ export const Filter = styled.div`
         font-weight: 700;
         font-size: 18px;
     }
+
+    &.langs {
+        .icn {
+            margin-top: 17px;
+        }
+    }
 `;
 
 const VideoTitle = styled.div`
     font-weight: bold;
     font-size: 24px;
     line-height: 30px;
-    margin: 0 0 -4px -4px;
+    margin: 0;
+`;
+
+const VideoSubTitle = styled.div`
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 4px;
 `;
 
 const VideoHeader = styled.div`
@@ -249,9 +261,6 @@ const VideoHeader = styled.div`
         font-weight: bold;
         font-size: 44px;
         line-height: 140%;
-        margin-right: 70px;
-        position: relative;
-        top: -10px;
     }
 
     .desc {
@@ -259,6 +268,12 @@ const VideoHeader = styled.div`
         font-size: 18px;
         line-height: 28px;
     }
+`;
+
+const TitlesWrapper = styled.div`
+    position: absolute;
+    right: 370px;
+    z-index: 1;
 `;
 
 export const relationSliderMarks = {
@@ -272,6 +287,9 @@ export default function MainPage({ isIpadView }) {
     const [appStage, setAppStage] = useState(4/*1*/);
 
     const [year, setYear] = useState(null);
+    const [altYear, setAltYear] = useState(null);
+    const [altRelation, setAltRelation] = useState(null);
+
     const [relation, setRelation] = useState(null);
     const [events, setEvent] = useState(null);
 
@@ -413,6 +431,7 @@ export default function MainPage({ isIpadView }) {
         }, 500)
 
         handlePreviewFilterToggle(videoIdx)
+
     }
 
     const handleMouseLeave = () => {
@@ -426,6 +445,8 @@ export default function MainPage({ isIpadView }) {
     }
 
     const handlePreviewFilterToggle = (videoIdx) => {
+        const relation = _.get(filteredVideos[videoIdx], 'relation')
+        const year = _.get(filteredVideos[videoIdx], 'year')
         const langs = _.get(filteredVideos[videoIdx], 'lang')
         const event = _.get(filteredVideos[videoIdx], 'event')
         const subjects = _.get(filteredVideos[videoIdx], 'subjects')
@@ -448,6 +469,15 @@ export default function MainPage({ isIpadView }) {
             filterElm && filterElm.classList.add('on')
         })
 
+        const slider1 = document.querySelector('.rs-slider')
+        const slider2 = document.querySelector('.rc-slider')
+
+        slider1 && slider1.classList.add('on')
+        slider2 && slider2.classList.add('on')
+
+        setAltYear(Number(year))
+        setAltRelation(Number(relation))
+
     }
 
     const handlePreviewFilterOff = () => {
@@ -455,6 +485,24 @@ export default function MainPage({ isIpadView }) {
             .map((item) => {
                 item.classList.remove('on')
             })
+
+        const slider1 = document.querySelector('.rs-slider')
+        const slider2 = document.querySelector('.rc-slider')
+
+        slider1 && slider1.classList.remove('on')
+        slider2 && slider2.classList.remove('on')
+
+        setAltYear(null)
+        setAltRelation(null)
+    }
+
+    const resetYearSlider = (event) => {
+        if (event.target.className.includes('slider')) return;
+        setYear(null)
+    }
+    const resetRelationSlider = (event) => {
+        if (event.target.className.includes('slider')) return;
+        setRelation(null)
     }
 
     if (isIpadView) {
@@ -469,6 +517,8 @@ export default function MainPage({ isIpadView }) {
             </IpadView>
         );
     }
+
+    const videoSubTitleText = _.get(previewVideo, 'videoSubTitle');
 
     return (
         <>
@@ -513,11 +563,14 @@ export default function MainPage({ isIpadView }) {
                 {currentVideo &&
                     <VideoHeader darkMode={darkMode}>
                         <Logo className="float-right" onClick={()=>window.location.href = '/'}/>
-                        <div className="title">{currentVideo.videoName}</div>
+                        <TitlesWrapper>
+                            <div className="title">{currentVideo.videoName}</div>
+                            <div className="sub-title">{currentVideo.videoSubTitle}</div>
+                        </TitlesWrapper>
                     </VideoHeader>
                 }
 
-                {!currentVideo && <SidePanel isBgAlt={!shouldShowDesc}>
+                {!currentVideo && <SidePanel isBgAlt={shouldShowDesc}>
                     <Logo/>
 
                     {_.isEmpty(currentVideo) && shouldShowDesc
@@ -526,6 +579,10 @@ export default function MainPage({ isIpadView }) {
                             <VideoTitle>
                                 {_.get(previewVideo, 'videoName')}
                             </VideoTitle>
+
+                            {videoSubTitleText && <VideoSubTitle>
+                                {videoSubTitleText}
+                            </VideoSubTitle>}
                         </DescPar>
                     }
                 </SidePanel>}
@@ -536,9 +593,12 @@ export default function MainPage({ isIpadView }) {
                 {!currentVideo && <BottomPanel>
 
                     <Filters>
-                        <Filter>
+                        <Filter onClick={resetYearSlider}>
                             <div style={{ position: 'relative', width: '100%' }}>
-                                <YearSlider defaultValue={START_YEAR} min={START_YEAR} step={1} max={END_YEAR} onChange={setYear} graduated />
+                                <YearSlider value={altYear || year}
+                                    min={START_YEAR} className={year !== null ? 'on' : ''}
+                                    step={1} max={END_YEAR} onChange={setYear} onClick={() => { /*setYear(null)*/ }}
+                                    graduated/>
                                 <div className="year-slider-labels">
                                     <span>{START_YEAR}</span>
                                     <span>{END_YEAR}</span>
@@ -557,8 +617,12 @@ export default function MainPage({ isIpadView }) {
                             <label>שפה</label>
                         </Filter>
 
-                        <Filter>
-                            <Slider min={1} max={3} defaultValue={1} marks={relationSliderMarks} onChange={setRelation}/>
+                        <Filter onClick={resetRelationSlider}>
+                            <Slider
+                                value={altRelation || relation || 1}
+                                className={relation !== null ? 'on' : ''}
+                                min={1} max={3}
+                                marks={relationSliderMarks} onChange={setRelation}/>
                             <label>קרבה</label>
                         </Filter>
 

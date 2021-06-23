@@ -69,6 +69,8 @@ table {
     height: 2px;
 }
 
+.rs-slider.on .rs-slider-handle,
+.rc-slider.on .rc-slider-handle,
 .rs-slider:hover .rs-slider-handle,
 .rc-slider:hover .rc-slider-handle {
     opacity: 1;
@@ -78,17 +80,30 @@ table {
 .rs-slider-handle,
 .rc-slider-handle {
     opacity: 0;
-    background-color: #0500FF;
     border: 0;
     border-radius: 0;
-    width: 4px;
+    width: 10px;
     height: 21px;
     margin-top: -11px;
     cursor: pointer;
+    background-color: transparent;
+
+    &:after {
+        content: '';
+        display: block;
+        width: 4px;
+        height: 21px;
+        background-color: #0500FF;
+        position: relative;
+        top: -16px;
+    }
 }
 
 .rc-slider-handle {
-    margin-top: -10px;
+    &:after {
+        top: 1px;
+        left: 6px;
+    }
 }
 
 .rs-slider,

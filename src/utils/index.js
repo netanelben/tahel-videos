@@ -22,9 +22,9 @@ export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) 
     const {year, events, langs, subjects, relation, emotions, foods, objects} = filters
 
     if (
-           _.isEqual(v.year, year) ||
+           v.year == year ||
+           v.relation == relation ||
            _.isEqual(v.event, events) ||
-           _.isEqual(v.relation, relation) ||
 
            testFilter(langs, v.lang) ||
            testFilter(subjects, v.subjects) ||

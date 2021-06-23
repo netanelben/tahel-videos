@@ -1,8 +1,8 @@
-<svg width="38" height="75" viewBox="0 0 38 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M8 72.9706L15.0888 63.807L16.038 64.5413L8.94915 73.7049L8 72.9706Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M18.1896 59.748L20.4879 56.7771L21.437 57.5114L19.1388 60.4823L18.1896 59.748Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M23.5651 53.2403L25.2982 51L26.2473 51.7343L24.5143 53.9745L23.5651 53.2403Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M28.5568 46.2H24.9568V50.8H28.5568V46.2ZM23.7568 45V52H29.7568V45H23.7568Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M24.5439 54.3809L21.2202 52.8508L19.69 56.1745L23.0138 57.7046L24.5439 54.3809ZM20.6319 51.2589L18.0982 56.7627L23.602 59.2965L26.1358 53.7927L20.6319 51.2589Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M19.387 61.821L17.0472 59.0078L14.2341 61.3476L16.5738 64.1608L19.387 61.821ZM17.2025 57.3179L12.5441 61.1924L16.4186 65.8507L21.077 61.9762L17.2025 57.3179Z" fill="black"/>
+<svg width="38" height="36" viewBox="0 0 38 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 33.9706L15.0888 24.807L16.038 25.5413L8.94915 34.7049L8 33.9706Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18.1896 20.748L20.4879 17.7771L21.437 18.5114L19.1388 21.4823L18.1896 20.748Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.5651 14.2403L25.2982 12L26.2473 12.7343L24.5143 14.9745L23.5651 14.2403Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M28.5568 7.2H24.9568V11.8H28.5568V7.2ZM23.7568 6V13H29.7568V6H23.7568Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.5439 15.3809L21.2202 13.8508L19.69 17.1745L23.0138 18.7046L24.5439 15.3809ZM20.6319 12.2589L18.0982 17.7627L23.602 20.2965L26.1358 14.7927L20.6319 12.2589Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.387 22.821L17.0472 20.0078L14.2341 22.3476L16.5738 25.1608L19.387 22.821ZM17.2025 18.3179L12.5441 22.1924L16.4186 26.8507L21.077 22.9762L17.2025 18.3179Z" fill="black"/>
 </svg>
