@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import classnames from 'classnames';
 import styled from 'styled-components';
 import _ from 'lodash'
 import Video from 'react-video-renderer';
@@ -140,10 +141,6 @@ const SidePanel = styled.div`
     justify-content: flex-start;
     position: relative;
     opacity: ${props => props.darkMode && '0.1'};
-    /* position: fixed;
-    left: 0;
-    max-width: 20%;
-    z-index:1; */
 
     p {
         max-height: 60px;
@@ -307,11 +304,14 @@ const DarkModeButton = styled.div`
 
 export default function VideoPlayer({
     currentVideo = null, previousVideo, nextVideo, previewVideo,
-    darkMode, setDarkMode
+    darkMode, setDarkMode, isIpadView
 }) {
     const videoPath = hostingPath(_.get(currentVideo, 'videoFileName'))
 
-    const classNames = currentVideo === null ? '' : 'wide'
+    const classNames = classnames({
+        'wide': currentVideo !== null,
+        'ipad-wide': isIpadView
+    })
 
     const [isHover, setIsHover] = useState(false)
 
@@ -342,7 +342,8 @@ export default function VideoPlayer({
 
                             <Controls>
                                 <ControlsWrapper>
-                                    <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}/>
+                                    {!isIpadView &&
+                                        <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}/>}
 
                                     <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)}>
                                         {state.status === 'playing'
@@ -390,7 +391,7 @@ export default function VideoPlayer({
                 </SmallVideoPreview>
                 }
 
-                {currentVideo &&
+                {currentVideo && !isIpadView &&
                     <SidePanel darkMode={darkMode}>
                         <VideoText bold>
                             {currentVideo.videoDesc}
@@ -445,7 +446,7 @@ export default function VideoPlayer({
                             </span>
                             <span className="event">
                                 {EVENT_TEXT[currentVideo.event]}
-                                <div className={`icn icn-home-${currentVideo.event} no-hover side-panel-icn`}/>
+                                <div className={`icn icn-info-${currentVideo.event} no-hover side-panel-icn`}/>
                             </span>
                             <span>{LANG_TEXT[currentVideo.lang.split(',')[0]]}</span>
                             </div>

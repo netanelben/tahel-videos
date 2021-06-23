@@ -7,7 +7,7 @@ import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
 import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData, APP_SIDEPANEL_TEXT } from '../config'
 import { filterVideos, hostingPath } from '../utils'
-import titleBorder from './titleBorder.svg'
+import IpadView from '../IpadView';
 
 import 'rc-slider/assets/index.css';
 
@@ -248,21 +248,10 @@ const VideoHeader = styled.div`
     .title {
         font-weight: bold;
         font-size: 44px;
-        line-height: 100%;
-        margin: 0 70px 0 0;
-
-        &:after {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 25px;
-            background-image: url(${titleBorder});
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            top: 5px;
-        }
+        line-height: 140%;
+        margin-right: 70px;
+        position: relative;
+        top: -10px;
     }
 
     .desc {
@@ -277,10 +266,10 @@ export const relationSliderMarks = {
     3: <img src="./assets/heart-filled.png" width="14"/>
 };
 
-export default function MainPage() {
+export default function MainPage({ isIpadView }) {
     const items = Array.apply(null, Array(VIDEOS_AMOUNT)).map(function (x, i) { return i; })
 
-    const [appStage, setAppStage] = useState(1);
+    const [appStage, setAppStage] = useState(4/*1*/);
 
     const [year, setYear] = useState(null);
     const [relation, setRelation] = useState(null);
@@ -422,14 +411,63 @@ export default function MainPage() {
                 vidElm.play()
             }
         }, 500)
+
+        handlePreviewFilterToggle(videoIdx)
     }
+
     const handleMouseLeave = () => {
         setPreviewVideo(null)
+        handlePreviewFilterOff()
     }
 
     const handleIntroClicks = () => {
         if (appStage === 3) return;
         setAppStage(appStage + 1)
+    }
+
+    const handlePreviewFilterToggle = (videoIdx) => {
+        const langs = _.get(filteredVideos[videoIdx], 'lang')
+        const event = _.get(filteredVideos[videoIdx], 'event')
+        const subjects = _.get(filteredVideos[videoIdx], 'subjects')
+        const emotions = _.get(filteredVideos[videoIdx], 'emotions')
+        const objects = _.get(filteredVideos[videoIdx], 'objects')
+        const foodAndDrinks = _.get(filteredVideos[videoIdx], 'foodAndDrink')
+
+        const serArray = (arr) => arr.map(i => i.split('-')[0].trim())
+
+        const langArray = serArray(langs.split(','))
+        const subjectArray = serArray(subjects.split(','))
+        const emotionsArray = serArray(emotions.split(','))
+        const objectsArray = serArray(objects.split(','))
+        const foodArray = serArray(foodAndDrinks.split(','))
+
+        const allFilters = [event, ...subjectArray, ...emotionsArray, ...objectsArray, ...langArray, ...foodArray]
+
+        _.each(allFilters, (filterName) => {
+            const filterElm = document.querySelector(`.icn-home-${filterName}`)
+            filterElm && filterElm.classList.add('on')
+        })
+
+    }
+
+    const handlePreviewFilterOff = () => {
+        Array.from(document.querySelectorAll('div.icn.on'))
+            .map((item) => {
+                item.classList.remove('on')
+            })
+    }
+
+    if (isIpadView) {
+        return (
+            <IpadView filteredVideos={filteredVideos} setCurrentVideo={setCurrentVideo}>
+                <VideoPlayer currentVideo={currentVideo}
+                    previewVideo={previewVideo}
+                    previousVideo={handlePreviousVideo}
+                    nextVideo={handleNextVideo} filters={filters}
+                    isIpadView={isIpadView}
+                    />
+            </IpadView>
+        );
     }
 
     return (

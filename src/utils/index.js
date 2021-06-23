@@ -1,10 +1,15 @@
 import _ from 'lodash';
 
-const testFilter = (itemsA, itemsB) =>
-    _.intersectionWith(
-        itemsA, itemsB && itemsB.split(','),
-            (a, b) => b.trim().indexOf(a.trim()) !== -1
-    ).length > 0
+const testFilter = (array1 = [], array2 = "") => {
+    // second array comes as string, with more irrelevant data;
+    // gam ve gam!!
+    const arr2 = array2.split(',')
+    const arrSerlz = arr2.map(arr => arr.split('-')[0].trim())
+
+    const isEqual = _.isEqual(array1, arrSerlz)
+    const isContains = !!array1.filter(item => arrSerlz.includes(item)).length
+    return isEqual || isContains
+}
 
 export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) => {
     if (all) {
@@ -17,12 +22,11 @@ export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) 
     const {year, events, langs, subjects, relation, emotions, foods, objects} = filters
 
     if (
-           v.year == year ||
+           _.isEqual(v.year, year) ||
+           _.isEqual(v.event, events) ||
+           _.isEqual(v.relation, relation) ||
+
            testFilter(langs, v.lang) ||
-
-           v.relation == relation ||
-           v.event == events ||
-
            testFilter(subjects, v.subjects) ||
            testFilter(emotions, v.emotions) ||
            testFilter(objects, v.objects) ||

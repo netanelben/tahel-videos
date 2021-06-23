@@ -17,14 +17,19 @@ const Anot = styled.div`
     position: absolute;
     top: 1px;
     left: ${props => props.left && `${props.left}%`};
-    cursor: pointer;
     filter: ${props => props.invert && 'invert(1)'};
+    cursor: pointer;
+    transition: .3s ease all;
+
+    &:hover {
+        background-color: #000AFF;
+    }
 
     .anot-icon {
         display: block;
-        width: 80px;
-        height: 80px;
-        margin: -85px -37px;
+        width: 110px;
+        height: 110px;
+        margin: -90px -53px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
