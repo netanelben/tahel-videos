@@ -23,14 +23,15 @@ const Anot = styled.div`
 
     &:hover {
         background-color: #000AFF;
+        filter: invert(0);
     }
 
     .anot-icon {
         display: block;
-        width: 110px;
+        width: 40px;
         height: 110px;
-        margin: -90px -53px;
-        background-size: contain;
+        margin: -90px -20px;
+        background-size: 70px;
         background-repeat: no-repeat;
         background-position: center;
     }

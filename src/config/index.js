@@ -20,9 +20,9 @@ export const END_YEAR = 2021;
 
 export const LANG_TEXT = {
     'hebrew': 'עברית',
-    'english': 'אנגלית',
-    'ruski': 'רוסית',
-    'espanol': 'ספרדית',
+    'english': 'English',
+    'ruski': 'русский',
+    'espanol': 'Español'
 }
 
 export const EVENT_TEXT = {

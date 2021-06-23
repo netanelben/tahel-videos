@@ -109,9 +109,12 @@ const ProgBar = styled.input`
 
 const Timing = styled.div`
     width: 55px;
+    font-size: 20px;
     text-align: center;
     margin-left: 20px;
     font-weight: bold;
+    position: relative;
+    top: -2px;
 `;
 
 const PlayPauseBtn = styled.div`
@@ -431,19 +434,19 @@ export default function VideoPlayer({
                             </SmallTitle>
                             <ul>
                                 <li>
-                                    תיאור -&nbsp;
+                                    תיאור: &nbsp;
                                     {infoList[0].split('-')[1]}
                                 </li>
                                 <li>
-                                    צפיות -&nbsp;
+                                    צפיות: &nbsp;
                                     {infoList[1].split('-')[1]}
                                 </li>
                                 <li>
-                                    שם משתמש -&nbsp;
+                                    שם משתמש: &nbsp;
                                     {infoList[2].split('-')[1]}
                                 </li>
                                 <li>
-                                    עוקבים -&nbsp;
+                                    עוקבים: &nbsp;
                                     {infoList[3].split('-')[1]}
                                 </li>
                             </ul>
@@ -453,7 +456,10 @@ export default function VideoPlayer({
                             <div>
                                 <div className="titles">{currentVideo.year}</div>
                                 <div className="titles">{EVENT_TEXT[currentVideo.event]}</div>
-                                <div className="titles">{LANG_TEXT[currentVideo.lang.split(',')[0]]}</div>
+                                <div className="titles">
+                                    {LANG_TEXT[currentVideo.lang.split(',')[0]]}
+                                    {LANG_TEXT[currentVideo.lang.split(',')[1]]}
+                                </div>
                             </div>
 
                             <div className="bottom">

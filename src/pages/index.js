@@ -629,7 +629,7 @@ export default function MainPage({ isIpadView }) {
                             <div style={{ position: 'relative', width: '100%' }}>
                                 <YearSlider value={altYear || year}
                                     min={START_YEAR} className={year !== null ? 'on' : ''}
-                                    step={1} max={END_YEAR} onChange={setYear} onClick={() => { /*setYear(null)*/ }}
+                                    step={1} max={END_YEAR} onChange={setYear}
                                     graduated/>
                                 <div className="year-slider-labels">
                                     <span>{START_YEAR}</span>
