@@ -215,6 +215,7 @@ video {
     z-index: 222;
     pointer-events: none;
     transition: .3s all ease;
+    z-index: 9999;
 }
 
 .appstage-2 #videos-grid {
@@ -222,9 +223,11 @@ video {
     z-index: 222;
     pointer-events: none;
     transition: 800ms all ease;
+    z-index: 9999;
 }
 
 .appstage-3 #videos-grid {
     transform: scale(1) translate(0);
     transition: 800ms all ease;
+    pointer-events: none;
 }

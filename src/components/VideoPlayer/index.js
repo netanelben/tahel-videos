@@ -8,6 +8,9 @@ import {ReactComponent as IcnPause} from './pause.svg'
 import Annotation from './Annotation'
 import { formatDuration, hostingPath } from '../../utils'
 import { LANG_TEXT, EVENT_TEXT } from '../../config'
+import {ReactComponent as IconDot1} from "./assets/dot 1.svg";
+import {ReactComponent as IconDot2} from "./assets/dot 2.svg";
+import {ReactComponent as IconV} from "./assets/v.svg";
 
 const Wrapper = styled.div`
     background-color: white;
@@ -53,7 +56,7 @@ const VideoWrapper = styled.div`
     width: 100%;
     height: 100%; // Fix the origin to be bottom-right
     position: relative;
-
+    z-index: 1;
     outline: ${props => props.isHover && '1px solid #000'};
 
     video {
@@ -94,6 +97,8 @@ const ControlsWrapper = styled.div`
     width: 100%;
     max-width: 85%;
     margin: auto;
+    position: relative;
+    left: 3px;
 `;
 
 const ProgBar = styled.input`
@@ -210,13 +215,12 @@ const SmallTitle = styled.div`
     font-weight: bold;
     position: relative;
 
-    img {
-        width:10px;
-        height:10px;
-        transform: scale(10);
+    svg {
+        width:12px;
+        height:12px;
         position: absolute;
-        right: -18px;
-        top: 12px;
+        right: -24px;
+        top: 8px;
         z-index: 1;
     }
 `;
@@ -298,6 +302,14 @@ const Filters = styled.div`
         line-height: 28px;
         text-align: center;
         flex: 1 0 33%;
+        position: relative;
+
+        .second-lang {
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            left: 0;
+        }
     }
 
     .icn {
@@ -349,6 +361,8 @@ export default function VideoPlayer({
     }
 
     const infoList = currentVideo && currentVideo.videoInformation.split(',')
+    const langOne = currentVideo && currentVideo.lang.split(',')[0]
+    const langTwo = currentVideo && currentVideo.lang.split(',')[1]
 
     return (
         <Wrapper className={classNames} id="video-main-wrapper">
@@ -422,7 +436,7 @@ export default function VideoPlayer({
 
                         <InfoText>
                             <SmallTitle>
-                                <img src="./assets/dot 1.png"/>
+                                <IconDot1/>
                                 יחסי הורים וילדים
                             </SmallTitle>
                             <p>{currentVideo.childrenAndParents}</p>
@@ -430,7 +444,7 @@ export default function VideoPlayer({
 
                         <InfoText>
                             <SmallTitle>
-                                <img src="./assets/dot 2.png"/>
+                                <IconDot2/>
                                 יחסי גברים נשים
                             </SmallTitle>
                             <p>{currentVideo.menAndWomen}</p>
@@ -438,7 +452,7 @@ export default function VideoPlayer({
 
                         <BottomText>
                             <SmallTitle>
-                                <img src="./assets/v.png"/>
+                                <IconV/>
                                 נתוני יוטיוב
                             </SmallTitle>
                             <ul>
@@ -466,8 +480,8 @@ export default function VideoPlayer({
                                 <div className="titles">{currentVideo.year}</div>
                                 <div className="titles">{EVENT_TEXT[currentVideo.event]}</div>
                                 <div className="titles">
-                                    {LANG_TEXT[currentVideo.lang.split(',')[0]]}
-                                    {LANG_TEXT[currentVideo.lang.split(',')[1]]}
+                                    {LANG_TEXT[langOne]}<br/>
+                                    {langTwo && <span className="second-lang">{LANG_TEXT[langTwo.trim()]}</span>}
                                 </div>
                             </div>
 

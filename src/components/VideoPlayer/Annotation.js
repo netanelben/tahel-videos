@@ -28,10 +28,10 @@ const Anot = styled.div`
 
     .anot-icon {
         display: block;
-        width: 40px;
+        width: 70px;
         height: 110px;
-        margin: -90px -20px;
-        background-size: 70px;
+        margin: -90px -35px;
+        background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
     }

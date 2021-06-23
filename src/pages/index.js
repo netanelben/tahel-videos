@@ -148,7 +148,7 @@ const SidePanel = styled.div`
 `;
 
 const IntroLogo = styled.div`
-    width: 100%;
+    width: 250px;
     height: 150px;
     background-image: url('./assets/logo.png');
     background-repeat: no-repeat;
@@ -392,6 +392,16 @@ export default function MainPage({ isIpadView }) {
 
     const filters = {year, events, langs, subjects, relation, emotions, foods, objects}
 
+    useEffect(() => {
+        if (appStage !== 3) return;
+
+        setTimeout(() => {
+            const grid = document.querySelector('#videos-grid')
+            if (grid) grid.style['pointerEvents'] = 'all'
+        }, 1000)
+
+    }, [appStage])
+
     const handleEventFilter = (event) => {
         if (_.includes(events, event)) {
             setEvent(null)
@@ -599,6 +609,11 @@ export default function MainPage({ isIpadView }) {
         );
     }
 
+    const handleLogoClick = () => {
+        setShouldShowDesc(true);
+        tinyGridClick();
+    }
+
     const videoSubTitleText = _.get(previewVideo, 'videoSubTitle');
 
     return (
@@ -643,7 +658,8 @@ export default function MainPage({ isIpadView }) {
 
                 {currentVideo &&
                     <VideoHeader darkMode={darkMode}>
-                        <Logo className="float-right" onClick={()=>window.location.href = '/'}/>
+                        <Logo className="float-right"
+                            onClick={handleLogoClick}/>
 
                         {currentVideo.videoSubTitle ?
                         <TitlesWrapper>
@@ -659,7 +675,7 @@ export default function MainPage({ isIpadView }) {
                 }
 
                 {!currentVideo && <SidePanel isBgAlt={shouldShowDesc}>
-                    <Logo/>
+                    <Logo onClick={handleLogoClick}/>
 
                     {_.isEmpty(currentVideo) && shouldShowDesc
                         ? <DescPar dangerouslySetInnerHTML={{ __html: APP_SIDEPANEL_TEXT }}/>
