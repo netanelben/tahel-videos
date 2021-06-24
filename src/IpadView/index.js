@@ -20,6 +20,9 @@ const Wrapper = styled.div`
 export default function IpadView({ children, filteredVideos, setCurrentVideo }) {
     useEffect(() => {
         setCurrentVideo(filteredVideos[0])
+
+
+
     }, [])
 
     return (

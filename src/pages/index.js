@@ -5,7 +5,8 @@ import Slider from 'rc-slider';
 import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
-import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData, APP_SIDEPANEL_TEXT } from '../config'
+import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData,
+    APP_SIDEPANEL_TEXT, PREVIEW_VID_WIDTH, VID_WIDTH } from '../config'
 import { filterVideos, hostingPath } from '../utils'
 import IpadView from '../IpadView';
 
@@ -36,7 +37,6 @@ const GridLayout = styled.div`
     position: relative;
     z-index: 2;
     padding: 2px;
-
     opacity: ${props => props.darkMode && '0.1'};
 
     &.tiny {
@@ -109,16 +109,16 @@ const GridLayout = styled.div`
 `;
 
 const VideoPlaceholder = styled.div`
-    width: 8.33333333333%;
-    flex: 0 0 8.33333333333%;
+    width: ${VID_WIDTH};
+    flex: 0 0 ${VID_WIDTH};
     height: 14.2857142857%;
 `;
 
 const VideoObject = styled.div`
     background-color: ${props => props.isSelected ? '#f7f2e6' : '#fff'};
     box-shadow: ${props => props.isSelected && 'inset 0px 0px 0px 2px #000'};
-    width: 8.33333333333%;
-    flex: 0 0 8.33333333333%;
+    width: ${VID_WIDTH};
+    flex: 0 0 ${VID_WIDTH};
     height: 14.2857142857%;
     cursor: pointer;
 
@@ -136,7 +136,7 @@ const VideoObject = styled.div`
 `;
 
 const SidePanel = styled.div`
-    flex: 1 0 370px;
+    flex: 1 0 ${PREVIEW_VID_WIDTH};
     padding: 20px;
     box-sizing: border-box;
     position: relative;
@@ -192,8 +192,11 @@ const DescPar = styled.p`
 
 const BottomPanel = styled.div`
     background: #F7F2E6;
-    width: calc(100% - 370px);
+    width: calc(100% - ${PREVIEW_VID_WIDTH});
     display: inline-block;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
 `;
 
 const Filters = styled.div`
@@ -204,14 +207,13 @@ const Filters = styled.div`
     flex-direction: row-reverse;
     margin-top: ${props => props.bottom && '-10px'};
     position: relative;
-    top: -3px;
 `;
 
 const Filter = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 104px;
     flex: 1;
     padding: 0 19px 0 3px;
     text-align: right;
@@ -241,7 +243,7 @@ const IconsFilter = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 104px;
     flex: 1;
     padding: 0 19px 0 3px;
     text-align: right;
@@ -313,6 +315,8 @@ const VideoHeader = styled.div`
     position: relative;
     width: 70%;
     opacity: ${props => props.darkMode && '0.1'};
+    pointer-events: ${props => props.darkMode && 'none'};
+    user-select: ${props => props.darkMode && 'none'};
 
     .desc {
         max-width: 300px;
@@ -365,7 +369,7 @@ export const relationSliderMarks = {
 export default function MainPage({ isIpadView }) {
     const items = Array.apply(null, Array(VIDEOS_AMOUNT)).map(function (x, i) { return i; })
 
-    const [appStage, setAppStage] = useState(1);
+    const [appStage, setAppStage] = useState(31);
 
     const [year, setYear] = useState(null);
     const [altYear, setAltYear] = useState(null);
@@ -471,25 +475,26 @@ export default function MainPage({ isIpadView }) {
     }
 
     const filteredVideos = shouldFilter ? filterVideos(videosStubData, filters) : filterVideos(videosStubData, filters, true)
+    const onlyFilteredVideos = _.filter(filteredVideos, (v => v.isVisible))
 
     const wrapperClassname = `appstage-${appStage}`
     const gridClassNames = currentVideo === null ? '' : 'tiny'
 
     const handlePreviousVideo = () => {
         if (currentVideoIdx === 0) {
-            setCurrentVideo(filteredVideos[filteredVideos.length - 1])
+            setCurrentVideo(onlyFilteredVideos[onlyFilteredVideos.length - 1])
             setCurrentVideoIdx(filteredVideos.length - 1)
         } else {
-            setCurrentVideo(filteredVideos[currentVideoIdx - 1])
+            setCurrentVideo(onlyFilteredVideos[currentVideoIdx - 1])
             setCurrentVideoIdx(currentVideoIdx - 1)
         }
     }
     const handleNextVideo = () => {
-        if (currentVideoIdx < filteredVideos.length - 1) {
-            setCurrentVideo(filteredVideos[currentVideoIdx + 1])
+        if (currentVideoIdx < onlyFilteredVideos.length - 1) {
+            setCurrentVideo(onlyFilteredVideos[currentVideoIdx + 1])
             setCurrentVideoIdx(currentVideoIdx + 1)
         } else {
-            setCurrentVideo(filteredVideos[0])
+            setCurrentVideo(onlyFilteredVideos[0])
             setCurrentVideoIdx(0)
         }
     }
@@ -503,6 +508,7 @@ export default function MainPage({ isIpadView }) {
             setTimeout(() => {
                 setCurrentVideo(null)
                 setCurrentVideoIdx(null)
+                setDarkMode(false)
             }, 100)
         }
     }
@@ -572,7 +578,7 @@ export default function MainPage({ isIpadView }) {
     }
 
     const handlePreviewFilterOff = () => {
-        Array.from(document.querySelectorAll('div.icn.on'))
+        Array.from(document.querySelectorAll('div.icn.on:not(.filter-on)'))
             .map((item) => {
                 item.classList.remove('on')
             })
@@ -662,15 +668,14 @@ export default function MainPage({ isIpadView }) {
                             onClick={handleLogoClick}/>
 
                         {currentVideo.videoSubTitle ?
-                        <TitlesWrapper>
-                            <div className="title">{currentVideo.videoName}</div>
-                            <div className="sub-title">{currentVideo.videoSubTitle}</div>
-                        </TitlesWrapper>
-                        :
-                        <TitlesWrapper single>
-                            <div className="title">{currentVideo.videoName}</div>
-                        </TitlesWrapper>
-                        }
+                            <TitlesWrapper>
+                                <div className="title">{currentVideo.videoName}</div>
+                                <div className="sub-title">{currentVideo.videoSubTitle}</div>
+                            </TitlesWrapper>
+                            :
+                            <TitlesWrapper single>
+                                <div className="title">{currentVideo.videoName}</div>
+                            </TitlesWrapper>}
                     </VideoHeader>
                 }
 
@@ -693,7 +698,7 @@ export default function MainPage({ isIpadView }) {
 
             </Wrapper>
 
-            <div className="flex" style={currentVideo ? { height: '80vh' } : { height: '20vh' }}>
+            <div className="flex bg-beige" style={currentVideo ? { height: '80vh' } : { height: '20vh' }}>
                 {!currentVideo && <BottomPanel>
 
                     <Filters style={{ top: '-8px' }}>

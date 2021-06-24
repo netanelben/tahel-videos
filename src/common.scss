@@ -190,7 +190,7 @@ video {
     top:0;
     left:0;
     margin: -10px;
-    z-index: 1123;
+    z-index: 4000;
 }
 
 button {
@@ -230,4 +230,7 @@ video {
     transform: scale(1) translate(0);
     transition: 800ms all ease;
     pointer-events: none;
+}
+.bg-beige {
+    background: #F7F2E6;
 }

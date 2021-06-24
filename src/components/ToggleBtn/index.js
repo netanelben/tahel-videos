@@ -27,7 +27,8 @@ const Wrapper = styled.div`
 export default function ToggleBtn({ name, current, onClick = null, icon = null, handle = null }) {
     const icnClassnames = classnames(
         `icn icn-home-${icon}`, {
-            'on': _.includes(current, handle || name)
+            'on': _.includes(current, handle || name),
+            'filter-on': _.includes(current, handle || name)
         }
     );
 

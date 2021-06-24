@@ -1,46 +1,64 @@
 import _ from 'lodash';
 
-const testFilter = (array1 = [], array2 = "") => {
-    // second array comes as string, with more irrelevant data;
-    // gam ve gam!!
-    const arr2 = array2.split(',')
-    const arrSerlz = arr2.map(arr => arr.split('-')[0].trim())
-
-    const isEqual = _.isEqual(array1, arrSerlz)
-    const isContains = !!array1.filter(item => arrSerlz.includes(item)).length
-    return isEqual || isContains
+const trimThisTerribleString = (string = "") => {
+    const splitted = string.split(',')
+    const perfectArray = splitted.map(arr => arr.split('-')[0].trim())
+    return perfectArray;
 }
 
-export const filterVideos = (videos, filters, all = false) => _.map(videos, (v) => {
+const isInArray = (items = [], arr = []) => {
+    return _.some(_.map(items, (item) => arr.includes(item)))
+}
+
+export const filterVideos = (videos, filters, all = false) => {
     if (all) {
-        return ({
-            ...v,
+        return videos.map(video => ({
+            ...video,
             isVisible: true
-        })
+        }))
     }
 
-    const {year, events, langs, subjects, relation, emotions, foods, objects} = filters
+    let filterFuncs = {};
 
-    if (
-           v.year == year ||
-           v.relation == relation ||
-           _.isEqual(v.event, events) ||
+    if (filters.year)     filterFuncs['year'] = year => year == filters.year
+    if (filters.relation) filterFuncs['relation'] = relation => relation == filters.relation
+    if (filters.events)   filterFuncs['event'] = event => event == filters.events
 
-           testFilter(langs, v.lang) ||
-           testFilter(subjects, v.subjects) ||
-           testFilter(emotions, v.emotions) ||
-           testFilter(objects, v.objects) ||
-           testFilter(foods, v.foodAndDrink)
+    if (!_.isEmpty(filters.emotions)) filterFuncs['emotions'] = emotions => isInArray(trimThisTerribleString(emotions), filters.emotions)
+    if (!_.isEmpty(filters.subjects)) filterFuncs['subjects'] = subjects => isInArray(trimThisTerribleString(subjects), filters.subjects)
+    if (!_.isEmpty(filters.objects))  filterFuncs['objects'] = objects => isInArray(trimThisTerribleString(objects), filters.objects)
+    if (!_.isEmpty(filters.foods))    filterFuncs['foodAndDrink'] = foods => isInArray(trimThisTerribleString(foods), filters.foods)
+    if (!_.isEmpty(filters.langs))    filterFuncs['lang'] = lang => isInArray(trimThisTerribleString(lang), filters.langs)
 
-    ) {
-        return ({
-            ...v,
-            isVisible: true
-        })
-    } else {
-        return v;
-    }
-})
+    const filteredItems = filterArray(videos, filterFuncs)
+
+    return _.map(videos, (video) => {
+
+        if (_.findIndex(filteredItems, (fv) => fv.videoName == video.videoName) !== -1) {
+            return ({
+                ...video,
+                isVisible: true
+            })
+        } else {
+            return ({
+                ...video,
+                isVisible: false
+            })
+        }
+    })
+}
+
+function filterArray(array, filters) {
+    const filterKeys = Object.keys(filters);
+
+    return array.filter(item => {
+        return filterKeys.every(key => {
+            if (typeof filters[key] !== 'function') return true;
+
+            return filters[key](item[key]);
+        });
+    });
+}
 
 export const formatDuration = (s) => {
     var m = Math.floor(s / 60);

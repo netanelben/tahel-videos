@@ -20,6 +20,8 @@ const Anot = styled.div`
     filter: ${props => props.invert && 'invert(1)'};
     cursor: pointer;
     transition: .3s ease all;
+    opacity: ${props => props.darkMode && '0.1'};
+    pointer-events: ${props => props.darkMode && 'none'};
 
     &:hover {
         background-color: #000AFF;
@@ -39,7 +41,7 @@ const Anot = styled.div`
 
 const convertTimestamp = (time, duration) => (time * 100) / duration;
 
-export default function Annotation({ videoData, duration, navigate, shouldInvertIcons }) {
+export default function Annotation({ videoData, duration, navigate, shouldInvertIcons, darkMode }) {
     const { emotions, objects, subjects, foodAndDrink } = videoData;
     const emotionList = emotions ? emotions.split(',') : []
     const objectList = objects ? objects.split(',') : []
@@ -62,7 +64,7 @@ export default function Annotation({ videoData, duration, navigate, shouldInvert
                 const offset = convertTimestamp(second, duration)
 
                 return (
-                    <Anot left={offset} key={key} onClick={() => navigate(second)} invert={shouldInvertIcons}>
+                    <Anot left={offset} key={key} onClick={() => navigate(second)} invert={shouldInvertIcons} darkMode={darkMode}>
                         <div className={`anot-icon icn-timeline-${icon}`}/>
                     </Anot>
                 )

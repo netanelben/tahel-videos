@@ -7,14 +7,14 @@ import {ReactComponent as IcnPlay} from './play.svg'
 import {ReactComponent as IcnPause} from './pause.svg'
 import Annotation from './Annotation'
 import { formatDuration, hostingPath } from '../../utils'
-import { LANG_TEXT, EVENT_TEXT } from '../../config'
+import { LANG_TEXT, EVENT_TEXT, PREVIEW_VID_WIDTH } from '../../config'
 import {ReactComponent as IconDot1} from "./assets/dot 1.svg";
 import {ReactComponent as IconDot2} from "./assets/dot 2.svg";
 import {ReactComponent as IconV} from "./assets/v.svg";
 
 const Wrapper = styled.div`
     background-color: white;
-    width: 370px;
+    width: ${PREVIEW_VID_WIDTH};
     margin-left: auto;
     display: flex;
     justify-content: space-between;
@@ -137,6 +137,8 @@ const SidePanel = styled.div`
     justify-content: flex-start;
     position: relative;
     opacity: ${props => props.darkMode && '0.1'};
+    pointer-events: ${props => props.darkMode && 'none'};
+    user-select: ${props => props.darkMode && 'none'};
 
     p {
         max-height: 60px;
@@ -379,25 +381,30 @@ export default function VideoPlayer({
                                 <ControlsWrapper>
                                     {!isIpadView &&
                                         <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}
+                                            disabled={darkMode}
                                             style={{ position: 'relative', left: '-8px', top: '-1px' }}/>}
 
-                                    <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)} style={{ position: 'relative', left: '-8px', top: '-1px' }}>
+                                    <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)}
+                                        style={{ position: 'relative', left: '-8px', top: '-1px' }}
+                                        disabled={darkMode}>
                                         {state.status === 'playing'
                                             ? <IcnPause/>
                                             : <IcnPlay/>}
                                     </PlayPauseBtn>
 
-                                    <MuteButton isMuted={state.isMuted} onClick={state.isMuted ? actions.unmute : actions.mute}
-                                        style={{ position: 'relative', left: '-5px', top: '-1px' }}/>
+                                    {!isIpadView && <MuteButton isMuted={state.isMuted} onClick={state.isMuted ? actions.unmute : actions.mute}
+                                        style={{ position: 'relative', left: '-5px', top: '-1px' }}/>}
 
                                     <ProgBarWrapper>
                                         <ProgBar type="range" step="0.0001"
                                             min="0" value={state.currentTime} max={state.duration}
-                                            onChange={(t) => navigate(t, actions)}/>
+                                            onChange={(t) => navigate(t, actions)}
+                                            disabled={darkMode}/>
 
                                         <Annotation duration={state.duration}
                                             shouldInvertIcons={currentVideo.isCrop}
-                                            videoData={currentVideo} navigate={actions.navigate}/>
+                                            videoData={currentVideo} navigate={actions.navigate}
+                                            darkMode={darkMode}/>
                                     </ProgBarWrapper>
 
                                     <Timing>{formatDuration(state.currentTime)}</Timing>
