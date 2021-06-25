@@ -28,18 +28,18 @@ const Wrapper = styled.div`
     z-index:2;
 
     &.wide {
-        height: 80%;
+        height: 84%;
         max-height: 100vh;
         width: 100%;
         z-index:1;
 
         >div:first-of-type {
-            flex: 1 0 80%;
-            max-width: 80%;
+            flex: 1 0 84%;
+            max-width: 84%;
         }
         >div:last-child {
-            flex: 1 0 20%;
-            max-width: 20%;
+            flex: 1 0 16%;
+            max-width: 16%;
         }
 
         .plus-sign {
@@ -60,7 +60,7 @@ const VideoWrapper = styled.div`
     outline: ${props => props.isHover && '1px solid #000'};
 
     video {
-        object-fit: ${props => props.isCrop && 'cover'};
+        object-fit: ${props => props.isCrop && 'contain'};
     }
 `;
 
@@ -120,6 +120,9 @@ const Timing = styled.div`
     position: relative;
     top: -2px;
     left: 3px;
+    opacity: ${props => props.darkMode && '0.1'};
+    pointer-events: ${props => props.darkMode && 'none'};
+    user-select: ${props => props.darkMode && 'none'};
 `;
 
 const InnerWrapper = styled.div`
@@ -248,7 +251,7 @@ const DarkModeButton = styled.div`
     };
 `;
 
-const PlayPauseBtn = styled.div`
+const PlayPauseBtn = styled.button`
     width: 26px;
     height: 26px;
     margin-right: 15px;
@@ -260,7 +263,7 @@ const PlayPauseBtn = styled.div`
     }
 `;
 
-const MuteButton = styled.div`
+const MuteButton = styled.button`
     background: no-repeat center / contain;
     background-image: ${props =>
         props.isMuted ? "url('./assets/mute.svg')" : "url('./assets/mute-on.svg')"};
@@ -373,7 +376,7 @@ export default function VideoPlayer({
                 ? <Video src={videoPath} autoPlay>
                     {(video, state, actions) => (
                         <InnerWrapper>
-                            <VideoWrapper isHover={isHover} isCrop={currentVideo.isCrop ? false : true}>
+                            <VideoWrapper isHover={isHover} isCrop={currentVideo.isCrop}>
                                 {video}
                             </VideoWrapper>
 
@@ -393,7 +396,8 @@ export default function VideoPlayer({
                                     </PlayPauseBtn>
 
                                     {!isIpadView && <MuteButton isMuted={state.isMuted} onClick={state.isMuted ? actions.unmute : actions.mute}
-                                        style={{ position: 'relative', left: '-5px', top: '-1px' }}/>}
+                                        style={{ position: 'relative', left: '-5px', top: '-1px' }}
+                                        disabled={darkMode}/>}
 
                                     <ProgBarWrapper>
                                         <ProgBar type="range" step="0.0001"
@@ -407,7 +411,7 @@ export default function VideoPlayer({
                                             darkMode={darkMode}/>
                                     </ProgBarWrapper>
 
-                                    <Timing>{formatDuration(state.currentTime)}</Timing>
+                                    <Timing darkMode={darkMode}>{formatDuration(state.currentTime)}</Timing>
 
                                 </ControlsWrapper>
                             </Controls>

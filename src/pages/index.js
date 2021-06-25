@@ -6,7 +6,7 @@ import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
 import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData,
-    APP_SIDEPANEL_TEXT, PREVIEW_VID_WIDTH, VID_WIDTH, VID_HEIGHT } from '../config'
+    APP_SIDEPANEL_TEXT, PREVIEW_VID_WIDTH, VID_WIDTH, VID_HEIGHT, HAS_INTRO } from '../config'
 import { filterVideos, hostingPath } from '../utils'
 import IpadView from '../IpadView';
 
@@ -40,9 +40,8 @@ const GridLayout = styled.div`
     opacity: ${props => props.darkMode && '0.1'};
 
     &.tiny {
-        width: 20%;
-        height: 100%;
-        min-height: 100%;
+        width: 16%;
+        height: 16vh;
         transition: .400s ease-in-out all;
         background: #F7F2E6;
         cursor: pointer;
@@ -130,7 +129,6 @@ const VideoObject = styled.div`
     }
 
     video {
-        object-fit: cover;
         display: ${props => props.isSelected && 'none'};
     }
 `;
@@ -170,6 +168,9 @@ const Logo = styled.div`
     background-size: contain;
     cursor: pointer;
     margin-right: 25px;
+    position: absolute;
+    top: 34px;
+    z-index: 1;
 
     &.float-right {
         float: right;
@@ -205,15 +206,18 @@ const Filters = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     flex-direction: row-reverse;
-    margin-top: ${props => props.bottom && '-10px'};
     position: relative;
+    top: 5px;
+
+    top: ${props => props.bottom && '4px'};
 `;
 
 const Filter = styled.div`
+    height: 112px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 104px;
     flex: 1;
     padding: 0 19px 0 3px;
     text-align: right;
@@ -240,10 +244,11 @@ const Filter = styled.div`
 `;
 
 const IconsFilter = styled.div`
+    height: 112px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 104px;
     flex: 1;
     padding: 0 19px 0 3px;
     text-align: right;
@@ -256,6 +261,8 @@ const IconsFilter = styled.div`
         width: 25%;
         font-weight: 700;
         font-size: 18px;
+        word-break: break-word;
+        line-height: 115%;
     }
 
     .icons-filter-wrapper {
@@ -286,6 +293,8 @@ const LangsWrapper = styled.div`
     width: 100%;
     height: 100%;
     padding: 0 10px;
+    position: relative;
+    top: 4px;
 
     &>div {
         width: 25%;
@@ -337,13 +346,13 @@ const TitlesWrapper = styled.div`
     ${props => props.single ?
         css`
             position: absolute;
-            right: 370px;
-            bottom: 86px;
+            right: 368px;
+            bottom: 84px;
             z-index: 1;
         `:css`
             position: absolute;
-            right: 370px;
-            bottom: 63px;
+            right: 368px;
+            bottom: 61px;
             z-index: 1;
         `
     }
@@ -361,6 +370,11 @@ const TitlesWrapper = styled.div`
     }
 `;
 
+const SliderWrapper = styled.div`
+    width: 100%;
+    padding: 0 27px;
+`;
+
 export const relationSliderMarks = {
     1: <img src="./assets/heart.png" width="14"/>,
     3: <img src="./assets/heart-filled.png" width="14"/>
@@ -369,7 +383,7 @@ export const relationSliderMarks = {
 export default function MainPage({ isIpadView }) {
     const items = Array.apply(null, Array(VIDEOS_AMOUNT)).map(function (x, i) { return i; })
 
-    const [appStage, setAppStage] = useState(31);
+    const [appStage, setAppStage] = useState(HAS_INTRO);
 
     const [year, setYear] = useState(null);
     const [altYear, setAltYear] = useState(null);
@@ -390,6 +404,17 @@ export default function MainPage({ isIpadView }) {
 
     const [shouldShowDesc, setShouldShowDesc] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
+
+    const resetFilters = () => {
+        setYear(null)
+        setRelation(null)
+        setEvent(null)
+        setLang([])
+        setFood([])
+        setSubject([])
+        setEmotions([])
+        setObject([])
+    }
 
     const shouldFilter = year !== null || relation !== null || events !== null || !_.isEmpty(langs)
         || !_.isEmpty(foods) || !_.isEmpty(subjects) || !_.isEmpty(emotions) || !_.isEmpty(objects);
@@ -482,21 +507,26 @@ export default function MainPage({ isIpadView }) {
 
     const handlePreviousVideo = () => {
         if (currentVideoIdx === 0) {
-            setCurrentVideo(onlyFilteredVideos[onlyFilteredVideos.length - 1])
-            setCurrentVideoIdx(filteredVideos.length - 1)
+            const vid = onlyFilteredVideos[onlyFilteredVideos.length - 1];
+            setCurrentVideo(vid)
+            setCurrentVideoIdx(onlyFilteredVideos.length - 1)
         } else {
-            setCurrentVideo(onlyFilteredVideos[currentVideoIdx - 1])
+            const vid = onlyFilteredVideos[currentVideoIdx - 1]
+            setCurrentVideo(vid)
             setCurrentVideoIdx(currentVideoIdx - 1)
         }
+
     }
     const handleNextVideo = () => {
         if (currentVideoIdx < onlyFilteredVideos.length - 1) {
-            setCurrentVideo(onlyFilteredVideos[currentVideoIdx + 1])
+            const vid = onlyFilteredVideos[currentVideoIdx + 1];
+            setCurrentVideo(vid)
             setCurrentVideoIdx(currentVideoIdx + 1)
         } else {
-            setCurrentVideo(onlyFilteredVideos[0])
+            setCurrentVideo(_.first(onlyFilteredVideos))
             setCurrentVideoIdx(0)
         }
+
     }
 
     const tinyGridClick = () => {
@@ -618,6 +648,7 @@ export default function MainPage({ isIpadView }) {
     const handleLogoClick = () => {
         setShouldShowDesc(true);
         tinyGridClick();
+        resetFilters()
     }
 
     const videoSubTitleText = _.get(previewVideo, 'videoSubTitle');
@@ -637,7 +668,7 @@ export default function MainPage({ isIpadView }) {
 
                             return (
                                 <VideoObject className="videos-wrapper" key={x}
-                                    isSelected={currentVideoIdx === x}
+                                    isSelected={currentVideo && currentVideo.id === filteredVideos[x].id}
                                     onMouseEnter={()=>handleMouseEnter(x)}
                                     onMouseLeave={()=>handleMouseLeave(x)}
                                     onClick={() => { if(currentVideo)return; setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
@@ -698,16 +729,18 @@ export default function MainPage({ isIpadView }) {
 
             </Wrapper>
 
-            <div className="flex bg-beige" style={currentVideo ? { height: '80vh' } : { height: '20vh' }}>
+            <div className="flex bg-beige" style={currentVideo ? { height: '84vh' } : { height: '16vh' }}>
                 {!currentVideo && <BottomPanel>
 
-                    <Filters style={{ top: '-8px' }}>
+                    <Filters>
                         <Filter onClick={resetYearSlider}>
-                            <div style={{ position: 'relative', width: '100%', top: '4px' }}>
+                            <div style={{ position: 'relative', width: '100%', top: '4px', maxWidth: '75%', margin: 'auto' }}>
+
                                 <YearSlider value={altYear || year}
                                     min={START_YEAR} className={year !== null ? 'on' : ''}
                                     step={1} max={END_YEAR} onChange={setYear}
                                     graduated/>
+
                                 <div className="year-slider-labels">
                                     <span>{START_YEAR}</span>
                                     <span>{END_YEAR}</span>
@@ -727,11 +760,13 @@ export default function MainPage({ isIpadView }) {
                         </Filter>
 
                         <Filter onClick={resetRelationSlider}>
+                            <SliderWrapper>
                             <Slider
                                 value={altRelation || relation || 1}
                                 className={relation !== null ? 'on' : ''}
                                 min={1} max={3}
                                 marks={relationSliderMarks} onChange={setRelation}/>
+                            </SliderWrapper>
                             <label>קרבה</label>
                         </Filter>
 

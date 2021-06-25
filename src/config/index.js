@@ -13,7 +13,7 @@ export const APP_SIDEPANEL_TEXT = `
     בנקודות ההשקה ובשוני.
 `
 
-export const VIDEOS_AMOUNT = 12 * 7 + 7
+export const VIDEOS_AMOUNT = 12 * 7
 
 export const START_YEAR = 2000;
 export const END_YEAR = 2021;
@@ -34,7 +34,9 @@ export const EVENT_TEXT = {
 }
 
 
-export const PREVIEW_VID_WIDTH = '465px';
+export const PREVIEW_VID_WIDTH = '370px';
 
 export const VID_HEIGHT = '14.2857142857%';
 export const VID_WIDTH = '8.33333333333%';
+
+export const HAS_INTRO = 3;

@@ -1722,7 +1722,9 @@ const videos = [
 ]
 
 // REMOVE when PROD
-// const videosStubData = [videos[0], videos[1], videos[2], videos[3], videos[4]]
+// const videosStubData = [videos[0]]
 const videosStubData = videos
 
-export default videosStubData
+const serVids = videosStubData.map((vids, id) => ({...vids, id }))
+
+export default serVids
