@@ -134,7 +134,7 @@ const SidePanel = styled.div`
     background-color: #fff;
     display: inline-block;
     box-sizing: border-box;
-    padding: 16px 12px;
+    padding: 26px 12px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -144,7 +144,7 @@ const SidePanel = styled.div`
     user-select: ${props => props.darkMode && 'none'};
 
     p {
-        max-height: 60px;
+        max-height: 90px;
         overflow: hidden;
         font-size: 17px;
     }
@@ -188,26 +188,28 @@ const NextVideoButton = styled.button`
 
 const VideoText = styled.div`
     font-size: 18px;
-    line-height: 28px;
+    line-height: 26px;
     padding: 20px 30px 0 30px;
     display: block;
-    max-height: 110px;
+    max-height: 130px;
     overflow: hidden;
-    margin-bottom: 40px;
+    margin-bottom: 43px;
     font-weight: ${props => props.bold && 'bold'};
 `;
 
 const InfoText = styled.div`
     font-size: 18px;
     line-height: 28px;
-    padding: 20px 30px 0 30px;
+    padding: 12px 30px 0 30px;
     display: block;
+
+    p {line-height: 26px;}
 `;
 
 const BottomText = styled.div`
     font-size: 18px;
     line-height: 28px;
-    padding: 50px 30px 20px 30px;
+    padding: 53px 30px 20px 30px;
     display: block;
 
     li {
@@ -318,10 +320,10 @@ const Filters = styled.div`
     }
 
     .icn {
-        width: 60px;
-        height: 60px;
+        width: 54px;
+        height: 54px;
         margin-top: 20px;
-        background-position: center;
+        background-position: bottom;
     }
 
     .year-line {

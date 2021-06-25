@@ -347,12 +347,12 @@ const TitlesWrapper = styled.div`
         css`
             position: absolute;
             right: 368px;
-            bottom: 84px;
+            top: 67px;
             z-index: 1;
         `:css`
             position: absolute;
             right: 368px;
-            bottom: 61px;
+            top: 51px;
             z-index: 1;
         `
     }
@@ -366,7 +366,7 @@ const TitlesWrapper = styled.div`
     .sub-title {
         font-size: 22px;
         line-height: 100%;
-        margin-top: 12px;
+        margin-top: 9px;
     }
 `;
 
