@@ -7,7 +7,11 @@ const trimThisTerribleString = (string = "") => {
 }
 
 const isInArray = (items = [], arr = []) => {
-    return _.some(_.map(items, (item) => arr.includes(item)))
+    if (arr.length > 1) {
+        return _.isEqual(items, arr)
+    } else {
+        return _.some(_.map(items, (item) => arr.includes(item)))
+    }
 }
 
 export const filterVideos = (videos, filters, all = false) => {

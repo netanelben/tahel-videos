@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const Wrapper = styled.div`
     width: 100%;
@@ -18,16 +19,17 @@ const Wrapper = styled.div`
 `;
 
 export default function IpadView({ children, filteredVideos, setCurrentVideo }) {
+    const handle = useFullScreenHandle();
+
     useEffect(() => {
         setCurrentVideo(filteredVideos[0])
-
-
-
     }, [])
 
     return (
-        <Wrapper>
+        <Wrapper onClick={handle.active ? null : handle.enter}>
+            <FullScreen handle={handle}>
             {children}
+            </FullScreen>
         </Wrapper>
     )
 }

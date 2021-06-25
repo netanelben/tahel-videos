@@ -35,4 +35,6 @@ export const EVENT_TEXT = {
 
 
 export const PREVIEW_VID_WIDTH = '465px';
+
+export const VID_HEIGHT = '14.2857142857%';
 export const VID_WIDTH = '8.33333333333%';

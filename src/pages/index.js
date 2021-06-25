@@ -6,7 +6,7 @@ import { Slider as YearSlider } from 'rsuite';
 import ToggleBtn from '../components/ToggleBtn'
 import VideoPlayer from '../components/VideoPlayer'
 import { VIDEOS_AMOUNT, START_YEAR, END_YEAR, videosStubData,
-    APP_SIDEPANEL_TEXT, PREVIEW_VID_WIDTH, VID_WIDTH } from '../config'
+    APP_SIDEPANEL_TEXT, PREVIEW_VID_WIDTH, VID_WIDTH, VID_HEIGHT } from '../config'
 import { filterVideos, hostingPath } from '../utils'
 import IpadView from '../IpadView';
 
@@ -53,9 +53,9 @@ const GridLayout = styled.div`
         }
 
         .videos-wrapper {
-            width: 8.33333333333%;
-            flex: 0 0 8.33333333333%;
-            height: 14.2857142857%;
+            width: ${VID_WIDTH};
+            flex: 0 0 ${VID_WIDTH};
+            height: ${VID_HEIGHT};
             flex-grow: 0;
 
             &>div {
@@ -111,7 +111,7 @@ const GridLayout = styled.div`
 const VideoPlaceholder = styled.div`
     width: ${VID_WIDTH};
     flex: 0 0 ${VID_WIDTH};
-    height: 14.2857142857%;
+    height: ${VID_HEIGHT};
 `;
 
 const VideoObject = styled.div`
@@ -119,7 +119,7 @@ const VideoObject = styled.div`
     box-shadow: ${props => props.isSelected && 'inset 0px 0px 0px 2px #000'};
     width: ${VID_WIDTH};
     flex: 0 0 ${VID_WIDTH};
-    height: 14.2857142857%;
+    height: ${VID_HEIGHT};
     cursor: pointer;
 
     &>div {
