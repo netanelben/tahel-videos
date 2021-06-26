@@ -568,19 +568,13 @@ export default function MainPage({ isIpadView }) {
     }
 
     const handleIntroClicks = () => {
-        setAppStage(2)
-        console.log(appStage);
-
-        window.requestAnimationFrame(() => {
-            setTimeout(()=>{
-                setAppStage(1)
-            },1000)
-        })
-
-        setTimeout(()=>{
+        if (appStage === 3) {
             const styleElm = document.querySelector('#intro-animations');
             styleElm && styleElm.remove()
-        },3000)
+            return;
+        };
+        setAppStage(2)
+        setTimeout(()=>setAppStage(3), 1200)
     }
 
     const handlePreviewFilterToggle = (videoIdx) => {
