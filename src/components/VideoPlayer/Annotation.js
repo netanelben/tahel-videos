@@ -20,7 +20,7 @@ const Anot = styled.div`
     filter: ${props => props.invert && 'invert(1)'};
     cursor: pointer;
     transition: .3s ease all;
-    opacity: ${props => props.darkMode && '0.1'};
+    opacity: ${props => props.darkMode && '0'};
     pointer-events: ${props => props.darkMode && 'none'};
 
     &:hover {

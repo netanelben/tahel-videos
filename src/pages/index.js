@@ -38,17 +38,18 @@ const GridLayout = styled.div`
     z-index: 2;
     padding: 2px;
     opacity: ${props => props.darkMode && '0.1'};
+    /* transition: all 0ms ease 0ms; */
 
     &.tiny {
         width: 16%;
         height: 16vh;
-        transition: .400s ease-in-out all;
         background: #F7F2E6;
         cursor: pointer;
+        /* transition: all 2.6383ms ease 0ms !important;
+        transform-origin: top left; */
 
         &:hover {
             outline: 1px solid #000;
-            transition: .3s ease all;
         }
 
         .videos-wrapper {
@@ -77,8 +78,8 @@ const GridLayout = styled.div`
                 background-image: url('./assets/arrow-tiny.svg');
                 width: 28px;
                 height: 28px;
-                right: -2px;
-                bottom: -2px;
+                right: 0px;
+                bottom: 0px;
             }
         }
     }
@@ -167,9 +168,9 @@ const Logo = styled.div`
     background-position: center;
     background-size: contain;
     cursor: pointer;
-    margin-right: 25px;
     position: absolute;
     top: 34px;
+    right: 0;
     z-index: 1;
 
     &.float-right {
@@ -567,8 +568,19 @@ export default function MainPage({ isIpadView }) {
     }
 
     const handleIntroClicks = () => {
-        if (appStage === 3) return;
-        setAppStage(appStage + 1)
+        setAppStage(2)
+        console.log(appStage);
+
+        window.requestAnimationFrame(() => {
+            setTimeout(()=>{
+                setAppStage(1)
+            },1000)
+        })
+
+        setTimeout(()=>{
+            const styleElm = document.querySelector('#intro-animations');
+            styleElm && styleElm.remove()
+        },3000)
     }
 
     const handlePreviewFilterToggle = (videoIdx) => {
@@ -841,5 +853,3 @@ export default function MainPage({ isIpadView }) {
         </>
     )
 }
-
-window.appStage = 1;

@@ -57,7 +57,7 @@ const VideoWrapper = styled.div`
     height: 100%; // Fix the origin to be bottom-right
     position: relative;
     z-index: 1;
-    outline: ${props => props.isHover && '1px solid #000'};
+    border: ${props => props.isHover && '1px solid #000'};
 
     video {
         object-fit: ${props => props.isCrop && 'contain'};
@@ -387,10 +387,10 @@ export default function VideoPlayer({
                                     {!isIpadView &&
                                         <DarkModeButton darkMode={darkMode} onClick={() => setDarkMode(!darkMode)}
                                             disabled={darkMode}
-                                            style={{ position: 'relative', left: '-8px', top: '-1px' }}/>}
+                                            style={{ position: 'relative', left: '-8px', top: '1px' }}/>}
 
                                     <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)}
-                                        style={{ position: 'relative', left: '-8px', top: '-1px' }}
+                                        style={{ position: 'relative', left: '-8px', top: '1px' }}
                                         disabled={darkMode}>
                                         {state.status === 'playing'
                                             ? <IcnPause/>
@@ -398,7 +398,7 @@ export default function VideoPlayer({
                                     </PlayPauseBtn>
 
                                     {!isIpadView && <MuteButton isMuted={state.isMuted} onClick={state.isMuted ? actions.unmute : actions.mute}
-                                        style={{ position: 'relative', left: '-5px', top: '-1px' }}
+                                        style={{ position: 'relative', left: '-5px', top: '1px' }}
                                         disabled={darkMode}/>}
 
                                     <ProgBarWrapper>
@@ -470,19 +470,19 @@ export default function VideoPlayer({
                             </SmallTitle>
                             <ul>
                                 <li>
-                                    תיאור: &nbsp;
+                                    תיאור:&nbsp;
                                     {infoList[0].split('-')[1]}
                                 </li>
                                 <li>
-                                    צפיות: &nbsp;
+                                    צפיות:&nbsp;
                                     {infoList[1].split('-')[1]}
                                 </li>
                                 <li>
-                                    שם משתמש: &nbsp;
+                                    שם משתמש:&nbsp;
                                     {infoList[2].split('-')[1]}
                                 </li>
                                 <li>
-                                    עוקבים: &nbsp;
+                                    עוקבים:&nbsp;
                                     {infoList[3].split('-')[1]}
                                 </li>
                             </ul>

@@ -39,4 +39,4 @@ export const PREVIEW_VID_WIDTH = '370px';
 export const VID_HEIGHT = '14.2857142857%';
 export const VID_WIDTH = '8.33333333333%';
 
-export const HAS_INTRO = 3;
+export const HAS_INTRO = 1;
