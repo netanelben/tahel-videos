@@ -391,7 +391,7 @@ export default function VideoPlayer({
 
                                     <PlayPauseBtn onClick={() => handlePlayPauseBtn(state, actions)}
                                         style={{ position: 'relative', left: '-8px', top: '1px' }}
-                                        disabled={darkMode}>
+                                        >
                                         {state.status === 'playing'
                                             ? <IcnPause/>
                                             : <IcnPlay/>}
@@ -399,7 +399,7 @@ export default function VideoPlayer({
 
                                     {!isIpadView && <MuteButton isMuted={state.isMuted} onClick={state.isMuted ? actions.unmute : actions.mute}
                                         style={{ position: 'relative', left: '-5px', top: '1px' }}
-                                        disabled={darkMode}/>}
+                                        />}
 
                                     <ProgBarWrapper>
                                         <ProgBar type="range" step="0.0001"
@@ -413,7 +413,7 @@ export default function VideoPlayer({
                                             darkMode={darkMode}/>
                                     </ProgBarWrapper>
 
-                                    <Timing darkMode={darkMode}>{formatDuration(state.currentTime)}</Timing>
+                                    <Timing>{formatDuration(state.currentTime)}</Timing>
 
                                 </ControlsWrapper>
                             </Controls>

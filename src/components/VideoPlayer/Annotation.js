@@ -17,15 +17,17 @@ const Anot = styled.div`
     position: absolute;
     top: 1px;
     left: ${props => props.left && `${props.left}%`};
-    filter: ${props => props.invert && 'invert(1)'};
     cursor: pointer;
-    transition: .3s ease all;
+    transition: .3s ease left;
     opacity: ${props => props.darkMode && '0'};
     pointer-events: ${props => props.darkMode && 'none'};
 
+    &:not(:hover) {
+        filter: ${props => props.invert && 'invert(1)'};
+    }
+
     &:hover {
         background-color: #000AFF;
-        filter: invert(0);
     }
 
     .anot-icon {

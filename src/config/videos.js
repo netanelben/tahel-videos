@@ -12,7 +12,7 @@ const videos = [
       "event": "friday",
       "subjects": "food-1",
       "emotions": "embarrassment-10",
-      "objects": "tools-23, lights-12, art-5, comunication-11",
+      "objects": "tools-23, light-12, art-5, comunication-11",
       "videoFileName": "ארוחת שישי אצל אורלי וזאביק 19.2.16",
       "isAutoPlay": 1,
       "videoInformation": "desc-19 לפברואר, views-6, profile-Batel Erez, subscribers-31",

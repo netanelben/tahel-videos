@@ -2,9 +2,9 @@ import videosStubData from './videos'
 export {videosStubData};
 
 export const APP_SIDEPANEL_TEXT = `
-    <b>ספריית וידאו של ארוחות ישראליות</b>
+    <strong>ספריית וידאו של ארוחות ישראליות</strong>
     <br/><br/>
-    הפילטרים השונים מזמינים שיטוט והתבוננות
+    הפילטרים מזמינים שיטוט והתבוננות
     במאפייני התרבות והזמן, ביחס בין הפרט
     לכלל, בנקודות הדמיון והשוני.
 `

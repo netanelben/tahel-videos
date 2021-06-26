@@ -12,6 +12,8 @@ import IpadView from '../IpadView';
 
 import 'rc-slider/assets/index.css';
 
+const autoPlayDiceNumber = _.random(1, 2)
+
 const Wrapper = styled.div`
   height: 100%;
   min-height: 100%;
@@ -671,6 +673,7 @@ export default function MainPage({ isIpadView }) {
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
                             const { videoFileName } = filteredVideos[x]
                             const videoPath = hostingPath(videoFileName)
+                            const isAutoPlay = filteredVideos[x].isAutoPlay === autoPlayDiceNumber;
 
                             return (
                                 <VideoObject className="videos-wrapper" key={x}
@@ -681,7 +684,7 @@ export default function MainPage({ isIpadView }) {
                                     <div>
                                         <div className="inner">
                                             {!currentVideo &&
-                                            <video controls={false} width="100%" height="100%" autoPlay={filteredVideos[x].isAutoPlay} muted>
+                                            <video controls={false} width="100%" height="100%" autoPlay={isAutoPlay} muted>
                                                 <source src={videoPath} type="video/mp4"/>
                                             </video>}
                                         </div>
