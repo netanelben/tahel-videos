@@ -51,7 +51,7 @@ const GridLayout = styled.div`
         transform-origin: top left; */
 
         &:hover {
-            outline: 1px solid #000;
+            outline: ${props => props.darkMode ? '': '1px solid #000'};
         }
 
         .videos-wrapper {
@@ -174,6 +174,7 @@ const Logo = styled.div`
     top: 34px;
     right: 0;
     z-index: 1;
+    margin-right: ${props => props.isVideoPage && '25px'};
 
     &.float-right {
         float: right;
@@ -667,7 +668,7 @@ export default function MainPage({ isIpadView }) {
             <Wrapper onClick={handleIntroClicks}
                 className={wrapperClassname} style={currentVideo ? { height: '20vh' } : { height: '80vh' }}>
 
-                <GridLayout className={gridClassNames} onClick={tinyGridClick} darkMode={darkMode} id="videos-grid">
+                <GridLayout className={gridClassNames} onClick={darkMode ? null : tinyGridClick} darkMode={darkMode} id="videos-grid">
                     {items.map((x) => {
 
                         if (filteredVideos[x] && filteredVideos[x].isVisible) {
@@ -698,14 +699,15 @@ export default function MainPage({ isIpadView }) {
                         )
                     })}
 
-                    <div className="arrow-sign"/>
+                    {!darkMode && <div className="arrow-sign"/>}
 
                 </GridLayout>
 
                 {currentVideo &&
                     <VideoHeader darkMode={darkMode}>
                         <Logo className="float-right"
-                            onClick={handleLogoClick}/>
+                            onClick={handleLogoClick}
+                            isVideoPage/>
 
                         {currentVideo.videoSubTitle ?
                             <TitlesWrapper>
@@ -746,7 +748,7 @@ export default function MainPage({ isIpadView }) {
                             <div style={{ position: 'relative', width: '100%', top: '4px', maxWidth: '75%', margin: 'auto' }}>
 
                                 <YearSlider value={altYear || year}
-                                    min={START_YEAR} className={year !== null ? 'on' : ''}
+                                    min={START_YEAR} className={year !== null ? 'on filter-on' : ''}
                                     step={1} max={END_YEAR} onChange={setYear}
                                     graduated/>
 
@@ -772,7 +774,7 @@ export default function MainPage({ isIpadView }) {
                             <SliderWrapper>
                             <Slider
                                 value={altRelation || relation || 1}
-                                className={relation !== null ? 'on' : ''}
+                                className={relation !== null ? 'on filter-on' : ''}
                                 min={1} max={3}
                                 marks={relationSliderMarks} onChange={setRelation}/>
                             </SliderWrapper>
