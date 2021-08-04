@@ -102,6 +102,7 @@ const GridLayout = styled.div`
                     box-shadow: inset 0px 0px 0px 1px #000;
                 }
 
+                img,
                 video {
                     visibility: hidden;
                 }
@@ -675,6 +676,8 @@ export default function MainPage({ isIpadView }) {
                             const { videoFileName } = filteredVideos[x]
                             const videoPath = hostingPath(videoFileName)
                             const isAutoPlay = filteredVideos[x].isAutoPlay === autoPlayDiceNumber;
+                            const hasThumb = filteredVideos[x].hasThumb || false
+                            const thumbPath = `./thumbnails/${videoFileName}.png`
 
                             return (
                                 <VideoObject className="videos-wrapper" key={x}
@@ -684,10 +687,16 @@ export default function MainPage({ isIpadView }) {
                                     onClick={() => { if(currentVideo)return; setCurrentVideoIdx(x); setCurrentVideo(filteredVideos[x]) }}>
                                     <div>
                                         <div className="inner">
-                                            {!currentVideo &&
-                                            <video controls={false} width="100%" height="100%" autoPlay={isAutoPlay} muted>
-                                                <source src={videoPath} type="video/mp4"/>
-                                            </video>}
+                                            {!currentVideo && <>
+
+                                                {hasThumb ?
+                                                    <img src={thumbPath} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+
+                                                    : <video controls={false} width="100%" height="100%" autoPlay={isAutoPlay} muted>
+                                                        <source src={videoPath} type="video/mp4"/>
+                                                    </video>}
+
+                                            </>}
                                         </div>
                                     </div>
                                 </VideoObject>

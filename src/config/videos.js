@@ -54,7 +54,8 @@ const videos = [
       "videoFileName": "ארוחת חג אצל משפחת רייס אילנה אלה ואורן רוזן איתי",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-27, profile-avi rosen, subscribers-1.15K",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת שבת אצל דורון וניצי",
@@ -130,7 +131,8 @@ const videos = [
       "videoFileName": "ארוחת חג הפסח אצל דפנה ואיל",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-246, profile-merkelchaim, subscribers-1",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "על האש אצל דני ומירה",
@@ -168,7 +170,8 @@ const videos = [
       "videoFileName": "ארוחת חג פסח אצלנו 070412",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-42, profile-udi Laba, subscribers-17",
-      "isCrop": "FALSE"
+      "isCrop": "FALSE",
+      "hasThumb": true
     },
     {
       "videoName": "יום הולדת 27",
@@ -206,7 +209,8 @@ const videos = [
       "videoFileName": "ארוחת ערב בבית משפחת נעים 111992",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-60, profile-Pierre Benisti, subscribers-1",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת ערב שבת אצל רותי וגדעון",
@@ -225,7 +229,8 @@ const videos = [
       "videoFileName": "ארוחת ערב שבת אצל רותי וגדעון 9112007",
       "isAutoPlay": "",
       "videoInformation": "desc-ארז ואני אצל ההורים בערב שישי, views-273, profile-tamilov, subscribers-12",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת ערב",
@@ -244,7 +249,8 @@ const videos = [
       "videoFileName": "ארוחת ערב",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-181, profile-Itamar Simhon, subscribers-1",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "מימונה אצל שמעון אברג'ל",
@@ -339,7 +345,8 @@ const videos = [
       "videoFileName": "אל האש אצל קטי",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-22, profile-Michael Mazyar, subscribers-10",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "אלי מזור אצל נועם רוית",
@@ -358,7 +365,8 @@ const videos = [
       "videoFileName": "אלי מזור פסח 2019 אצל נועם _ רוית",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-12, profile-אלי מזור, subscribers-27",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "חגיגות יום העצמאות אצל יעקב",
@@ -415,7 +423,8 @@ const videos = [
       "videoFileName": "ארוחת החג אצל חנהלה",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-57, profile-merkelchaim, subscribers-1",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת ערב שישי",
@@ -434,7 +443,8 @@ const videos = [
       "videoFileName": "ארוחת ערב שישי אצל ברכה ושמואל 14.3.14",
       "isAutoPlay": "",
       "videoInformation": "desc-ארוחת ערב עם משפחת לוקץ' !, views-178, profile-אריה בן-אברהם, subscribers-58",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ליל סדר פרסי",
@@ -586,7 +596,8 @@ const videos = [
       "videoFileName": "ארוחת חג ראש השנה",
       "isAutoPlay": "",
       "videoInformation": "desc-פיקשוש, views-127, profile-אליעזר מלכה, subscribers-1",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת יום ההולדת לעדי",
@@ -605,7 +616,8 @@ const videos = [
       "videoFileName": "ארוחת יום ההולדת לעדי ספטמבר 2011",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-33, profile-Dani Harel, subscribers-0",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת ערב טיפוסית",
@@ -814,7 +826,8 @@ const videos = [
       "videoFileName": "אפריל 2011 אצל מיכל וקובי",
       "isAutoPlay": "",
       "videoInformation": "desc-על האש, פסח 2011\n, views-53, profile-Behar's Family, subscribers-152",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "על האש",
@@ -909,7 +922,8 @@ const videos = [
       "videoFileName": "ארוחת ערב ראש השנה תשסט",
       "isAutoPlay": "",
       "videoInformation": "desc-אצל סבא וסבתא, views-144, profile-Yosi Ben Ruby, subscribers-15",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת יום שישי אצל סבתא",
@@ -928,7 +942,8 @@ const videos = [
       "videoFileName": "ארוחת יום שישי אצל סבתא המשך 11.2014",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-38, profile-שבט חמציק ורבקה, subscribers-2",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת חג הפסח",
@@ -966,7 +981,8 @@ const videos = [
       "videoFileName": "ארוחת חג ערהש הקופרים והרוזנים אילנה רוזן",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-35, profile-avi rosen, subscribers-1.15K",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ביום העצמאות על האש",
@@ -1004,7 +1020,8 @@ const videos = [
       "videoFileName": "ארוחת בוקר אצל סבא הלל",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-72, profile-Boaz Hachlili, subscribers-14",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "קזן 38",
@@ -1118,7 +1135,8 @@ const videos = [
       "videoFileName": "אחרי ארוחת חג",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-17, profile-sarusi shabi, subscribers-0",
-      "isCrop": "FALSE"
+      "isCrop": "FALSE",
+      "hasThumb": true
     },
     {
       "videoName": "על האש אצל דדי ואירית",
@@ -1156,7 +1174,8 @@ const videos = [
       "videoFileName": "ארוחת ערב בבית משפחת ורונה",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-469, profile-avigdo, subscribers-3",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "משפחת שאול",
@@ -1232,7 +1251,8 @@ const videos = [
       "videoFileName": "ארוחת ערב אצל סבאסבתא",
       "isAutoPlay": "",
       "videoInformation": "desc-קדי בת שנה וחצי, views-44, profile-Einat Grossman, subscribers-28",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "כל האחים לבית משפחת כהן",
@@ -1289,7 +1309,8 @@ const videos = [
       "videoFileName": "ארוחת צהריים אצל מש' זכאי  דצמבר 2014 הצעירה",
       "isAutoPlay": "",
       "videoInformation": "desc-דצמבר 2014, views-41, profile-אייל אורי זכאי, subscribers-29",
-      "isCrop": "FALSE"
+      "isCrop": "FALSE",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת שישי אצל קובה",
@@ -1346,7 +1367,8 @@ const videos = [
       "videoFileName": "איזה זמרים אחים שלי",
       "isAutoPlay": "",
       "videoInformation": "desc-על האש אצל יניב, views-33, profile-\nדוד אבוטבול אילוף כלבים, subscribers-4",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "על האש אצל אביבה",
@@ -1384,7 +1406,8 @@ const videos = [
       "videoFileName": "אילן ומעיין בשיחת ארוחת ערב",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-28, profile-יובל ניומן, subscribers-53",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "קידוש וארוחת ערב ליל שבת",
@@ -1441,7 +1464,8 @@ const videos = [
       "videoFileName": "ארוחת ערב אצל שמרית",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-14, profile-David Mesika, subscribers-48",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "על האש אצל הוריי",
@@ -1479,7 +1503,8 @@ const videos = [
       "videoFileName": "ארוחת ערב  .טיפוסית",
       "isAutoPlay": "",
       "videoInformation": "desc-שירים, views-278, profile-nira6, subscribers-5",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "ארוחת ערב יום העצמאות",
@@ -1498,7 +1523,8 @@ const videos = [
       "videoFileName": "ארוחת ערב יום העצמאות",
       "isAutoPlay": "",
       "videoInformation": "desc-אין, views-19, profile-David Avramov, subscribers-49",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "יום הולדת 31 לעודד",
@@ -1574,7 +1600,8 @@ const videos = [
       "videoFileName": "ארוחת ערב יום שישי אצל בל עם האורחים מאמריקה",
       "isAutoPlay": "",
       "videoInformation": "desc-צולם ע\"י דוד אברמוב כל הזכויות שמורות, views-4, profile-David Avramov, subscribers-49",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     },
     {
       "videoName": "אצל מורדי בחצר",
@@ -1593,7 +1620,8 @@ const videos = [
       "videoFileName": "אצל מורדי בחצר",
       "isAutoPlay": "",
       "videoInformation": "desc-על האש אצל מורדי אחי, views-52, profile-יוסי שיפרוט, subscribers-17",
-      "isCrop": ""
+      "isCrop": "",
+      "hasThumb": true
     }
 ]
 
